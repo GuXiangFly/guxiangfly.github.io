@@ -1,0 +1,1003 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="git,">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="单人开发 初始化git本地仓库:git init (.git隐藏文件, 不要轻易乱动) 创建文件 : touch Car.h 查看文件状态 : git status 查看还未add的代码的变化 git diff 添加到git版本控制中: git add Car.h 添加多个文件到git版本控制中 : git add . 提交代码 : git commit -m “注释”  查看代码：git log">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GIT使用简明教程">
+<meta property="og:url" content="http://yoursite.com/2017/07/27/GIT使用简明教程/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="单人开发 初始化git本地仓库:git init (.git隐藏文件, 不要轻易乱动) 创建文件 : touch Car.h 查看文件状态 : git status 查看还未add的代码的变化 git diff 添加到git版本控制中: git add Car.h 添加多个文件到git版本控制中 : git add . 提交代码 : git commit -m “注释”  查看代码：git log">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6406935-bf1205e5f941e5a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/c9GtCvRVSFXiBYe.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/RIf5WxYXhub6sy7.png">
+<meta property="og:image" content="http://yoursite.com/Users/mtdp/Library/Application%20Support/typora-user-images/image-20191205203748399.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/vIcKp7GEBWJ8fLP.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/1Nr89mWE26TOCZw.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/1Nr89mWE26TOCZw.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/aQiN7W1Strl5hCR.png">
+<meta property="og:updated_time" content="2020-01-02T03:06:59.939Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GIT使用简明教程">
+<meta name="twitter:description" content="单人开发 初始化git本地仓库:git init (.git隐藏文件, 不要轻易乱动) 创建文件 : touch Car.h 查看文件状态 : git status 查看还未add的代码的变化 git diff 添加到git版本控制中: git add Car.h 添加多个文件到git版本控制中 : git add . 提交代码 : git commit -m “注释”  查看代码：git log">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/6406935-bf1205e5f941e5a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> GIT使用简明教程 | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              GIT使用简明教程
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-07-27T21:09:04+08:00" content="2017-07-27">
+            2017-07-27
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="单人开发"><a href="#单人开发" class="headerlink" title="单人开发"></a>单人开发</h2><ul>
+<li>初始化git本地仓库:git init (.git隐藏文件, 不要轻易乱动)</li>
+<li>创建文件 : touch Car.h</li>
+<li>查看文件状态 : git status</li>
+<li>查看还未add的代码的变化 git diff</li>
+<li>添加到git版本控制中: git add Car.h</li>
+<li>添加多个文件到git版本控制中 : git add .</li>
+<li>提交代码 : git commit -m “注释”</li>
+</ul>
+<p>查看代码：git log<br>红色文件: 文件没有被纳入到git管理中 / 文件被修改了 / 文件发生了冲突<br>绿色文件: 文件加入到了’暂存区’</p>
+<h2 id="配置账号信息-一般来讲只需要配置一次全局的账号即可"><a href="#配置账号信息-一般来讲只需要配置一次全局的账号即可" class="headerlink" title="配置账号信息 (一般来讲只需要配置一次全局的账号即可)"></a>配置账号信息 (一般来讲只需要配置一次全局的账号即可)</h2><p>配置局部信息</p>
+<p>用户名 : git config user.name “guxiangfly” (区分谁开发的)<br>邮箱信息 :  git config user.email “<a href="mailto:964999133@qq.com" target="_blank" rel="noopener">964999133@qq.com</a>“ (用于联系开发者)<br>配置全局信息</p>
+<p>用户名: git config –global user.name “guxiangfly”<br>邮箱信息: git config –global user.email “<a href="mailto:964999133@qq.com" target="_blank" rel="noopener">964999133@qq.com</a>“</p>
+<p>注意:</p>
+<p>如果没有配置过账号信息, 那么git会有一个默认的账号信息<br>如果配置的是全局的信息, 那么在finder –&gt; 前往 –&gt; 个人 –&gt; 隐藏文件.gitconfig . 全局信息将会写入到这个文件内<br>如果没有配置局部信息, 会用默认的全局信息来提交. 局部如果配置过了, 那么将会使用局部配置的信息</p>
+<p>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<h2 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h2><p>查看日志 : git log<br>版本号 : 40位, 哈希值 . 哈希值是唯一的, 只要服务器看见版本不一样就可以提交到远程服务器<br>增强版log : 配置带颜色的log别名 提供版本号的前七位<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.lg &quot;log --color --graph  </span><br><span class="line">--pretty=format:&apos;%Cred%h%Creset   </span><br><span class="line">-%C(yellow)%d%Creset %s %Cgreen(%cr)   </span><br><span class="line">%C(bold blue)&lt;%an&gt;%Creset&apos; --abbrev-commit&quot;</span><br></pre></td></tr></table></figure></p>
+<p>粘贴上面那段后:输入 git lg 回车</p>
+<h2 id="起别名"><a href="#起别名" class="headerlink" title="起别名"></a>起别名</h2><p>配置局部命令别名 :</p>
+<p>查看状态:<code>git config alias.st &quot;status&quot;</code> –&gt;<br>.后面的字符,代表将来要简写的命令. 双引号内的字符, 代表着原来指令的全称<br>提交内容:<code>git config alias.ci &quot;commit -m&quot;</code></p>
+<h2 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h2><h3 id="如果文件已经被commit-可以通过git-reset-–hard-HEAD-回退"><a href="#如果文件已经被commit-可以通过git-reset-–hard-HEAD-回退" class="headerlink" title="如果文件已经被commit 可以通过git reset –hard HEAD^回退"></a>如果文件已经被commit 可以通过git reset –hard HEAD^回退</h3><ul>
+<li>版本回退: git reset –hard HEAD^ –&gt; 一个^代表一个版本</li>
+<li><p>指定版本 : git reset –hard 8308f01 –&gt; 后面拼接7位的版本号</p>
+<h3 id="如果文件没有commit"><a href="#如果文件没有commit" class="headerlink" title="如果文件没有commit"></a>如果文件没有commit</h3></li>
+<li><p>回退到当前最高版本: git reset –hard HEAD</p>
+</li>
+<li>检出当前分支的最高版本: git checkout Car.h (git中 checkout可以做revert的操作, 也就是版本回退)</li>
+</ul>
+<h3 id="查看修改参考日志"><a href="#查看修改参考日志" class="headerlink" title="查看修改参考日志"></a>查看修改参考日志</h3><p>如果git回到了早期的版本, 那么后面的那些版本将不存在.<br>如果此时有需求, 需要回退到之前的时候, 那么可以通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure></p>
+<p> 来查看之前<br>每一次的修改日志版本. 此时就可以通过记录的版本进行回退了.</p>
+<h2 id="GIT的工作原理"><a href="#GIT的工作原理" class="headerlink" title="GIT的工作原理"></a>GIT的工作原理</h2><p>Git本地目录分为 <strong>工作区</strong>和<strong>版本库</strong></p>
+<p>版本库包含3个东西:<br>master –&gt; 相当于svn的trunk目录, master是git创建的第一个分支<br>HEAD指针 –&gt; 隐藏看不见的, 默认指向master分支</p>
+<p>Git的add和commit原理<br>add : 添加到暂存区<br>commit : 添加到本地master分支<br>push : 将master分支代码提交给服务器</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6406935-bf1205e5f941e5a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/12/05/c9GtCvRVSFXiBYe.png" alt></p>
+<h2 id="tag-打标记"><a href="#tag-打标记" class="headerlink" title="tag 打标记"></a>tag 打标记</h2><p>使用tag，就能够将项目快速切换到某一个中间状态，例如产品开发线上的某一个稳定版本</p>
+<p>查看当前标签: git tag</p>
+<ul>
+<li>在本地代码库给项目打上一个标签:<code>git tag -a v1.0 -m &#39;Version 1.0&#39;</code>  </li>
+<li>将标签添推送到远程代码库中:<code>git push origin v1.0</code></li>
+<li>签出v1.0标签: <code>git checkout v1.0</code></li>
+<li>从签出状态创建v1.0bugfix分支:<code>git checkout -b bugfix1.0</code></li>
+</ul>
+<h2 id="git-撤销改动的方式"><a href="#git-撤销改动的方式" class="headerlink" title="git 撤销改动的方式"></a>git 撤销改动的方式</h2><ul>
+<li><p>丢弃工作区中没有git add 的改动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- code.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>丢弃工作区中已经git add 的改动</p>
+<p> git reset HEAD file  是将暂存区的修改撤销掉 回到工作区</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD code.txt</span><br><span class="line">git checkout -- code.txt</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="git-数据diff"><a href="#git-数据diff" class="headerlink" title="git 数据diff"></a>git 数据diff</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git diff 版本1 版本2  file</span><br><span class="line">	版本1 这个必须有参数</span><br><span class="line">	版本2 如果不填的话 默认是当前的工作区</span><br><span class="line">	</span><br><span class="line">常用方法</span><br><span class="line">git diff HEAD -- Readme.md</span><br><span class="line"></span><br><span class="line">git diff HEAD HEAD^ --Readme.md</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--- 代表是 版本1的数据</span><br><span class="line">+++ 代表是 版本2的数据</span><br><span class="line"></span><br><span class="line">举例： git diff HEAD HEAD^ --Readme.md</span><br><span class="line">---代表是 HEAD 的数据</span><br><span class="line">+++代表是 HEAD^ 的数据</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/12/05/RIf5WxYXhub6sy7.png" alt></p>
+<h2 id="git删除文件"><a href="#git删除文件" class="headerlink" title="git删除文件"></a>git删除文件</h2><ul>
+<li><p>删除文件后想把删除的文件恢复</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -rf Readme.md</span><br><span class="line">git checkout -- Readme.md</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除文件后 从git中也把文件删除</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -rf Readme.md</span><br><span class="line">git rm Readme.md</span><br><span class="line">git commit -m <span class="string">'xxx'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="git的分支管理"><a href="#git的分支管理" class="headerlink" title="git的分支管理"></a>git的分支管理</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当前分支在master 从master分支创建一个 dev分支</span><br><span class="line"></span><br><span class="line">git checkout -b dev</span><br></pre></td></tr></table></figure>
+<p>HEAD 和  分支 和 提交点的关系</p>
+<p>HEAD 指向分支  分支指向各个版本</p>
+<p><img src="/Users/mtdp/Library/Application Support/typora-user-images/image-20191205203748399.png" alt="image-20191205203748399"></p>
+<ul>
+<li><p>最初的样子 </p>
+<p>一开始master分支是一条线 git 使用 master指向最新的 提交点 再用HEAD指向master 。就确定了当前分支 以及当前分支的提交点了</p>
+<p><img src="https://i.loli.net/2019/12/05/vIcKp7GEBWJ8fLP.png" alt></p>
+</li>
+<li><p>创建一个新的分支</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/05/1Nr89mWE26TOCZw.png" alt></p>
+<p>创建一个新的分支 只是创建了一个新的dev指针  然后让HEAD也指向这个指针</p>
+<ul>
+<li><p>对dev分支进行开发</p>
+<p>多一个 提交点  就是 dev指针向前移位</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/05/1Nr89mWE26TOCZw.png" alt></p>
+<ul>
+<li><p>对假设我对 dev有了修改  并且切换回master 也进行了修改 就会变成这种样子</p>
+<p><img src="https://i.loli.net/2019/12/05/aQiN7W1Strl5hCR.png" alt></p>
+</li>
+<li><p>现在我们需要合并代码</p>
+<ul>
+<li>git当前处在master分支上，master需要合并dev的代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge dev</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>如果没有冲突的话 git会采用快速合并的方式进行合，并且自动给你创建一个新的提交点</p>
+</li>
+<li><p>如果有冲突的话   merge dev的时候会修改当前文件，再commit一下 就会新创建一个提交点</p>
+</li>
+<li><p>总的来说，合并有三种</p>
+<ul>
+<li><p>快速合并    （dev是从master checkout出来   dev分支有新内容  master没有新内容  直接快速合并，不会创建新的提交）</p>
+</li>
+<li><p>无冲突合并 （会多一次提交记录）</p>
+</li>
+<li><p>有冲突合并 （会多一次提交记录）</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="git-删除分支"><a href="#git-删除分支" class="headerlink" title="git 删除分支"></a>git 删除分支</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d dev    (删除dev分支)</span><br></pre></td></tr></table></figure>
+<h2 id="git-代码追踪"><a href="#git-代码追踪" class="headerlink" title="git 代码追踪"></a>git 代码追踪</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --set-upstream-to=origin/远程分支名称   本地分支名称</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag">#git</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/27/GIT常用命令速查/" rel="prev">GIT常用命令速查</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/27/Activiti 学习笔记一/" rel="next">Activiti 学习笔记一</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">161</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单人开发"><span class="nav-number">1.</span> <span class="nav-text">单人开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置账号信息-一般来讲只需要配置一次全局的账号即可"><span class="nav-number">2.</span> <span class="nav-text">配置账号信息 (一般来讲只需要配置一次全局的账号即可)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看日志"><span class="nav-number">3.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#起别名"><span class="nav-number">4.</span> <span class="nav-text">起别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#版本回退"><span class="nav-number">5.</span> <span class="nav-text">版本回退</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如果文件已经被commit-可以通过git-reset-–hard-HEAD-回退"><span class="nav-number">5.1.</span> <span class="nav-text">如果文件已经被commit 可以通过git reset –hard HEAD^回退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果文件没有commit"><span class="nav-number">5.2.</span> <span class="nav-text">如果文件没有commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看修改参考日志"><span class="nav-number">5.3.</span> <span class="nav-text">查看修改参考日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIT的工作原理"><span class="nav-number">6.</span> <span class="nav-text">GIT的工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tag-打标记"><span class="nav-number">7.</span> <span class="nav-text">tag 打标记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-撤销改动的方式"><span class="nav-number">8.</span> <span class="nav-text">git 撤销改动的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-数据diff"><span class="nav-number">9.</span> <span class="nav-text">git 数据diff</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git删除文件"><span class="nav-number">10.</span> <span class="nav-text">git删除文件</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#git的分支管理"><span class="nav-number"></span> <span class="nav-text">git的分支管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#git-删除分支"><span class="nav-number">1.</span> <span class="nav-text">git 删除分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-代码追踪"><span class="nav-number">2.</span> <span class="nav-text">git 代码追踪</span></a></li></ol></li></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2020
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

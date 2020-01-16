@@ -1,0 +1,1028 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="JUC,">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="线程专题笔记 线程的状态转换 这是一个线程状态图  JAVA 核心卷版本  New（新创建） Runnable（可运行） Blocked（被阻塞） Waiting（等待） Timed waiting（计时等待）  Terminated（被终止）  这 6 个状态  初始状态 （new 状态） 1实现Runnable接口和继承Thread可以得到一个线程类，new一个实例出来，线程就进入了初始状态">
+<meta name="keywords" content="JUC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程专题">
+<meta property="og:url" content="http://yoursite.com/2018/03/27/interview/AQS面试/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="线程专题笔记 线程的状态转换 这是一个线程状态图  JAVA 核心卷版本  New（新创建） Runnable（可运行） Blocked（被阻塞） Waiting（等待） Timed waiting（计时等待）  Terminated（被终止）  这 6 个状态  初始状态 （new 状态） 1实现Runnable接口和继承Thread可以得到一个线程类，new一个实例出来，线程就进入了初始状态">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181010214218.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/04/H2iMhEZFkmN5fzc.png">
+<meta property="og:updated_time" content="2019-12-01T10:12:05.963Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程专题">
+<meta name="twitter:description" content="线程专题笔记 线程的状态转换 这是一个线程状态图  JAVA 核心卷版本  New（新创建） Runnable（可运行） Blocked（被阻塞） Waiting（等待） Timed waiting（计时等待）  Terminated（被终止）  这 6 个状态  初始状态 （new 状态） 1实现Runnable接口和继承Thread可以得到一个线程类，new一个实例出来，线程就进入了初始状态">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181010214218.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 线程专题 | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              线程专题
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-03-27T20:09:04+08:00" content="2018-03-27">
+            2018-03-27
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>线程专题笔记</p>
+<h2 id="线程的状态转换"><a href="#线程的状态转换" class="headerlink" title="线程的状态转换"></a>线程的状态转换</h2><p> 这是一个线程状态图<br><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181010214218.png" alt></p>
+<p> JAVA 核心卷版本</p>
+<ul>
+<li>New（新创建）</li>
+<li>Runnable（可运行）</li>
+<li>Blocked（被阻塞）</li>
+<li>Waiting（等待）</li>
+<li>Timed waiting（计时等待） </li>
+<li>Terminated（被终止）</li>
+</ul>
+<p>这 6 个状态<br><img src="https://i.loli.net/2019/11/04/H2iMhEZFkmN5fzc.png" alt></p>
+<ul>
+<li><p>初始状态 （new 状态）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实现Runnable接口和继承Thread可以得到一个线程类，new一个实例出来，线程就进入了初始状态</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可运行状态 （Runnable 状态）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.Runnable状态分为Running 和 ready状态</span><br><span class="line">1.可运行状态只是说你资格运行，调度程序没有挑选到你，你就永远是初始状态。</span><br><span class="line">2.调用线程的start()方法，此线程进入Runnable 状态。</span><br><span class="line">3.当前线程sleep()方法结束，其他线程join()结束，等待用户输入完毕，某个线程拿到对象锁，这些线程也将进入可运行状态。</span><br><span class="line">4.当前线程时间片用完了，调用当前线程的yield()方法，当前线程进入可运行状态。</span><br><span class="line">5.锁池里的线程拿到对象锁后，进入可运行状态。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>无限期等待（waiting）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">无限期等待状态不会被分配CPU执行时间，需要显示被唤醒</span><br><span class="line">没有设置timeout时间的 Object.wait()方法</span><br><span class="line">没有设置timeout时间的 Thread.join（）方法</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>限期等待（Time waiting）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread.sleep（5000）</span><br><span class="line">设置了timeout时间的 Object.wait()方法</span><br><span class="line">设置了timeout时间的 Thread.join（）方法</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>阻塞状态 Blocked 状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1等待获取排它锁的时候 进入阻塞状态</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>死亡状态 Terminated（被终止）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 当线程的run()方法完成时，或者主线程的main()方法完成时，我们就认为它死去。</span><br><span class="line">   这个线程对象也许是活的，但是，它已经不是一个单独执行的线程。线程一旦死亡，就不能复生。</span><br><span class="line">2. 在一个死去的线程上调用start()方法，会抛出java.lang.IllegalThreadStateException异常。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>首先 从start 开始 </p>
+<ol>
+<li><p>一个正常的线程周期为<br><code>start --&gt; ready to run  --&gt; run --&gt; Dead</code></p>
+</li>
+<li><p>如果不幸遇到 sleep   那么会在sleep时间结束后 进入run状态<br><code>start --&gt; read to run  --&gt; run --&gt; sleep --&gt; run--&gt;Dead</code></p>
+</li>
+<li><p>如果不幸遇到wait   那么需要在被notify后 再进入 run状态<br><code>start --&gt; ready to run --&gt;run --&gt; wait  --&gt;(Object.notify() or object.notifyall())
+--&gt; run --&gt; dead</code></p>
+</li>
+<li><p>如果不幸遇到 blocked for io （类似读取数据库，做文件读取工作）  OR enter a synchronize code （其他线程进入同步代码块了）<br>那么 会在 锁被自己获取到 或者  io中数据读取到了   的时候 再进入running状态<br><code>start --&gt; ready to run --&gt;run --&gt; blocked  --&gt;（received date  or  get the lock）
+--&gt; run --&gt; dead</code></p>
+</li>
+</ol>
+<h2 id="Thread-run-和-start-的区别"><a href="#Thread-run-和-start-的区别" class="headerlink" title="Thread  run() 和 start 的区别"></a>Thread  run() 和 start 的区别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Thread thread = new Thread(new Runnable()&#123;</span><br><span class="line">    void  run()&#123;</span><br><span class="line">    ........</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">thread.run()</span><br></pre></td></tr></table></figure>
+<p>直接使用run方法 并不会创建新的线程（这种和调用run函数没有什么区别）</p>
+<p>使用start方法 会创建一个新的线程，新的线程再调用 run方法</p>
+<h2 id="sleep-和-wait的区别"><a href="#sleep-和-wait的区别" class="headerlink" title="sleep 和 wait的区别"></a>sleep 和 wait的区别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Thread.sleep方法只会让出CPU 但是并不会导致锁行为的改变</span><br><span class="line">Object.wait 不仅会让出CPU 也会释放已经占有资源的同步资源锁</span><br><span class="line"></span><br><span class="line">sleep 是 thread类的方法，wait是 Object类中定义的方法</span><br><span class="line">sleep 方法可以在任何地方都被使用</span><br><span class="line">wait 方法只能在 synchronized 方法或者 synchronized代码块中使用</span><br></pre></td></tr></table></figure>
+<h2 id="Thread-yield"><a href="#Thread-yield" class="headerlink" title="Thread.yield"></a>Thread.yield</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yield 是给CPU一个暗示 代表愿意让出CPU的使用权</span><br><span class="line">但是CPU是否切换到另外的线程，还得看CPU的调度器</span><br><span class="line">yield 不会对锁有影响</span><br></pre></td></tr></table></figure>
+<h2 id="锁专题"><a href="#锁专题" class="headerlink" title="锁专题"></a>锁专题</h2><h3 id="悲观锁和乐观锁"><a href="#悲观锁和乐观锁" class="headerlink" title="悲观锁和乐观锁"></a>悲观锁和乐观锁</h3><ul>
+<li>悲观锁</li>
+</ul>
+<h3 id="synchronized-和-lock的区别"><a href="#synchronized-和-lock的区别" class="headerlink" title="synchronized 和 lock的区别"></a>synchronized 和 lock的区别</h3><ul>
+<li>synchronized是一个Java的关键字，Lock是一个接口；</li>
+<li>synchronized代码块执行完或线程抛出异常时结束线程，Lock必须显示调用释放锁的方法:unlock()；</li>
+<li>synchronized修饰的锁其他线程在等待获取锁的阶段，会一直阻塞等待直到得到锁为止（不可中断锁）；Lock有多种方式可以获取锁，不一定一直阻塞等待（可中断锁）。</li>
+<li>synchronized无法判断锁的状态，Lock可以判断；</li>
+<li>synchronized是非公平锁，而Lock可以设置为公平锁；</li>
+</ul>
+<h3 id="锁的状态"><a href="#锁的状态" class="headerlink" title="锁的状态"></a>锁的状态</h3><p>锁的状态：无锁状态、偏向锁、轻量级锁状态、重量级锁状态</p>
+<h3 id="synchronized-的锁升级策略"><a href="#synchronized-的锁升级策略" class="headerlink" title="synchronized 的锁升级策略"></a>synchronized 的锁升级策略</h3><ul>
+<li>偏向锁他会偏向第一次访问的线程，当线程获取锁对象时，会在java对象头markword中记录偏向锁的threadID，并不会主动释放偏向锁。</li>
+<li>然后升级为 轻量级锁</li>
+<li>轻量级锁</li>
+</ul>
+<h3 id="公平锁和非公平锁"><a href="#公平锁和非公平锁" class="headerlink" title="公平锁和非公平锁"></a>公平锁和非公平锁</h3><ul>
+<li>公平锁是多个线程按照申请锁的顺序来获取锁，类似排队打饭，先来后到。<br>在并发环境下，每个线程在获取锁的时候回查看此锁维护的等待队列，如果为空，如果为空，或者当前线程是等待队列的第一个，那么就占有锁，否则加入等待队列中，会按照FIFO的规则从队列中取到自己</li>
+<li>非公平锁<br>非公平锁一上来就先尝试获取锁，如果尝试失败了，就按公平锁的方式</li>
+</ul>
+<h2 id="Join操作"><a href="#Join操作" class="headerlink" title="Join操作"></a>Join操作</h2><p> join  让父线程等待子线程结束之后才能继续运行。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadJoinStudy</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">a</span><span class="params">(Thread joinThread)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"function a run begin"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            joinThread.join();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"function a run end"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">b</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"function b run begin"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"function b run end"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ThreadJoinStudy threadJoinStudy = <span class="keyword">new</span> ThreadJoinStudy();</span><br><span class="line"></span><br><span class="line">       Thread thread =   <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            threadJoinStudy.b();</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            threadJoinStudy.a(thread);</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        thread.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">输出结果为</span><br><span class="line"></span><br><span class="line">function a run begin</span><br><span class="line">function b run begin</span><br><span class="line">function b run end</span><br><span class="line">function a run end</span><br></pre></td></tr></table></figure>
+<h2 id="StampedLock"><a href="#StampedLock" class="headerlink" title="StampedLock"></a>StampedLock</h2><p>在老的JDK中 一有 ReentrantReadWriteLock<br>   read read 不互斥<br>   read write 互斥<br>   write write 互斥 </p>
+<p>   这种是悲观锁</p>
+<p>在ReentrantReadWriteLock 使用中 由于大多为读操作  会导致写线程处于饥饿状态（即一直抢占不到CPU）<br>为了解决这种问题<br>在 StampedLock中<br> read操作 并不会排斥 write 操作<br> 会这样  如果 read 和 write 操作冲突 ，那么会 read 和 write 一起进行，等write操作执行完成后，再次执行一把read操作</p>
+<p> 任何对象都可以作为锁，锁信息会记录在对象的 对象头中，<br> 一般来说 所有的对象 都会有一个  两个字节长度的对象头</p>
+<p>Synchronied<br>  每个对象头中都有一个 mark word</p>
+<p>在JDK 1.6之前  synchronized 就是一个重量级锁<br>在 JDK1.6 后 我们引入了几种锁概念</p>
+<ol>
+<li>偏向锁</li>
+<li>轻量级锁</li>
+<li>重量级锁</li>
+</ol>
+<h2 id="详解偏向锁"><a href="#详解偏向锁" class="headerlink" title="详解偏向锁"></a>详解偏向锁</h2><p>当我们一个线程进入后<br>Mark word 会记录</p>
+<ul>
+<li>线程ID</li>
+<li><p>锁的标志位</p>
+</li>
+<li><p>hash： 保存对象的哈希码</p>
+</li>
+<li>age： 保存对象的分代年龄</li>
+<li>biased_lock： 偏向锁标识位</li>
+<li>lock： 锁状态标识位</li>
+<li>JavaThread：* 保存持有偏向锁的线程ID</li>
+<li>epoch： 保存偏向时间戳<br>偏向锁会执行一个策略 等到有线程出现来竞争锁的时候 才释放偏向锁<br>很多时候 不是由多个线程来竞争锁 而是由一个单个线程来竞争锁<br>但是 锁的释放和获取是会浪费资源的</li>
+</ul>
+<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><ol>
+<li>可以同时让多个线程进入我们的同步代码块中</li>
+</ol>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>maximumPoolSize 线程池的最大大小，线程池允许创建的最大的线程数量。如果队列满了，并且已创建的线程数量小于maximumPoolSize的线程数量。 那么会再创建新的线程执行任务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        AtomicInteger count = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line">       ThreadPoolExecutor executor =  <span class="keyword">new</span> ThreadPoolExecutor(core,<span class="number">2</span>*core+<span class="number">1</span>,<span class="number">10</span>,TimeUnit.DAYS,<span class="keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="number">10</span>), <span class="keyword">new</span> ThreadPoolExecutor.CallerRunsPolicy());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            executor.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    System.out.println(Thread.currentThread().getName());</span><br><span class="line">                    count.getAndIncrement();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        executor.shutdown();</span><br><span class="line">        System.out.println(count.get());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="进程与线程的区别"><a href="#进程与线程的区别" class="headerlink" title="进程与线程的区别"></a>进程与线程的区别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 进程里面可以有很多线程</span><br><span class="line">2. 线程里面有很多的</span><br></pre></td></tr></table></figure>
+<h2 id="创建线程的多种方式"><a href="#创建线程的多种方式" class="headerlink" title="创建线程的多种方式"></a>创建线程的多种方式</h2><ul>
+<li>继承Thread类</li>
+<li>实现runnable接口</li>
+<li>匿名内部类的方式</li>
+<li>带返回值的线程</li>
+<li>定时器</li>
+<li>线程池的实现</li>
+<li>lambda表达式 </li>
+</ul>
+<h2 id="死锁的四个条件"><a href="#死锁的四个条件" class="headerlink" title="死锁的四个条件"></a>死锁的四个条件</h2><pre><code>1.互斥
+2.占有且等待
+3.不可抢占
+4.循环等待
+</code></pre><h2 id="死锁的处理方法"><a href="#死锁的处理方法" class="headerlink" title="死锁的处理方法"></a>死锁的处理方法</h2><ol>
+<li><p>死锁预防</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">确保死锁的四个条件 至少有一个不能被执行</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>死锁的避免</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在使用前进行判断，只允许不会出现死锁的线程进行资源的请求</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进行死锁检测和恢复</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> </span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="线程池-1"><a href="#线程池-1" class="headerlink" title="线程池"></a>线程池</h2><p>   ArrayBlockingQueue : 一个基于数组结构的阻塞队列<br>   LinkedBlockingQueue: 一个基于链表的阻塞队列，是一个无界队列 队列大小不限<br>   synchronizedQueue： 一个不存储元素的阻塞队列， newCachedThreadPool<br>   priorityblockingqueue： 一个具有优先级的无界阻塞队列</p>
+<h2 id="线程池的参数"><a href="#线程池的参数" class="headerlink" title="线程池的参数"></a>线程池的参数</h2><ul>
+<li>corePoolSize  核心线城数：默认核心线城数会一直存活</li>
+<li>maximumPoolSize  最大线城数： 线程池最大可以创建多少个线程</li>
+<li>keepaliveTime   线程空闲时间 </li>
+<li>timeUnit        线程空闲时间的单位 （线程闲置超过空闲时间就会被销毁）</li>
+<li>workQueue       设置线程缓冲队列</li>
+<li>threadFactory   用于创建新线程的方法 可以用来对线程的一些属性进行定制<br>（例如线程的 group  name  优先级等）一般用线程默认的工厂类就好</li>
+<li><p>regectedHandler  拒绝策略</p>
+<p>1.提交任务的时候 先会判断是否大于核心线城数，如果不大于 那么直接创建一个核心线程来进行执行<br>如果大于，那么就进入缓冲队列，然后等待线程执行，   如果队列满了，那么那么就就进去</p>
+</li>
+</ul>
+<h2 id="进程和线程的关系"><a href="#进程和线程的关系" class="headerlink" title="进程和线程的关系"></a>进程和线程的关系</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">运行一个进程对应一个 JVM实例，多个线程共享JVM里的堆</span><br><span class="line">主线程可以创建子线程</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JUC/" rel="tag">#JUC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/27/Windows MAC 命令行安装软件/" rel="prev">Mac / Windows 安装软件</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/27/interview/线程专题/" rel="next">线程专题</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">161</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的状态转换"><span class="nav-number">1.</span> <span class="nav-text">线程的状态转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread-run-和-start-的区别"><span class="nav-number">2.</span> <span class="nav-text">Thread  run() 和 start 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sleep-和-wait的区别"><span class="nav-number">3.</span> <span class="nav-text">sleep 和 wait的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread-yield"><span class="nav-number">4.</span> <span class="nav-text">Thread.yield</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁专题"><span class="nav-number">5.</span> <span class="nav-text">锁专题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#悲观锁和乐观锁"><span class="nav-number">5.1.</span> <span class="nav-text">悲观锁和乐观锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized-和-lock的区别"><span class="nav-number">5.2.</span> <span class="nav-text">synchronized 和 lock的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁的状态"><span class="nav-number">5.3.</span> <span class="nav-text">锁的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized-的锁升级策略"><span class="nav-number">5.4.</span> <span class="nav-text">synchronized 的锁升级策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公平锁和非公平锁"><span class="nav-number">5.5.</span> <span class="nav-text">公平锁和非公平锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Join操作"><span class="nav-number">6.</span> <span class="nav-text">Join操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StampedLock"><span class="nav-number">7.</span> <span class="nav-text">StampedLock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#详解偏向锁"><span class="nav-number">8.</span> <span class="nav-text">详解偏向锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#偏向锁"><span class="nav-number">8.1.</span> <span class="nav-text">偏向锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#轻量级锁"><span class="nav-number">8.2.</span> <span class="nav-text">轻量级锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">9.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程与线程的区别"><span class="nav-number">10.</span> <span class="nav-text">进程与线程的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建线程的多种方式"><span class="nav-number">11.</span> <span class="nav-text">创建线程的多种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁的四个条件"><span class="nav-number">12.</span> <span class="nav-text">死锁的四个条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁的处理方法"><span class="nav-number">13.</span> <span class="nav-text">死锁的处理方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池-1"><span class="nav-number">14.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池的参数"><span class="nav-number">15.</span> <span class="nav-text">线程池的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程和线程的关系"><span class="nav-number">16.</span> <span class="nav-text">进程和线程的关系</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2020
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

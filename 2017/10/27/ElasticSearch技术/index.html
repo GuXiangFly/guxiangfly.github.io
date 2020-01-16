@@ -1,0 +1,917 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="ElasticSearch,">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="ElasticSearch 特性在实时搜索上优于 solr ES有两个端口 一个是 Transport 的端口 9300一个是  RESTful 形式的端口    9200  12Relational DB -&amp;gt; DataBases -&amp;gt; Tables -&amp;gt;Rows -&amp;gt; ColumnsElasticSearch -&amp;gt; Indices   -&amp;gt; Types  -">
+<meta name="keywords" content="ElasticSearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ElasticSearch技术">
+<meta property="og:url" content="http://yoursite.com/2017/10/27/ElasticSearch技术/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="ElasticSearch 特性在实时搜索上优于 solr ES有两个端口 一个是 Transport 的端口 9300一个是  RESTful 形式的端口    9200  12Relational DB -&amp;gt; DataBases -&amp;gt; Tables -&amp;gt;Rows -&amp;gt; ColumnsElasticSearch -&amp;gt; Indices   -&amp;gt; Types  -">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-01T10:12:05.939Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ElasticSearch技术">
+<meta name="twitter:description" content="ElasticSearch 特性在实时搜索上优于 solr ES有两个端口 一个是 Transport 的端口 9300一个是  RESTful 形式的端口    9200  12Relational DB -&amp;gt; DataBases -&amp;gt; Tables -&amp;gt;Rows -&amp;gt; ColumnsElasticSearch -&amp;gt; Indices   -&amp;gt; Types  -">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> ElasticSearch技术 | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              ElasticSearch技术
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-10-27T20:09:04+08:00" content="2017-10-27">
+            2017-10-27
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="ElasticSearch-特性"><a href="#ElasticSearch-特性" class="headerlink" title="ElasticSearch 特性"></a>ElasticSearch 特性</h2><p>在实时搜索上优于 solr</p>
+<p>ES有两个端口 一个是 Transport 的端口 9300<br>一个是  RESTful 形式的端口    9200 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Relational DB -&gt; DataBases -&gt; Tables -&gt;Rows -&gt; Columns</span><br><span class="line">ElasticSearch -&gt; Indices   -&gt; Types  -&gt;Documents -&gt; Fields</span><br></pre></td></tr></table></figure>
+<p>ES 中的 Indices(指数 index)  对应为  关系型数据库中的  DataBases<br>Types  对应为  Tables<br>Documents  对应为  一行记录<br>Fields  对应   一个字段</p>
+<h2 id="ES-如何使用"><a href="#ES-如何使用" class="headerlink" title="ES 如何使用"></a>ES 如何使用</h2><h3 id="使用ES创建索引"><a href="#使用ES创建索引" class="headerlink" title="使用ES创建索引"></a>使用ES创建索引</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> //请求为：http://localhost:9200/people  这个可以创建一个名字为 people的 index  类似创建一个people的数据库</span><br><span class="line">curl -put  http://localhost:9200/people </span><br><span class="line">&#123;</span><br><span class="line">	&quot;setting&quot;:&#123;</span><br><span class="line">		&quot;number_of_shards&quot;: &quot;5&quot;,</span><br><span class="line">		&quot;number_of_replicas&quot;: &quot;1&quot;</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	&quot;mappings&quot;: &#123;   </span><br><span class="line">		&quot;man&quot;: &#123;        //一张表（typos） 叫做 man</span><br><span class="line">			&quot;properties&quot;: &#123;</span><br><span class="line">				&quot;name&quot;: &#123;</span><br><span class="line">					&quot;type&quot;: &quot;text&quot;,</span><br><span class="line">					&quot;store&quot;: true,           // 代表 需要存储</span><br><span class="line">					&quot;index&quot;: true,   //代表使用分词器</span><br><span class="line">					&quot;analyzer&quot;: &quot;standard&quot;   //使用标准分词器</span><br><span class="line">				&#125;,</span><br><span class="line">				&quot;country&quot;: &#123;</span><br><span class="line">					&quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">					&quot;store&quot;: true, </span><br><span class="line">					 index: false   // 代表不使用分词器</span><br><span class="line">				&#125;,</span><br><span class="line">				&quot;age&quot;: &#123;</span><br><span class="line">					&quot;type&quot;: &quot;integer&quot;</span><br><span class="line">				&#125;,</span><br><span class="line">				&quot;date&quot;:&#123;</span><br><span class="line">					&quot;type&quot;: &quot;date&quot;,</span><br><span class="line">					&quot;format&quot;: &quot;yyyy-mm-dd HH:mm:ss||yyyy-MM-dd||epoch_millis&quot;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除索引库（对应数据库中的）"><a href="#删除索引库（对应数据库中的）" class="headerlink" title="删除索引库（对应数据库中的）"></a>删除索引库（对应数据库中的）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -delete http://localhost:9200/people/man/1</span><br></pre></td></tr></table></figure>
+<h3 id="给typo中添加一条document-给表中insert一条记录"><a href="#给typo中添加一条document-给表中insert一条记录" class="headerlink" title="给typo中添加一条document (给表中insert一条记录)"></a>给typo中添加一条document (给表中insert一条记录)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -post http://localhost:9200/people/man/1</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"guxiang"</span>,</span><br><span class="line">  <span class="attr">"country"</span>: <span class="string">"国家"</span>,</span><br><span class="line">  <span class="attr">"age"</span>: <span class="string">"25"</span>,</span><br><span class="line">  <span class="attr">"date"</span>: <span class="string">"2019-04-01"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接在整个json里面插入 需要这样写<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"novel"</span>: &#123;</span><br><span class="line">    <span class="attr">"properties"</span>: &#123;</span><br><span class="line">      <span class="attr">"title"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"text"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="全文查询"><a href="#全文查询" class="headerlink" title="全文查询"></a>全文查询</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:9200/people/_search</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"query"</span>: &#123;</span><br><span class="line">        <span class="attr">"multi_match"</span> : &#123;</span><br><span class="line">            <span class="attr">"query"</span> : <span class="string">"guide"</span>,</span><br><span class="line">            <span class="attr">"fields"</span> : [<span class="string">"_all"</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">也可以是</span><br><span class="line">http://localhost:9200/people/_search?q=guide</span><br><span class="line">上面是它的完整json包</span><br></pre></td></tr></table></figure>
+<h3 id="固定字段查询"><a href="#固定字段查询" class="headerlink" title="固定字段查询"></a>固定字段查询</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:9200/people/_search</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"query"</span>: &#123;</span><br><span class="line">		<span class="attr">"match"</span>: &#123;</span><br><span class="line">			<span class="attr">"name"</span>: <span class="string">"guxiang"</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="语法查询"><a href="#语法查询" class="headerlink" title="语法查询"></a>语法查询</h3><p>查询包含 guxiang  和  啊 这两个的<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:9200/people/_search</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"query"</span>: &#123;</span><br><span class="line">		<span class="attr">"query_string"</span>: &#123;</span><br><span class="line">			<span class="attr">"query"</span>:<span class="string">"guxiang AND 啊"</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="指定字段-分词查询"><a href="#指定字段-分词查询" class="headerlink" title="指定字段 分词查询"></a>指定字段 分词查询</h3><p>查询字段name 里面 有guxiang这个词的   guxiang2 是另一个单词 没有被查出<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:9200/people/_search</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"query"</span>: &#123;</span><br><span class="line">		<span class="attr">"term"</span>: &#123;</span><br><span class="line">			<span class="attr">"name"</span>:<span class="string">"guxiang"</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="比较大小-范围查询"><a href="#比较大小-范围查询" class="headerlink" title="比较大小 范围查询"></a>比较大小 范围查询</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:9200/people/_search</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"query"</span>: &#123;</span><br><span class="line">		<span class="attr">"range"</span>: &#123;</span><br><span class="line">			<span class="attr">"age"</span>: &#123;</span><br><span class="line">				<span class="attr">"gt"</span>:<span class="number">20</span>,</span><br><span class="line">				<span class="attr">"lt"</span>:<span class="number">30</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="比较日期大小查询"><a href="#比较日期大小查询" class="headerlink" title="比较日期大小查询"></a>比较日期大小查询</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:9200/people/_search</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"query"</span>: &#123;</span><br><span class="line">		<span class="attr">"range"</span>: &#123;</span><br><span class="line">			<span class="attr">"date"</span>: &#123;</span><br><span class="line">				<span class="attr">"gt"</span>:<span class="string">"1997-01-01"</span>,</span><br><span class="line">				<span class="attr">"lt"</span>:<span class="string">"1997-05-01"</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="filter-查询"><a href="#filter-查询" class="headerlink" title="filter 查询"></a>filter 查询</h3><p>filter查询 没有匹配的等级  只返回是匹配的  不返回匹配的等级<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:9200/people/_search</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"query"</span>: &#123;</span><br><span class="line">		<span class="attr">"bool"</span>: &#123;</span><br><span class="line">			<span class="attr">"filter"</span>: &#123;</span><br><span class="line">				<span class="attr">"term"</span>: &#123;</span><br><span class="line">					<span class="attr">"age"</span>: <span class="number">21</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="复合条件查询"><a href="#复合条件查询" class="headerlink" title="复合条件查询"></a>复合条件查询</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:9200/people/_search</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"query"</span>: &#123;</span><br><span class="line">		<span class="attr">"bool"</span>: &#123;</span><br><span class="line">			<span class="attr">"must"</span>: [</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="attr">"match"</span>: &#123;</span><br><span class="line">						 <span class="attr">"name"</span>: <span class="string">"guxiang"</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;,</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="attr">"match"</span>: &#123;</span><br><span class="line">						 <span class="attr">"date"</span>: <span class="string">"1997-03-03"</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			],</span><br><span class="line">			<span class="attr">"filter"</span>: &#123;</span><br><span class="line">				<span class="attr">"term"</span>: &#123;</span><br><span class="line">					<span class="attr">"age"</span>: <span class="number">21</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="如何查看分词器的分词效果"><a href="#如何查看分词器的分词效果" class="headerlink" title="如何查看分词器的分词效果"></a>如何查看分词器的分词效果</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST http://127.0.0.1:9200/_analyze</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"analyzer"</span>:<span class="string">"standard"</span>,</span><br><span class="line">  <span class="attr">"text"</span>    :<span class="string">"我是一个程序员"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="IK-分词器"><a href="#IK-分词器" class="headerlink" title="IK 分词器"></a>IK 分词器</h2><p>IK 分词器有两种算法 ik_smart  和  ik_max_word<br>ik_smart 为最少切分<br>ik_max_word 为最细粒度切分</p>
+<ul>
+<li><p>ik_smart 拆分的结果</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"tokens"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"我"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">0</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_CHAR"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">0</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"是"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_CHAR"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">1</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"一个"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_WORD"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">2</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"程序员"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">7</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_WORD"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">3</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ik_max_word 拆分的结果</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"tokens"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"我"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">0</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_CHAR"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">0</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"是"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_CHAR"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">1</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"一个"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_WORD"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">2</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"一"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">2</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"TYPE_CNUM"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">3</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"个"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">3</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"COUNT"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">4</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"程序员"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">7</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_WORD"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">5</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"程序"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">6</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_WORD"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">6</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"token"</span>: <span class="string">"员"</span>,</span><br><span class="line">            <span class="attr">"start_offset"</span>: <span class="number">6</span>,</span><br><span class="line">            <span class="attr">"end_offset"</span>: <span class="number">7</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"CN_CHAR"</span>,</span><br><span class="line">            <span class="attr">"position"</span>: <span class="number">7</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="ES-中的查询"><a href="#ES-中的查询" class="headerlink" title="ES 中的查询"></a>ES 中的查询</h2><ul>
+<li><p>使用SpringData 中的查询 这种有不足之处<br>  主要在于，这个的缺点在于，他是将分词结果使用 and 来拼接 ，产生结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">articleRepository.findArticlesByContent(<span class="string">"maven是一个工程构建工具"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用原生的查询<br>  使用 elasticsearch client 的查询，分词结果是  ||  也就是 or 的关系</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NativeSearchQuery query = <span class="keyword">new</span> NativeSearchQueryBuilder()</span><br><span class="line">        .withQuery(QueryBuilders.queryStringQuery(<span class="string">"maven是一个工程构建工具"</span>).defaultField(<span class="string">"content"</span>))</span><br><span class="line">        .build();</span><br><span class="line">List&lt;Article&gt; articleList = template.queryForList(query, Article.class);</span><br><span class="line">articleList.forEach(System.out::println);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ElasticSearch/" rel="tag">#ElasticSearch</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/01/interview/ZooKeeper使用总结/" rel="prev">Zookeeper使用教程</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/05/Oracle部署以及使用/" rel="next">Oracle 部署与使用</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">161</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ElasticSearch-特性"><span class="nav-number">1.</span> <span class="nav-text">ElasticSearch 特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES-如何使用"><span class="nav-number">2.</span> <span class="nav-text">ES 如何使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ES创建索引"><span class="nav-number">2.1.</span> <span class="nav-text">使用ES创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除索引库（对应数据库中的）"><span class="nav-number">2.2.</span> <span class="nav-text">删除索引库（对应数据库中的）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给typo中添加一条document-给表中insert一条记录"><span class="nav-number">2.3.</span> <span class="nav-text">给typo中添加一条document (给表中insert一条记录)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全文查询"><span class="nav-number">2.4.</span> <span class="nav-text">全文查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#固定字段查询"><span class="nav-number">2.5.</span> <span class="nav-text">固定字段查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法查询"><span class="nav-number">2.6.</span> <span class="nav-text">语法查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定字段-分词查询"><span class="nav-number">2.7.</span> <span class="nav-text">指定字段 分词查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较大小-范围查询"><span class="nav-number">2.8.</span> <span class="nav-text">比较大小 范围查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较日期大小查询"><span class="nav-number">2.9.</span> <span class="nav-text">比较日期大小查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#filter-查询"><span class="nav-number">2.10.</span> <span class="nav-text">filter 查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复合条件查询"><span class="nav-number">2.11.</span> <span class="nav-text">复合条件查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何查看分词器的分词效果"><span class="nav-number">3.</span> <span class="nav-text">如何查看分词器的分词效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IK-分词器"><span class="nav-number">4.</span> <span class="nav-text">IK 分词器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES-中的查询"><span class="nav-number">5.</span> <span class="nav-text">ES 中的查询</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2020
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

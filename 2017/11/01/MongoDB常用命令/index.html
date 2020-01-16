@@ -1,0 +1,910 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="java,MongoDB,">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="MongoDB常用命令开启服务器：1mongod -f mongod.cfg 开启链接:1mongo localhost:27017  (默认是 localhost:27017 可以不加) 说明MongoDB命令是区分大小写的，使用的命名规则是驼峰命名法。对于database和collection无需主动创建，在插入数据时，如果database和collection不存在则会自动创建(这个原因是由">
+<meta name="keywords" content="java,MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB常用命令.md">
+<meta property="og:url" content="http://yoursite.com/2017/11/01/MongoDB常用命令/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="MongoDB常用命令开启服务器：1mongod -f mongod.cfg 开启链接:1mongo localhost:27017  (默认是 localhost:27017 可以不加) 说明MongoDB命令是区分大小写的，使用的命名规则是驼峰命名法。对于database和collection无需主动创建，在插入数据时，如果database和collection不存在则会自动创建(这个原因是由">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p5uenqci6.bkt.clouddn.com/blog/180319/K6ffj3AfdA.png">
+<meta property="og:updated_time" content="2019-12-01T10:12:05.944Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB常用命令.md">
+<meta name="twitter:description" content="MongoDB常用命令开启服务器：1mongod -f mongod.cfg 开启链接:1mongo localhost:27017  (默认是 localhost:27017 可以不加) 说明MongoDB命令是区分大小写的，使用的命名规则是驼峰命名法。对于database和collection无需主动创建，在插入数据时，如果database和collection不存在则会自动创建(这个原因是由">
+<meta name="twitter:image" content="http://p5uenqci6.bkt.clouddn.com/blog/180319/K6ffj3AfdA.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> MongoDB常用命令.md | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              MongoDB常用命令.md
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
+            2017-11-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="MongoDB常用命令"><a href="#MongoDB常用命令" class="headerlink" title="MongoDB常用命令"></a>MongoDB常用命令</h1><p>开启服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod -f mongod.cfg</span><br></pre></td></tr></table></figure></p>
+<p>开启链接:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo localhost:27017  (默认是 localhost:27017 可以不加)</span><br></pre></td></tr></table></figure></p>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>MongoDB命令是区分大小写的，使用的命名规则是驼峰命名法。<br>对于database和collection无需主动创建，在插入数据时，如果database和collection不存在则会自动创建(这个原因是由于mongodb的语法是由JS引擎去解析的，使用JS引擎解析操作，没有的东西就会自动添加)。</p>
+<p>use 命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">【use demodb】，创建demodb，不用担心demodb不会创建，当使用use demodb</span><br><span class="line">命令创建第一个collection时会自动创建数据库demodb</span><br></pre></td></tr></table></figure></p>
+<h3 id="查看当前在哪个数据库"><a href="#查看当前在哪个数据库" class="headerlink" title="查看当前在哪个数据库"></a>查看当前在哪个数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db</span><br></pre></td></tr></table></figure>
+<h3 id="Mongod-参数说明"><a href="#Mongod-参数说明" class="headerlink" title="Mongod 参数说明"></a>Mongod 参数说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mongodb的参数说明：</span><br><span class="line">--dbpath    数据库路径(数据文件)</span><br><span class="line">--logpath   日志文件路径</span><br><span class="line">--master    指定为主机器</span><br><span class="line">--slave     指定为从机器</span><br><span class="line">--source    指定主机器的IP地址</span><br><span class="line">--pologSize 指定日志文件大小不超过64M.因为resync是非常操作量大且耗时，最好通过设置一个足够大的oplogSize来避免resync(默认的 oplog大小是空闲磁盘大小的5%)。</span><br><span class="line">--logappend 日志文件末尾添加</span><br><span class="line">--port      启用端口号</span><br><span class="line">--fork      在后台运行</span><br><span class="line">--only      指定只复制哪一个数据库</span><br><span class="line">--slavedelay 指从复制检测的时间间隔</span><br><span class="line">--auth       是否需要验证权限登录(用户名和密码)</span><br><span class="line"></span><br><span class="line">-f          通过配置文件启动</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB的启动"><a href="#MongoDB的启动" class="headerlink" title="MongoDB的启动"></a>MongoDB的启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mongod --dbpath=D:\serversoftware\MongoDBpath (--fork 代表后台启动)</span><br><span class="line"></span><br><span class="line">也可以通过配置文件启动</span><br><span class="line">mongod -f D:\mongodb\conf\mongo.conf</span><br></pre></td></tr></table></figure>
+<h3 id="备份和还原不能在原本的mongodb的命令行中写"><a href="#备份和还原不能在原本的mongodb的命令行中写" class="headerlink" title="备份和还原不能在原本的mongodb的命令行中写"></a>备份和还原不能在原本的mongodb的命令行中写</h3><p><img src="http://p5uenqci6.bkt.clouddn.com/blog/180319/K6ffj3AfdA.png" alt="mark"></p>
+<h3 id="将原本有的数据备份到备份目录"><a href="#将原本有的数据备份到备份目录" class="headerlink" title="将原本有的数据备份到备份目录"></a>将原本有的数据备份到备份目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mongodump -h localhost:27017 -d local -o d://serversoftware//MongoDBpathBeifeng</span><br><span class="line"></span><br><span class="line">(local) 是一个数据库名称</span><br></pre></td></tr></table></figure>
+<h3 id="将备份的数据还原"><a href="#将备份的数据还原" class="headerlink" title="将备份的数据还原"></a>将备份的数据还原</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -h localhost:27017 -d local2 -directoryperdb d://serversoftware//MongoDBpathBeifeng//test</span><br></pre></td></tr></table></figure>
+<h3 id="将集合的数据导出"><a href="#将集合的数据导出" class="headerlink" title="将集合的数据导出"></a>将集合的数据导出</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mongoexport -h dbhost -d dbname -c collectionName -o output</span><br><span class="line"></span><br><span class="line"> mongoexport -h localhost:27017 -d test -c c1 -o d://serversoftware//MongoDBpathBeifeng/c1.txt</span><br><span class="line"></span><br><span class="line"> -o 意思为 output</span><br><span class="line"> 文件如果不存在 会自动创建</span><br></pre></td></tr></table></figure>
+<h3 id="将集合的json数据导入"><a href="#将集合的json数据导入" class="headerlink" title="将集合的json数据导入"></a>将集合的json数据导入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongoimport -h localhost:27017 -d test -c c3 d://serversoftware//MongoDBpathBeifeng/c1.txt</span><br></pre></td></tr></table></figure>
+<h3 id="主从复制操作"><a href="#主从复制操作" class="headerlink" title="主从复制操作"></a>主从复制操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">主操作</span><br><span class="line"> mongod --dbpath=D:\serversoftware\MongoDBmaster --port 10001 --master</span><br><span class="line"></span><br><span class="line">从操作</span><br><span class="line"> mongod --dbpath=D:\serversoftware\MongoDBslave --port 10002 --slave  --source 127.0.0.1:10001</span><br></pre></td></tr></table></figure>
+<h3 id="副本集配置"><a href="#副本集配置" class="headerlink" title="副本集配置"></a>副本集配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">启动节点1：</span><br><span class="line">mongod --dbpath D:\mongodb\dbs\node1 --logpath D:\mongodb\logs\node1\logs.txt --logappend --port 10001 --replSet guxiangreplset/localhost:10002  --master</span><br></pre></td></tr></table></figure>
+<h3 id="分布式集群"><a href="#分布式集群" class="headerlink" title="分布式集群"></a>分布式集群</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">普通节点（存放配置信息）</span><br><span class="line">mongod --dbpath=D:\serversoftware\MongoDBDistributed\mongoconfigdb</span><br><span class="line">--port 2222</span><br><span class="line"></span><br><span class="line">路由进程 mongos</span><br><span class="line">mongos --port 3333 --configdb=127.0.0.1:2222</span><br><span class="line"></span><br><span class="line">(分布式节点)</span><br><span class="line">mongod --dbpath=D:\serversoftware\MongoDBDistributed\node4444 --port 4444</span><br><span class="line"></span><br><span class="line">mongod --dbpath=D:\serversoftware\MongoDBDistributed\node5555 --port 5555</span><br><span class="line"></span><br><span class="line">mongod --dbpath=D:\serversoftware\MongoDBDistributed\node6666 --port 6666</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">登录路由节点的admin进入数据库 （在分布式存储中，都是对）</span><br><span class="line">mongo 127.0.0.1:3333/admin</span><br><span class="line"></span><br><span class="line">db.runCommand(&#123;&quot;addshard&quot;:&quot;127.0.0.1:4444&quot;,&quot;allowLocal&quot;:true&#125;)</span><br><span class="line"></span><br><span class="line">db.runCommand(&#123;&quot;addshard&quot;:&quot;127.0.0.1:5555&quot;,&quot;allowLocal&quot;:true&#125;)</span><br><span class="line"></span><br><span class="line">db.runCommand(&#123;&quot;addshard&quot;:&quot;127.0.0.1:6666&quot;,&quot;allowLocal&quot;:true&#125;)</span><br><span class="line"></span><br><span class="line">将每个node下的test 数据库 进行分片存储</span><br><span class="line">db.runCommand(&#123;&quot;enablesharding&quot;:&quot;test&quot;&#125;)</span><br><span class="line"></span><br><span class="line">test 数据库下的 person集合  将会以 age字段的大小 作为分片的依据</span><br><span class="line">db.runCommand(&#123;&quot;shardcollection&quot;:&quot;test.person&quot;,&quot;key&quot;:&#123;&quot;age&quot;:1&#125;&#125;)</span><br><span class="line"></span><br><span class="line">for(var i=1;i&lt;=10000000;i++)&#123;</span><br><span class="line">    db.person.insert(&#123;age:i,name:&quot;guxiang&quot;&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用JAVA代码对MongoDB进行增删改查"><a href="#使用JAVA代码对MongoDB进行增删改查" class="headerlink" title="使用JAVA代码对MongoDB进行增删改查"></a>使用JAVA代码对MongoDB进行增删改查</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testAdd</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    Mongo mongo = <span class="keyword">new</span> Mongo(<span class="string">"127.0.0.1"</span>, <span class="number">5555</span>);</span><br><span class="line">    DB db = mongo.getDB(<span class="string">"test"</span>);</span><br><span class="line">    DBCollection person2 = db.getCollection(<span class="string">"person2"</span>);</span><br><span class="line"></span><br><span class="line">    DBObject dbObject = <span class="keyword">new</span> BasicDBObject();</span><br><span class="line"></span><br><span class="line">    dbObject.put(<span class="string">"name"</span>,<span class="string">"guxiang"</span>);</span><br><span class="line">    dbObject.put(<span class="string">"desc"</span>,<span class="string">"单身dog"</span>);</span><br><span class="line">    person2.insert(dbObject);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testFind</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    Mongo mongo = <span class="keyword">new</span> Mongo(<span class="string">"127.0.0.1"</span>, <span class="number">5555</span>);</span><br><span class="line">    DB db = mongo.getDB(<span class="string">"test"</span>);</span><br><span class="line">    DBCollection person2 = db.getCollection(<span class="string">"person2"</span>);</span><br><span class="line">    DBCursor cursor = person2.find();</span><br><span class="line">    <span class="keyword">while</span> (cursor.hasNext())&#123;</span><br><span class="line">        DBObject dbObject = cursor.next();</span><br><span class="line">        System.out.println(dbObject.toString());</span><br><span class="line">        System.out.println(dbObject.get(<span class="string">"name"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="让MongoDB随着计算机的启动而启动"><a href="#让MongoDB随着计算机的启动而启动" class="headerlink" title="让MongoDB随着计算机的启动而启动"></a>让MongoDB随着计算机的启动而启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.local</span><br><span class="line">在这个文件下添加一行</span><br><span class="line">mongod --dbpath=D:\serversoftware\MongoDBpath  --fork</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB的结束"><a href="#MongoDB的结束" class="headerlink" title="MongoDB的结束"></a>MongoDB的结束</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">一定要使用</span><br><span class="line">pkill mongod 或者</span><br><span class="line">killall mongod</span><br><span class="line"></span><br><span class="line">不能使用</span><br><span class="line">kill -9  进程号</span><br><span class="line">这会导致mongod无法启动</span><br><span class="line">如果无法启动mongod，就将data目录下的 mongod.lock 文件删除 这个lock文件是将进程锁住了</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB的查询"><a href="#MongoDB的查询" class="headerlink" title="MongoDB的查询"></a>MongoDB的查询</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.find();</span><br></pre></td></tr></table></figure>
+<p>find 是查询所有符合条件的文档  没条件就是查询所有的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.find(trackFileRow:&quot;stagingdata.xlsx##00000000&quot;)</span><br></pre></td></tr></table></figure>
+<p>find 返回的是一个数组， findOne 返回的是一个对象</p>
+<p>使用count 查询个数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.find().count();</span><br></pre></td></tr></table></figure></p>
+<p>查询 一对多的关系<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/MongoDB/" rel="tag">#MongoDB</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/01/MyBatisGenerator 配置/" rel="prev">MyBatis Generator配置</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/01/Maven依赖冲突/" rel="next">Maven依赖冲突</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">161</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB常用命令"><span class="nav-number">1.</span> <span class="nav-text">MongoDB常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">1.0.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看当前在哪个数据库"><span class="nav-number">1.0.2.</span> <span class="nav-text">查看当前在哪个数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongod-参数说明"><span class="nav-number">1.0.3.</span> <span class="nav-text">Mongod 参数说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB的启动"><span class="nav-number">1.0.4.</span> <span class="nav-text">MongoDB的启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份和还原不能在原本的mongodb的命令行中写"><span class="nav-number">1.0.5.</span> <span class="nav-text">备份和还原不能在原本的mongodb的命令行中写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将原本有的数据备份到备份目录"><span class="nav-number">1.0.6.</span> <span class="nav-text">将原本有的数据备份到备份目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将备份的数据还原"><span class="nav-number">1.0.7.</span> <span class="nav-text">将备份的数据还原</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将集合的数据导出"><span class="nav-number">1.0.8.</span> <span class="nav-text">将集合的数据导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将集合的json数据导入"><span class="nav-number">1.0.9.</span> <span class="nav-text">将集合的json数据导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制操作"><span class="nav-number">1.0.10.</span> <span class="nav-text">主从复制操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#副本集配置"><span class="nav-number">1.0.11.</span> <span class="nav-text">副本集配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式集群"><span class="nav-number">1.0.12.</span> <span class="nav-text">分布式集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用JAVA代码对MongoDB进行增删改查"><span class="nav-number">1.0.13.</span> <span class="nav-text">使用JAVA代码对MongoDB进行增删改查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让MongoDB随着计算机的启动而启动"><span class="nav-number">1.0.14.</span> <span class="nav-text">让MongoDB随着计算机的启动而启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB的结束"><span class="nav-number">1.0.15.</span> <span class="nav-text">MongoDB的结束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB的查询"><span class="nav-number">1.0.16.</span> <span class="nav-text">MongoDB的查询</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2020
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

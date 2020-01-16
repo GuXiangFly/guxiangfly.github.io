@@ -1,0 +1,914 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="java,JVM,">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="k8s 启动命令script12345678910111213141516systemctl start etcdsystemctl start dockersystemctl start kube-apiserversystemctl start kube-controller-managersystemctl start kube-schedulersystemctl start kubele">
+<meta name="keywords" content="java,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kubernetes快速入门">
+<meta property="og:url" content="http://yoursite.com/2019/08/11/kubernetes快速入门/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="k8s 启动命令script12345678910111213141516systemctl start etcdsystemctl start dockersystemctl start kube-apiserversystemctl start kube-controller-managersystemctl start kube-schedulersystemctl start kubele">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-01T10:12:05.966Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kubernetes快速入门">
+<meta name="twitter:description" content="k8s 启动命令script12345678910111213141516systemctl start etcdsystemctl start dockersystemctl start kube-apiserversystemctl start kube-controller-managersystemctl start kube-schedulersystemctl start kubele">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> kubernetes快速入门 | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              kubernetes快速入门
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2019-08-11T13:09:04+08:00" content="2019-08-11">
+            2019-08-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="k8s-启动命令"><a href="#k8s-启动命令" class="headerlink" title="k8s 启动命令"></a>k8s 启动命令</h2><figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">systemctl start etcd</span><br><span class="line">systemctl start docker</span><br><span class="line">systemctl start kube-apiserver</span><br><span class="line">systemctl start kube-controller-manager</span><br><span class="line">systemctl start kube-scheduler</span><br><span class="line">systemctl start kubelet</span><br><span class="line">systemctl start kube-proxy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">systemctl restart etcd</span><br><span class="line">systemctl restart docker</span><br><span class="line">systemctl restart kube-apiserver</span><br><span class="line">systemctl restart kube-controller-manager</span><br><span class="line">systemctl restart kube-scheduler</span><br><span class="line">systemctl restart kubelet</span><br><span class="line">systemctl restart kube-proxy</span><br></pre></td></tr></table></figure>
+<h2 id="K8S-常用命令"><a href="#K8S-常用命令" class="headerlink" title="K8S 常用命令"></a>K8S 常用命令</h2><figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">查看各个pod的运行情况</span><br><span class="line">查看容器: </span><br><span class="line">kubectl get pods</span><br><span class="line">或者 kubectl get po</span><br><span class="line">或者 kubectl get pod </span><br><span class="line"></span><br><span class="line">删除容器1(使用replication controller 批量删除):</span><br><span class="line">kubectl delete -f nginx-rc.yml  </span><br><span class="line"></span><br><span class="line">删除容器2(使用 pod name 进行单个删除 不过单个删除后会立即再创建一个pod保持和 rc文件中的数量一致): </span><br><span class="line">kubectl delete pods/tomcat-pswd</span><br><span class="line"></span><br><span class="line">查看容器详情列表: </span><br><span class="line">kubectl describe pod tomcat-aswd</span><br><span class="line"></span><br><span class="line">进入容器内部</span><br><span class="line">kubectl exec -it nginx-swvd /bin/bash</span><br><span class="line"></span><br><span class="line">假设一个pod里面有多个container  一个名为 app-main   一个名为 app-help 使用下面命令进入 app-main   进入app-help同理</span><br><span class="line">kubectl exec -it nginx-swvd -c app-main /bin/bash</span><br><span class="line"></span><br><span class="line">查看svc的运行</span><br><span class="line">kubectl get svc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看每个node的运行状态</span><br><span class="line">kubectl get nodes</span><br><span class="line"></span><br><span class="line">查看健康状态</span><br><span class="line">kubectl get cs</span><br></pre></td></tr></table></figure>
+<h3 id="mytomcat-rc-yml"><a href="#mytomcat-rc-yml" class="headerlink" title="mytomcat-rc.yml"></a>mytomcat-rc.yml</h3><ul>
+<li>这个rc文件主要是用于创建pod 指定如何创建pod 创建多少个pod</li>
+<li>rc 本质是一个 replication controller 这个controller用于定义pod的个数 pod创建环境<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ReplicationController</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">mytomcat</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">2</span> </span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">mytomcat</span> </span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">mytomcat</span> </span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">mytomcat</span> </span><br><span class="line"><span class="attr">          image:</span> <span class="attr">tomcat:7-jre7</span> </span><br><span class="line"><span class="attr">          ports:</span></span><br><span class="line"><span class="attr">          - containerPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="mytomcat-svc-yml"><a href="#mytomcat-svc-yml" class="headerlink" title="mytomcat-svc.yml"></a>mytomcat-svc.yml</h3><ul>
+<li>这个svc文件用于控制对外暴露的端口，以及使用这个 svc对外做负载均衡  </li>
+<li>这是一个service描述 具体由 kube-proxy 进行流量的分发<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span> </span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span> </span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">mytomcat</span> </span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">NodePort</span> </span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">  - port:</span> <span class="number">8080</span></span><br><span class="line"><span class="attr">    nodePort:</span> <span class="number">30001</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">mytomcat</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="nginx-rc-yml"><a href="#nginx-rc-yml" class="headerlink" title="nginx-rc.yml"></a>nginx-rc.yml</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ReplicationController</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+<h3 id="nginx-svc-yml"><a href="#nginx-svc-yml" class="headerlink" title="nginx-svc.yml"></a>nginx-svc.yml</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span> </span><br><span class="line"><span class="attr">metadata:</span> </span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx</span> </span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">NodePort</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">  - port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">    nodePort:</span> <span class="number">30121</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul>
+<li><p>外部网络无法访问kubernetes</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 修改这个文件</span></span></span><br><span class="line">vim /etc/sysctl.conf </span><br><span class="line"></span><br><span class="line">加入这么一行</span><br><span class="line">net.ipv4.ip_forward=1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解决 kubectl get pods 爆出 No resource found</p>
+<figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/kubernetes/apiserver</span><br><span class="line"></span><br><span class="line">去除最后一行的 ',serviceaccount'这个值</span><br><span class="line"></span><br><span class="line">systemctl restart kube-apiserver</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>解决 kubernetes镜像无法 pull<br><figure class="highlight shell"><figcaption><span>script</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">docker pull kubernetes/pause</span><br><span class="line"></span><br><span class="line">docker tag docker.io/kubernetes/pause:latest 192.168.25.201:5000/google_containers/pause-amd64.3.0</span><br><span class="line"></span><br><span class="line">docker push 192.168.25.201:5000/google_containers/pause-amd64.3.0</span><br><span class="line"></span><br><span class="line">vim /etc/kubernetes/kubelet</span><br><span class="line">KUBELET_ARGS="--pod_infra_container_image=192.168.25.201:5000/google_containers/pause-amd64.3.0"</span><br><span class="line"></span><br><span class="line">systemctl restart kubelet</span><br></pre></td></tr></table></figure></p>
+<h2 id="关于POD"><a href="#关于POD" class="headerlink" title="关于POD"></a>关于POD</h2><p>pod的定义文件<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span>        　　          <span class="comment">#必选，版本号，例如v1,版本号必须可以用 kubectl api-versions 查询到 .</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span>       　　　　　　         <span class="comment">#必选，Pod</span></span><br><span class="line"><span class="attr">metadata:</span>       　　　　　　         <span class="comment">#必选，元数据</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">string</span>        　　          <span class="comment">#必选，Pod名称</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">string</span>     　　        <span class="comment">#必选，Pod所属的命名空间,默认为"default"</span></span><br><span class="line"><span class="attr">  labels:</span>       　　　　　　          <span class="comment">#自定义标签</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">string</span>      　          <span class="comment">#自定义标签名字</span></span><br><span class="line"><span class="attr">  annotations:</span>        　　                 <span class="comment">#自定义注释列表</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">spec:</span>         　　　　　　　            <span class="comment">#必选，Pod中容器的详细定义</span></span><br><span class="line"><span class="attr">  containers:</span>       　　　　            <span class="comment">#必选，Pod中容器列表</span></span><br><span class="line"><span class="attr">  - name:</span> <span class="string">string</span>      　　                <span class="comment">#必选，容器名称,需符合RFC 1035规范</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">string</span>     　　                <span class="comment">#必选，容器的镜像名称</span></span><br><span class="line"><span class="attr">    imagePullPolicy:</span> <span class="string">[</span> <span class="string">Always|Never|IfNotPresent</span> <span class="string">]</span>  <span class="comment">#获取镜像的策略 Alawys表示下载镜像 IfnotPresent表示优先使用本地镜像,否则下载镜像，Nerver表示仅使用本地镜像</span></span><br><span class="line"><span class="attr">    command:</span> <span class="string">[string]</span>     　　        <span class="comment">#容器的启动命令列表，如不指定，使用打包时使用的启动命令</span></span><br><span class="line"><span class="attr">    args:</span> <span class="string">[string]</span>      　　             <span class="comment">#容器的启动命令参数列表</span></span><br><span class="line"><span class="attr">    workingDir:</span> <span class="string">string</span>                     <span class="comment">#容器的工作目录</span></span><br><span class="line"><span class="attr">    volumeMounts:</span>     　　　　        <span class="comment">#挂载到容器内部的存储卷配置</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">string</span>      　　　        <span class="comment">#引用pod定义的共享存储卷的名称，需用volumes[]部分定义的的卷名</span></span><br><span class="line"><span class="attr">      mountPath:</span> <span class="string">string</span>                 <span class="comment">#存储卷在容器内mount的绝对路径，应少于512字符</span></span><br><span class="line"><span class="attr">      readOnly:</span> <span class="string">boolean</span>                 <span class="comment">#是否为只读模式</span></span><br><span class="line"><span class="attr">    ports:</span>        　　　　　　        <span class="comment">#需要暴露的端口库号列表</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">string</span>      　　　        <span class="comment">#端口的名称</span></span><br><span class="line"><span class="attr">      containerPort:</span> <span class="string">int</span>                <span class="comment">#容器需要监听的端口号</span></span><br><span class="line"><span class="attr">      hostPort:</span> <span class="string">int</span>     　　             <span class="comment">#容器所在主机需要监听的端口号，默认与Container相同</span></span><br><span class="line"><span class="attr">      protocol:</span> <span class="string">string</span>                  <span class="comment">#端口协议，支持TCP和UDP，默认TCP</span></span><br><span class="line"><span class="attr">    env:</span>        　　　　　　            <span class="comment">#容器运行前需设置的环境变量列表</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">string</span>      　　            <span class="comment">#环境变量名称</span></span><br><span class="line"><span class="attr">      value:</span> <span class="string">string</span>     　　            <span class="comment">#环境变量的值</span></span><br><span class="line"><span class="attr">    resources:</span>        　　                <span class="comment">#资源限制和请求的设置</span></span><br><span class="line"><span class="attr">      limits:</span>       　　　　            <span class="comment">#资源限制的设置</span></span><br><span class="line"><span class="attr">        cpu:</span> <span class="string">string</span>     　　            <span class="comment">#Cpu的限制，单位为core数，将用于docker run --cpu-shares参数</span></span><br><span class="line"><span class="attr">        memory:</span> <span class="string">string</span>                  <span class="comment">#内存限制，单位可以为Mib/Gib，将用于docker run --memory参数</span></span><br><span class="line"><span class="attr">      requests:</span>       　　                <span class="comment">#资源请求的设置</span></span><br><span class="line"><span class="attr">        cpu:</span> <span class="string">string</span>     　　            <span class="comment">#Cpu请求，容器启动的初始可用数量</span></span><br><span class="line"><span class="attr">        memory:</span> <span class="string">string</span>                    <span class="comment">#内存请求,容器启动的初始可用数量</span></span><br><span class="line"><span class="attr">    livenessProbe:</span>      　　            <span class="comment">#对Pod内各容器健康检查的设置，当探测无响应几次后将自动重启该容器，检查方法有exec、httpGet和tcpSocket，对一个容器只需设置其中一种方法即可</span></span><br><span class="line"><span class="attr">      exec:</span>       　　　　　　        <span class="comment">#对Pod容器内检查方式设置为exec方式</span></span><br><span class="line"><span class="attr">        command:</span> <span class="string">[string]</span>               <span class="comment">#exec方式需要制定的命令或脚本</span></span><br><span class="line"><span class="attr">      httpGet:</span>        　　　　        <span class="comment">#对Pod内个容器健康检查方法设置为HttpGet，需要制定Path、port</span></span><br><span class="line"><span class="attr">        path:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">        port:</span> <span class="string">number</span></span><br><span class="line"><span class="attr">        host:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">        scheme:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">        HttpHeaders:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">          value:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">      tcpSocket:</span>      　　　　　　<span class="comment">#对Pod内个容器健康检查方式设置为tcpSocket方式</span></span><br><span class="line"><span class="attr">         port:</span> <span class="string">number</span></span><br><span class="line"><span class="attr">       initialDelaySeconds:</span> <span class="number">0</span>       <span class="comment">#容器启动完成后首次探测的时间，单位为秒</span></span><br><span class="line"><span class="attr">       timeoutSeconds:</span> <span class="number">0</span>    　　    <span class="comment">#对容器健康检查探测等待响应的超时时间，单位秒，默认1秒</span></span><br><span class="line"><span class="attr">       periodSeconds:</span> <span class="number">0</span>     　　    <span class="comment">#对容器监控检查的定期探测时间设置，单位秒，默认10秒一次</span></span><br><span class="line"><span class="attr">       successThreshold:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">       failureThreshold:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">       securityContext:</span></span><br><span class="line"><span class="attr">         privileged:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    restartPolicy:</span> <span class="string">[Always</span> <span class="string">| Never | OnFailure] #Pod的重启策略，Always表示一旦不管以何种方式终止运行，kubelet都将重启，OnFailure表示只有Pod以非0退出码退出才重启，Nerver表示不再重启该Pod</span></span><br><span class="line"><span class="string"></span><span class="attr">    nodeSelector:</span> <span class="string">obeject</span>   　　    <span class="comment">#设置NodeSelector表示将该Pod调度到包含这个label的node上，以key：value的格式指定</span></span><br><span class="line"><span class="attr">    imagePullSecrets:</span>     　　　　<span class="comment">#Pull镜像时使用的secret名称，以key：secretkey格式指定</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">    hostNetwork:</span> <span class="literal">false</span>      　　    <span class="comment">#是否使用主机网络模式，默认为false，如果设置为true，表示使用宿主机网络</span></span><br><span class="line"><span class="attr">    volumes:</span>        　　　　　　    <span class="comment">#在该pod上定义共享存储卷列表</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">string</span>     　　 　　    <span class="comment">#共享存储卷名称 （volumes类型有很多种）</span></span><br><span class="line"><span class="attr">      emptyDir:</span> <span class="string">&#123;&#125;</span>      　　　　    <span class="comment">#类型为emtyDir的存储卷，与Pod同生命周期的一个临时目录。为空值</span></span><br><span class="line"><span class="attr">      hostPath:</span> <span class="string">string</span>      　　    <span class="comment">#类型为hostPath的存储卷，表示挂载Pod所在宿主机的目录</span></span><br><span class="line"><span class="attr">        path:</span> <span class="string">string</span>      　　        <span class="comment">#Pod所在宿主机的目录，将被用于同期中mount的目录</span></span><br><span class="line"><span class="attr">      secret:</span>       　　　　　　    <span class="comment">#类型为secret的存储卷，挂载集群与定义的secre对象到容器内部</span></span><br><span class="line"><span class="attr">        scretname:</span> <span class="string">string</span>  </span><br><span class="line"><span class="attr">        items:</span>     </span><br><span class="line"><span class="attr">        - key:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">          path:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">      configMap:</span>      　　　　            <span class="comment">#类型为configMap的存储卷，挂载预定义的configMap对象到容器内部</span></span><br><span class="line"><span class="attr">        name:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">        items:</span></span><br><span class="line"><span class="attr">        - key:</span> <span class="string">string</span></span><br><span class="line"><span class="attr">          path:</span> <span class="string">string</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="rancher-2-0-的创建"><a href="#rancher-2-0-的创建" class="headerlink" title="rancher 2.0 的创建"></a>rancher 2.0 的创建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:80 -p 433:433 rancher/rancher:v2.0.0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过log查看启动详情<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs -f  05b</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="rancher-1-0-的创建"><a href="#rancher-1-0-的创建" class="headerlink" title="rancher 1.0 的创建"></a>rancher 1.0 的创建</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -di --name=rancher -p 9000:8080 rancher/server</span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/JVM/" rel="tag">#JVM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/05/nutch学习/" rel="prev">nutch 学习</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/27/TensorFlow使用/" rel="next">TensorFlow使用</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">161</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#k8s-启动命令"><span class="nav-number">1.</span> <span class="nav-text">k8s 启动命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K8S-常用命令"><span class="nav-number">2.</span> <span class="nav-text">K8S 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mytomcat-rc-yml"><span class="nav-number">2.1.</span> <span class="nav-text">mytomcat-rc.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mytomcat-svc-yml"><span class="nav-number">2.2.</span> <span class="nav-text">mytomcat-svc.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-rc-yml"><span class="nav-number">2.3.</span> <span class="nav-text">nginx-rc.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-svc-yml"><span class="nav-number">2.4.</span> <span class="nav-text">nginx-svc.yml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决问题"><span class="nav-number">3.</span> <span class="nav-text">解决问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于POD"><span class="nav-number">4.</span> <span class="nav-text">关于POD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rancher-2-0-的创建"><span class="nav-number">5.</span> <span class="nav-text">rancher 2.0 的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rancher-1-0-的创建"><span class="nav-number">6.</span> <span class="nav-text">rancher 1.0 的创建</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2020
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1138 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="java,JVM,">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="JVM类加载引导类加载器（bootstrapclassloader）-它用来加载Java的核心库(JAVAHOME/jre/lib/rt.jar,üsun.boot.class.path路径下的内容）是用原生代码来实现的，并不继承自java」ang.ClassLoadero加载扩展类和应用程序类加载器。荆旨定他们的父类加载器。 扩展类加载器（extensionsclassloader）-用来加载J">
+<meta name="keywords" content="java,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM笔记">
+<meta property="og:url" content="http://yoursite.com/2017/11/11/interview/JVM笔记/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="JVM类加载引导类加载器（bootstrapclassloader）-它用来加载Java的核心库(JAVAHOME/jre/lib/rt.jar,üsun.boot.class.path路径下的内容）是用原生代码来实现的，并不继承自java」ang.ClassLoadero加载扩展类和应用程序类加载器。荆旨定他们的父类加载器。 扩展类加载器（extensionsclassloader）-用来加载J">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534694453&di=a372c6fc205d8da43a39e6cb5dfd6f9d&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.kuqin.com%2Fupimg%2Fallimg%2F160518%2F20521a109-0.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026012129.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026011620.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026011844.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/11/vbguOsk4XEyFZRw.png">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6406935-3a7df2dd218d71db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6406935-5a569a6f1833174a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181112030202.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/25/wATbBS7NkChXzty.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/25/RyritlsPGdKLJ9I.png">
+<meta property="og:image" content="http://yoursite.com/Users/mtdp/Library/Application%20Support/typora-user-images/image-20191227153645410.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/27/j1Sk8cYRul6OqJf.png">
+<meta property="og:image" content="https://i.loli.net/2020/01/16/aExbhdk9BiySW31.png">
+<meta property="og:image" content="https://i.loli.net/2020/01/16/RMYiEmK5s89cCet.png">
+<meta property="og:updated_time" content="2020-01-16T07:58:55.367Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM笔记">
+<meta name="twitter:description" content="JVM类加载引导类加载器（bootstrapclassloader）-它用来加载Java的核心库(JAVAHOME/jre/lib/rt.jar,üsun.boot.class.path路径下的内容）是用原生代码来实现的，并不继承自java」ang.ClassLoadero加载扩展类和应用程序类加载器。荆旨定他们的父类加载器。 扩展类加载器（extensionsclassloader）-用来加载J">
+<meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534694453&di=a372c6fc205d8da43a39e6cb5dfd6f9d&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.kuqin.com%2Fupimg%2Fallimg%2F160518%2F20521a109-0.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> JVM笔记 | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              JVM笔记
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-11T13:09:04+08:00" content="2017-11-11">
+            2017-11-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="JVM类加载"><a href="#JVM类加载" class="headerlink" title="JVM类加载"></a>JVM类加载</h2><h3 id="引导类加载器（bootstrapclassloader）"><a href="#引导类加载器（bootstrapclassloader）" class="headerlink" title="引导类加载器（bootstrapclassloader）"></a>引导类加载器（bootstrapclassloader）</h3><p>-它用来加载Java的核心库(JAVAHOME/jre/lib/rt.jar,üsun.boot.class.path路径下的内容）是用原生代码来实现的，并不继承自java」ang.ClassLoadero加载扩展类和应用程序类加载器。荆旨定他们的父类加载器。</p>
+<h3 id="扩展类加载器（extensionsclassloader）"><a href="#扩展类加载器（extensionsclassloader）" class="headerlink" title="扩展类加载器（extensionsclassloader）"></a>扩展类加载器（extensionsclassloader）</h3><p>-用来加载Java的扩展库(JAVAHOME/jre/ext/*jar，üjava.ext.dirs路径下的内容）。<br>Java虚拟机的实现会提供一个扩展库目录。该类加载器在此目录里面找并加载Java<br>sun.misc.Launcher$ExtClassLoader实现</p>
+<h3 id="应用程序类加载器（applicationclassloader）"><a href="#应用程序类加载器（applicationclassloader）" class="headerlink" title="应用程序类加载器（applicationclassloader）"></a>应用程序类加载器（applicationclassloader）</h3><p>它根据Java应用的类路径（classpath，java.class.path路<br>一般来说，Java应用的类都是由它来完成加载的。asun.misc.Launcher$AppClassLoader实壬见</p>
+<h3 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h3><p>-开发人员可以通过继承java.lang.ClassLoader类的方式<br>实现自己的类加载器，以满足一些特殊的需求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo02</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(ClassLoader.getSystemClassLoader());</span><br><span class="line">        System.out.println(ClassLoader.getSystemClassLoader().getParent());</span><br><span class="line">        System.out.println(ClassLoader.getSystemClassLoader().getParent().getParent());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">结果如下</span><br><span class="line">sun.misc.Launcher$AppClassLoader@<span class="number">18</span>b4aac2</span><br><span class="line">sun.misc.Launcher$ExtClassLoader@<span class="number">65</span>b54208</span><br><span class="line"><span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">由于最最上层是 bootstrapclassloader 是原生C/C++实现的java 获取不到</span><br><span class="line">Ext 就是 扩展类加载器（extensionsclassloader）可以获取到</span><br></pre></td></tr></table></figure>
+<h2 id="java的堆栈区别"><a href="#java的堆栈区别" class="headerlink" title="java的堆栈区别"></a>java的堆栈区别</h2><h3 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h3><ul>
+<li>和程序开发密切相关</li>
+<li>应用系统对象都保存在」ava堆中 </li>
+<li>所有线程共享Java堆</li>
+<li>对分代G&amp;:来说堆也是分代的</li>
+<li>GC的主要工作区间 </li>
+</ul>
+<h3 id="Java栈"><a href="#Java栈" class="headerlink" title="Java栈"></a>Java栈</h3><ul>
+<li>线程私有</li>
+<li>栈由一系列巾贞组成（因此java栈也叫做帧栈）</li>
+<li>帧保存一个方法的局部变量、操作数栈、常量池指针</li>
+<li>每一次方法调用创建一个帧，并压栈</li>
+</ul>
+<h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>一个线程修改了变量其他线程可以立即知道</p>
+<ul>
+<li>保证可见性的方法</li>
+<li>volatile</li>
+<li>synchronized（unlock之前写变量值回主存）</li>
+<li>fina|（一旦初始化完成，其他线程就可见） </li>
+</ul>
+<h2 id="内存图"><a href="#内存图" class="headerlink" title="内存图"></a>内存图</h2><p><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1534694453&amp;di=a372c6fc205d8da43a39e6cb5dfd6f9d&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fimg.kuqin.com%2Fupimg%2Fallimg%2F160518%2F20521a109-0.png" alt="JVM 内存图"></p>
+<h3 id="JDK-1-6-和-1-7-1-8-有所区别"><a href="#JDK-1-6-和-1-7-1-8-有所区别" class="headerlink" title="JDK 1.6 和 1.7 1.8 有所区别"></a>JDK 1.6 和 1.7 1.8 有所区别</h3><p><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026012129.png" alt><br><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026011620.png" alt></p>
+<p>线程安全的本质<br>看图 所以有 内存屏障<br><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026011844.png" alt></p>
+<ul>
+<li><p>线程共享区</p>
+<ul>
+<li><p>方法区  (永久带 Tenured Gen) </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">方法区，也叫永久带 JDK8中被取消</span><br><span class="line">用于存放虚拟机加载的各种类信息 .class 文件，静态的变量 和 常量池（常量池在jdk1.7的时候  被移动到了堆区）</span><br><span class="line"></span><br><span class="line">注意： 永久带也可以被回收</span><br><span class="line">1.该类的实例都被回收。 </span><br><span class="line">2.加载该类的classLoader已经被回收 </span><br><span class="line">3.该类不能通过反射访问到其方法，而且该类java.lang.class没有被引用</span><br><span class="line"></span><br><span class="line">当满足这3个条件时，是可以回收，但回不回收还得看jvm。</span><br><span class="line">（周志明. 深入理解Java虚拟机）</span><br><span class="line"></span><br><span class="line">在JDK 1.8中 就移除了方法区 也就是也移除了永久带</span><br><span class="line">引入了metadata（元数据）的概念  metadata是存放在本地内存的</span><br><span class="line">为什么取出方法区呢：</span><br><span class="line">    用永久带存储类信息不好，</span><br><span class="line">     如果工程特别庞大，使用的类特别的多，有时候刚刚一启动，</span><br><span class="line">     就会报出 OutOfMemory 的异常，对有就带调优是非常困难的 于是我们将永久带移除  将类信息存放在 直接内存中   也避免了 Full GC  JVM对本地内存 无法回收</span><br><span class="line">JAVA8 去掉了  -XX:PermSize  和  -XX:MaxPermSize  </span><br><span class="line">    新增了    -XX:MetaspaceSize  和  -XX:MaxMetaspaceSize</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>堆区</p>
+<ul>
+<li>Eden</li>
+<li>Survivor*2  </li>
+<li>Old </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>线程独占区<ul>
+<li>虚拟机栈  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>- 本地方法栈
+    - 本地方法栈和虚拟机栈的不同
+     <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">本地方法栈   为虚拟机执行native方法服务</span><br><span class="line">JVM虚拟机栈  为虚拟机执行Java方法服务</span><br><span class="line">（Hotspot 虚拟机中是将他们合二为一的）</span><br></pre></td></tr></table></figure>
+
+
+- 程序计数器 （程序执行到哪一行）
+</code></pre><h2 id="JVM-参数调优"><a href="#JVM-参数调优" class="headerlink" title="JVM 参数调优"></a>JVM 参数调优</h2><p><img src="https://i.loli.net/2019/12/11/vbguOsk4XEyFZRw.png" alt></p>
+<p>-XX:NewSize </p>
+<h2 id="GC算法"><a href="#GC算法" class="headerlink" title="GC算法"></a>GC算法</h2><h3 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h3><ul>
+<li>引用计数器的实现很简单，对于一个对象A，只要有任何一个对象引用了A，则A的引用计数器就加1，当引用失效时，引用计数器就减1。只要对象A的引用计数器的值为0，则对象A就不可能再被使用，然后就释放内存。<br><img src="http://upload-images.jianshu.io/upload_images/6406935-3a7df2dd218d71db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><ul>
+<li>标记-清除算法是现代垃圾回收算法的思想基础。标记-清除算法将垃圾回收分为两个阶段：标记阶段和清除阶段。一种可行的实现是，在标记阶段，首先通过根节点，标记所有从根节点开始的可达对象。因此，未被标记的对象就是未被引用的垃圾对象。然后，在清除阶段，清除所有未被标记的对象。<br><img src="http://upload-images.jianshu.io/upload_images/6406935-5a569a6f1833174a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+<h3 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h3><ul>
+<li>标记-压缩算法适合用于存活对象较多的场合，如老年代。它在标记-清除算法的基础上做了一些优化。和标记-清除算法一样，标记-压缩算法也首先需要从根节点开始，对所有可达对象做一次标记。但之后，它并不简单的清理未标记的对象，而是将所有的存活对象压缩到内存的一端。之后，清理边界外所有的空间。</li>
+</ul>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><ul>
+<li>与标记-清除算法相比，复制算法是一种相对高效的回收方法，而且不会造成内存碎片</li>
+<li>不适用于存活对象较多的场合 如老年代</li>
+<li>将原有的内存空间分为两块，每次只使用其中一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中，之后，清除正在使用的内存块中的所有对象，交换两个内存的角色，完成垃圾回收</li>
+</ul>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>引用计数   （在java中没有使用）</li>
+<li>标记-清除  （在老年代被使用）</li>
+<li>标记-压缩  （在老年代被使用）</li>
+<li><p>复制算法   （新生代被使用）</p>
+</li>
+<li><p>分代收集算法</p>
+</li>
+</ul>
+<h3 id="对象的类型"><a href="#对象的类型" class="headerlink" title="对象的类型"></a>对象的类型</h3><ul>
+<li>可触及的<br>从根节点可以触及到这个对象 </li>
+<li>可复活的<br>一旦所有引用被释放，就是可复活状态<br>因为在finalize()中可能复活该对象  </li>
+<li>不可触及的<br>在finalize()后，可能会进入不可触及状态<br>不可触及的对象不可能复活<br>可以回收</li>
+</ul>
+<h3 id="强引用和弱引用"><a href="#强引用和弱引用" class="headerlink" title="强引用和弱引用"></a>强引用和弱引用</h3><ul>
+<li><p>强引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">含义是 内存空间不足，宁愿抛出OOM 也不会回收强引用的对象</span><br><span class="line">Object obj = new Object()</span><br><span class="line">通过将对象设置为null 来弱化引用</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>弱引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str= new String(&quot;abc&quot;)</span><br><span class="line">SoftReference&lt;String&gt; softRef = new SoftReference&lt;String&gt;(str)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>有哪些可以作为 GC root</p>
+<ul>
+<li><strong>GC root</strong><ul>
+<li><strong>由系统类加载器(system class loader)加载的对象</strong> （不带有自定义类加载器），这些类是不能够被回收的，他们可以以静态字段的方式保存持有其它对象。我们需要注意的一点就是，通过用户自定义的类加载器加载的类，除非相应的java.lang.Class实例以其它的某种（或多种）方式成为roots，否则它们并不是roots。</li>
+<li>栈中引用的对象</li>
+<li>方法区中静态成员或者常量引用的对象（全局对象） （引出JDK1.7之后JVM常量池不存在方法区，1.8后没有了方法区）</li>
+<li>JNI方法栈中引用对象</li>
+<li><strong>活的Thread</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="触发Full-GC的条件"><a href="#触发Full-GC的条件" class="headerlink" title="触发Full GC的条件"></a>触发Full GC的条件</h3><p>full GC 也叫 major GC<br>与 minor GC 不同 </p>
+<ul>
+<li>老年代空间不足（如果新生代一次分配了太多的对象，就会挤进老年代，导致老年代空间不足发生full GC）</li>
+<li>永久代空间不足（永久代如果加载了特别多的class类，也会导致full GC）</li>
+<li>调用System.gc()</li>
+<li>CMS GC 出现了promotion failed</li>
+</ul>
+<h2 id="JVM参数调优"><a href="#JVM参数调优" class="headerlink" title="JVM参数调优"></a>JVM参数调优</h2><ul>
+<li>-Xmn<ul>
+<li>设置新生代大小</li>
+</ul>
+</li>
+<li>-XX:NewRatio<ul>
+<li>新生代（eden+2*s）和老年代（不包含永久区）的比值</li>
+<li>4 表示 新生代:老年代=1:4，即年轻代占堆的1/5</li>
+</ul>
+</li>
+<li>-XX:SurvivorRatio<ul>
+<li>设置两个Survivor区和eden的比</li>
+<li>8表示 两个Survivor :eden=2:8，即一个Survivor占年轻代的1/10</li>
+</ul>
+</li>
+</ul>
+<h2 id="debug时候的参数"><a href="#debug时候的参数" class="headerlink" title="debug时候的参数"></a>debug时候的参数</h2><p>-verbose:gc -XX:+PrintGCDetails<br>默认是使用的 parallel 收集器<br>更换GC收集器使用的参数的是  -XX:+UseSerialGC</p>
+<h2 id="内存分配策略有如下"><a href="#内存分配策略有如下" class="headerlink" title="内存分配策略有如下"></a>内存分配策略有如下</h2><ul>
+<li>内存优先分配到Eden （）</li>
+<li>内存担保策略（即 新生代不够 会向老年代借 将内存分配到老年代）</li>
+<li>大对象直接进入老年代  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">之所安会有这个策略， 主要是新生代使用了复制算法，大对象进行复制时候 会消耗内存</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="内存屏障问题"><a href="#内存屏障问题" class="headerlink" title="内存屏障问题"></a>内存屏障问题</h2><h2 id="final-域-重排序"><a href="#final-域-重排序" class="headerlink" title="final 域 重排序"></a>final 域 重排序</h2><p>对于final 域，编译器和处理器要遵守两个重排序规则：</p>
+<ul>
+<li><p>写重排序： 在构造函数内对一个 final 域的写入，与随后把这个被构造对象的引用赋值给一个引用变量，这两个操作之间不能重排序。</p>
+</li>
+<li><p>对读的重排序:  先对一个含有final 语义的java对象读取，再对整个final域进行读取，这两个操作不能重排序</p>
+<p>构造函数return之前插入一个StoreStore障屏。读final域的重排序规则要求编译器在读final域的操作前面插入一个LoadLoad屏障。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">白话说： 如果对象A 中有被 final 修饰的成员变量 </span><br><span class="line">    那么在操作 A a = new A（）；的时候，</span><br><span class="line">    一定是在构造方法之后的</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>读重排序： 初次读一个包含 final 域的对象的引用，与随后初次读这个 final 域，这两个操作之间不能重排序。</p>
+<pre><code>就是说
+</code></pre></li>
+</ul>
+<h1 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h1><pre><code>Java中的内存泄露，广义并通俗的说，就是：不再会被使用的对象的内存不能被回收，就是内存泄露。
+</code></pre><h2 id="CAS-算法"><a href="#CAS-算法" class="headerlink" title="CAS 算法"></a>CAS 算法</h2><p>compare and  swap<br>CAS 算法是硬件对于并发操作共享数据的支持<br>    CAS 包含3个操作数</p>
+<ul>
+<li>内存值 V</li>
+<li>预估值 A</li>
+<li>更新值 B<br>  当且仅当 内存值V== 预估值A   的时候  才会让更新值B赋值给内存值V<br>  当且仅当 V==A 时， V=B  否则什么操作都不做</li>
+</ul>
+<h2 id="CMS-并发标记清除算法-Concurrent-Mark-Sweep"><a href="#CMS-并发标记清除算法-Concurrent-Mark-Sweep" class="headerlink" title="CMS 并发标记清除算法 Concurrent Mark Sweep"></a>CMS 并发标记清除算法 Concurrent Mark Sweep</h2><p>concurrent Mark sweep </p>
+<h2 id="并发与并行的区别"><a href="#并发与并行的区别" class="headerlink" title="并发与并行的区别"></a>并发与并行的区别</h2><p>并行是两个或者多个事件在同一时刻发生，</p>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>G1(Garbage First)垃圾收集器是当今垃圾回收技术最前沿的成果之一.<br>G1 在 java9中被设置为默认的垃圾收集器<br><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181112030202.png" alt><br>G1 中 不太看重 老年代 或者 新生代<br>G1采用了分区(Region)的思路，将整个堆空间分成若干个大小相等的内存区域，<br>有一个global card 管理它。</p>
+<h2 id="JMM-笔记"><a href="#JMM-笔记" class="headerlink" title="JMM 笔记"></a>JMM 笔记</h2><p>JMM用处是定义程序中变量的返回规则</p>
+<ul>
+<li>首先 java中的变量是存放在共享内存 主内存中的  每个线程都有自己的工作内存，工作内存是主内存的变量副本，线程对内存变量的read、write操作，都必须在工作内存中进行<br>，线程A 修改完变量 是修改的线程的工作内存，对另一个线程B是不可见的。B想可见，必须变量从A的工作内存写回到主内存，B再从主内存读取到自己的工作区 ,B才可见。由于指令重排序的<br>问题，写和读的顺序会被打乱，所以正常变量有可见性问题。</li>
+<li>Volatile 关键词 强制变量的读取会从主内存刷新，变量的write也会从工作区刷新到主内存<br>线程A修改完变量后是先修改工作内存的值，再讲</li>
+</ul>
+<h2 id="ZGC"><a href="#ZGC" class="headerlink" title="ZGC"></a>ZGC</h2><h1 id="类加载策略"><a href="#类加载策略" class="headerlink" title="类加载策略"></a>类加载策略</h1><ul>
+<li><ol>
+<li>当虚拟机遇到new getstatic putstatic 或者 invokestatic的时候，如果类没有进行过初始化，需要先触发它的初始化（读取类的final修饰的静态字段除外）</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>当reflect包的方法对类进行反射调用的时候，需要</li>
+</ol>
+</li>
+</ul>
+<h3 id="不被初始化的例子"><a href="#不被初始化的例子" class="headerlink" title="不被初始化的例子"></a>不被初始化的例子</h3><ul>
+<li>通过子类引用父类的静态字段，子类不会被初始化</li>
+<li>通过数组定义引用类 不会被初始化</li>
+<li>调用类的final修饰的常量</li>
+</ul>
+<h2 id="JVM-排查问题方法"><a href="#JVM-排查问题方法" class="headerlink" title="JVM 排查问题方法"></a>JVM 排查问题方法</h2><h3 id="OutOfMemoryError排查与解决实战"><a href="#OutOfMemoryError排查与解决实战" class="headerlink" title="OutOfMemoryError排查与解决实战"></a>OutOfMemoryError排查与解决实战</h3><ul>
+<li><p>第一步想办法拿到Heap dump</p>
+<ul>
+<li><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">启动的时候,加JVM参数 -XX 代表是 Hotspot虚拟机 私有的</span><br><span class="line">-XX:+HeapDumpOnOutOfMemoryError</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:live,format=b,file=&lt;filepath&gt; &lt;pid&gt;   用这种方法能拿到运行的java程序的heap dump</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>绝大多数OOM 不能通过加内存解决， 加内存只能延缓OOM出现的时间</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>  使用上述的命令后 会拿到一个   .hprof 的文件</p>
+<p>​    </p>
+<ul>
+<li><p>使用工具分析 hprof</p>
+<p>   以 VisualVM 为例</p>
+<p><img src="https://i.loli.net/2019/12/25/wATbBS7NkChXzty.png" alt></p>
+</li>
+</ul>
+<p>  打开 hprof 后，会看到当时的   对象类型， 对象个数， 对象总占用大小  还有一个 <strong>retained</strong></p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">解释一下 Retained Size</span><br><span class="line">Retained Size=当前对象大小+当前对象可直接或间接引用到的对象的大小总和。(间接引用的含义：A-&gt;B-&gt;C, C就是间接引用)</span><br><span class="line"></span><br><span class="line">换句话说，Retained Size就是当前对象被GC后，从Heap上总共能释放掉的内存。</span><br><span class="line"></span><br><span class="line">下图中，GC Roots直接引用了A和B两个对象。</span><br><span class="line">A对象的Retained Size=A对象的Shallow Size</span><br><span class="line">B对象的Retained Size=B对象的Shallow Size + C对象的Shallow Size</span><br></pre></td></tr></table></figure>
+<p>  <img src="https://i.loli.net/2019/12/25/RyritlsPGdKLJ9I.png" alt></p>
+<h2 id="Heap-Dump-分析"><a href="#Heap-Dump-分析" class="headerlink" title="Heap Dump 分析"></a>Heap Dump 分析</h2><ul>
+<li>Metaspace/PermGen<ul>
+<li>主要观察 Class 对象</li>
+</ul>
+</li>
+<li>Heap Space<ul>
+<li>主要看占用内存大的 object</li>
+</ul>
+</li>
+<li>Path to GC root<ul>
+<li>分析java的内存占用</li>
+</ul>
+</li>
+</ul>
+<h2 id="eclipse-MAT-分析的步骤"><a href="#eclipse-MAT-分析的步骤" class="headerlink" title="eclipse MAT 分析的步骤"></a>eclipse MAT 分析的步骤</h2><ul>
+<li><p>通过MAT 打开 .hprof 文件 （heap profile）（分析的比较慢）</p>
+<p><img src="/Users/mtdp/Library/Application Support/typora-user-images/image-20191227153645410.png" alt="image-20191227153645410"></p>
+</li>
+<li><p>关注两个图标</p>
+<ul>
+<li>Histogram 直方图，会给出java的</li>
+<li>Leak Suspects   泄露嫌疑   （点一下 会给出出现问题可能的可能原因）</li>
+</ul>
+</li>
+</ul>
+<p>点击Leak Suspects  圈出的为内存分析</p>
+<p><img src="https://i.loli.net/2019/12/27/j1Sk8cYRul6OqJf.png" alt></p>
+<p>然后通过点击  See stacktrace  能看到分配这个对象的线程栈 </p>
+<p><img src="https://i.loli.net/2020/01/16/aExbhdk9BiySW31.png" alt="image.png"></p>
+<p>这样可以找到具体产生这个对象的 object </p>
+<ul>
+<li><p>注：  MAT 默认xmx为1g 可能不够用  MAC环境修改如下 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/Users/mtdp/Downloads/mat.app/Contents/Eclipse/MemoryAnalyzer.ini  </span><br><span class="line">将 -Xmx 改为  -Xmx10g</span><br></pre></td></tr></table></figure>
+<p>在弹出</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/01/16/RMYiEmK5s89cCet.png" alt="image.png"></p>
+<p>选一个 Leak Suspects Report 就可以，不用管下面的 loading</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/JVM/" rel="tag">#JVM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/14/Jenkins使用/" rel="prev">Jenkins使用</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/11/JVM笔记/" rel="next">JVM笔记</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">161</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM类加载"><span class="nav-number">1.</span> <span class="nav-text">JVM类加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引导类加载器（bootstrapclassloader）"><span class="nav-number">1.1.</span> <span class="nav-text">引导类加载器（bootstrapclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展类加载器（extensionsclassloader）"><span class="nav-number">1.2.</span> <span class="nav-text">扩展类加载器（extensionsclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用程序类加载器（applicationclassloader）"><span class="nav-number">1.3.</span> <span class="nav-text">应用程序类加载器（applicationclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义类加载器"><span class="nav-number">1.4.</span> <span class="nav-text">自定义类加载器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java的堆栈区别"><span class="nav-number">2.</span> <span class="nav-text">java的堆栈区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java堆"><span class="nav-number">2.1.</span> <span class="nav-text">Java堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java栈"><span class="nav-number">2.2.</span> <span class="nav-text">Java栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可见性"><span class="nav-number">2.3.</span> <span class="nav-text">可见性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存图"><span class="nav-number">3.</span> <span class="nav-text">内存图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK-1-6-和-1-7-1-8-有所区别"><span class="nav-number">3.1.</span> <span class="nav-text">JDK 1.6 和 1.7 1.8 有所区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-参数调优"><span class="nav-number">4.</span> <span class="nav-text">JVM 参数调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC算法"><span class="nav-number">5.</span> <span class="nav-text">GC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数法"><span class="nav-number">5.1.</span> <span class="nav-text">引用计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记清除算法"><span class="nav-number">5.2.</span> <span class="nav-text">标记清除算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记压缩算法"><span class="nav-number">5.3.</span> <span class="nav-text">标记压缩算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制算法"><span class="nav-number">5.4.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">5.5.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的类型"><span class="nav-number">5.6.</span> <span class="nav-text">对象的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强引用和弱引用"><span class="nav-number">5.7.</span> <span class="nav-text">强引用和弱引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#触发Full-GC的条件"><span class="nav-number">5.8.</span> <span class="nav-text">触发Full GC的条件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM参数调优"><span class="nav-number">6.</span> <span class="nav-text">JVM参数调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debug时候的参数"><span class="nav-number">7.</span> <span class="nav-text">debug时候的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存分配策略有如下"><span class="nav-number">8.</span> <span class="nav-text">内存分配策略有如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存屏障问题"><span class="nav-number">9.</span> <span class="nav-text">内存屏障问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final-域-重排序"><span class="nav-number">10.</span> <span class="nav-text">final 域 重排序</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#内存泄漏"><span class="nav-number"></span> <span class="nav-text">内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS-算法"><span class="nav-number">1.</span> <span class="nav-text">CAS 算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMS-并发标记清除算法-Concurrent-Mark-Sweep"><span class="nav-number">2.</span> <span class="nav-text">CMS 并发标记清除算法 Concurrent Mark Sweep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发与并行的区别"><span class="nav-number">3.</span> <span class="nav-text">并发与并行的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集器"><span class="nav-number">4.</span> <span class="nav-text">垃圾收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMM-笔记"><span class="nav-number">5.</span> <span class="nav-text">JMM 笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZGC"><span class="nav-number">6.</span> <span class="nav-text">ZGC</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类加载策略"><span class="nav-number"></span> <span class="nav-text">类加载策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不被初始化的例子"><span class="nav-number">0.1.</span> <span class="nav-text">不被初始化的例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-排查问题方法"><span class="nav-number">1.</span> <span class="nav-text">JVM 排查问题方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OutOfMemoryError排查与解决实战"><span class="nav-number">1.1.</span> <span class="nav-text">OutOfMemoryError排查与解决实战</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heap-Dump-分析"><span class="nav-number">2.</span> <span class="nav-text">Heap Dump 分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eclipse-MAT-分析的步骤"><span class="nav-number">3.</span> <span class="nav-text">eclipse MAT 分析的步骤</span></a></li></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2020
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
