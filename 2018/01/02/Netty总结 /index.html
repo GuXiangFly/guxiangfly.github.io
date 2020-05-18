@@ -36,20 +36,24 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="protoc类型 java类型 c++类型     double double double   float float float   int32 int int32   int64 long int64   uint32 int uint32   uint64 long uint64   sint32 int int32   sint64 long int64   fixed32 int">
+<meta name="description" content="Netty 学习IO模型BIO （block IO   同步并阻塞） BIO缺点  这种服务端的模型为一个连接一个线程， 对客户端而言没有压力，但是对服务端压力比较大 缺点 如果这个连接不做任何事情，会浪费资源 如果读取没有返回 会阻塞       NIO 同步非阻塞 同步非阻塞，服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有I/">
 <meta name="keywords" content="Netty">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Netty总结">
+<meta property="og:title" content="Netty学习">
 <meta property="og:url" content="http://yoursite.com/2018/01/02/Netty总结 /index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="protoc类型 java类型 c++类型     double double double   float float float   int32 int int32   int64 long int64   uint32 int uint32   uint64 long uint64   sint32 int int32   sint64 long int64   fixed32 int">
+<meta property="og:description" content="Netty 学习IO模型BIO （block IO   同步并阻塞） BIO缺点  这种服务端的模型为一个连接一个线程， 对客户端而言没有压力，但是对服务端压力比较大 缺点 如果这个连接不做任何事情，会浪费资源 如果读取没有返回 会阻塞       NIO 同步非阻塞 同步非阻塞，服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有I/">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181120200429.png">
-<meta property="og:updated_time" content="2019-12-01T10:12:05.944Z">
+<meta property="og:image" content="https://i.loli.net/2020/01/21/bLFolXSvmVNKHQt.png">
+<meta property="og:image" content="https://i.loli.net/2020/01/21/fPxcCn15bm4iQvo.png">
+<meta property="og:image" content="https://i.loli.net/2020/01/21/q9DSgVLWf7Zax5U.png">
+<meta property="og:image" content="https://i.loli.net/2020/01/27/ZzB5MqXa6InNtTL.png">
+<meta property="og:image" content="https://i.loli.net/2020/01/21/q9DSgVLWf7Zax5U.png">
+<meta property="og:updated_time" content="2020-01-27T14:50:15.147Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Netty总结">
-<meta name="twitter:description" content="protoc类型 java类型 c++类型     double double double   float float float   int32 int int32   int64 long int64   uint32 int uint32   uint64 long uint64   sint32 int int32   sint64 long int64   fixed32 int">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181120200429.png">
+<meta name="twitter:title" content="Netty学习">
+<meta name="twitter:description" content="Netty 学习IO模型BIO （block IO   同步并阻塞） BIO缺点  这种服务端的模型为一个连接一个线程， 对客户端而言没有压力，但是对服务端压力比较大 缺点 如果这个连接不做任何事情，会浪费资源 如果读取没有返回 会阻塞       NIO 同步非阻塞 同步非阻塞，服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有I/">
+<meta name="twitter:image" content="https://i.loli.net/2020/01/21/bLFolXSvmVNKHQt.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -59,7 +63,7 @@
   };
 </script>
 
-  <title> Netty总结 | guxiangfly的博客 </title>
+  <title> Netty学习 | guxiangfly的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -301,7 +305,7 @@
           
           
             
-              Netty总结
+              Netty学习
             
           
         </h1>
@@ -329,96 +333,103 @@
       
 
       
-        <span itemprop="articleBody"><table>
+        <span itemprop="articleBody"><h2 id="Netty-学习"><a href="#Netty-学习" class="headerlink" title="Netty 学习"></a>Netty 学习</h2><h2 id="IO模型"><a href="#IO模型" class="headerlink" title="IO模型"></a>IO模型</h2><h4 id="BIO-（block-IO-同步并阻塞）"><a href="#BIO-（block-IO-同步并阻塞）" class="headerlink" title="BIO （block IO   同步并阻塞）"></a>BIO （block IO   同步并阻塞）</h4><ul>
+<li><p>BIO缺点</p>
+<ul>
+<li>这种服务端的模型为一个连接一个线程， 对客户端而言没有压力，但是对服务端压力比较大</li>
+<li>缺点<ul>
+<li>如果这个连接不做任何事情，会浪费资源</li>
+<li>如果读取没有返回 会阻塞</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/01/21/bLFolXSvmVNKHQt.png" alt="image.png"></p>
+<h4 id="NIO-同步非阻塞"><a href="#NIO-同步非阻塞" class="headerlink" title="NIO 同步非阻塞"></a>NIO 同步非阻塞</h4><ul>
+<li>同步非阻塞，服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有I/O请求就进行处理 </li>
+</ul>
+<p>服务器一个线程，处理多个请求连接，客户端的连接请求都会发送到多路复用器selector上，使用 （select  pull  epull）进行处理</p>
+<p><img src="https://i.loli.net/2020/01/21/fPxcCn15bm4iQvo.png" alt="image.png"></p>
+<p>详细的如下</p>
+<p><img src="https://i.loli.net/2020/01/21/q9DSgVLWf7Zax5U.png"></p>
+<h4 id="AIO-NIO-2-异步非阻塞"><a href="#AIO-NIO-2-异步非阻塞" class="headerlink" title="AIO(NIO.2) 异步非阻塞"></a>AIO(NIO.2) 异步非阻塞</h4><p>异步非阻塞，AIO 引入异步通道的概念，采用了 Proactor 模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用</p>
+<h2 id="NIO-详解"><a href="#NIO-详解" class="headerlink" title="NIO 详解"></a>NIO 详解</h2><h4 id="NIO-核心三个组件"><a href="#NIO-核心三个组件" class="headerlink" title="NIO 核心三个组件"></a>NIO 核心三个组件</h4><ul>
+<li>Channel(通道)</li>
+<li>Buffer(缓冲区)</li>
+<li>Selector(选择器) </li>
+</ul>
+<p>如上图所示：</p>
+<p>NIO是面向buffer编程的   （也有的叫面向块编程）</p>
+<p>数据读取到一个它稍后处理的缓冲区，需要时可在缓冲区中前后移动</p>
+<h4 id="NIO-的-Selector-、-Channel-和-Buffer-的关系"><a href="#NIO-的-Selector-、-Channel-和-Buffer-的关系" class="headerlink" title="NIO 的 Selector 、 Channel 和 Buffer 的关系"></a>NIO 的 Selector 、 Channel 和 Buffer 的关系</h4><p><img src="https://i.loli.net/2020/01/27/ZzB5MqXa6InNtTL.png" style="zoom:50%;"> </p>
+<ol>
+<li>一个channel 对应一个buffer</li>
+<li>Selector 对应一个线程， 一个selector对应多个 channel(连接)</li>
+<li>上图有3个 channel注册到了 selector上</li>
+<li>程序切换到哪个channel， 是由Event(事件)决定的</li>
+<li>Buffer 就是一个内存块 ， 底层是有一个数组</li>
+<li>Buffer是双向的，NIO中数据的读取写入是通过Buffer。  BIO中要么是inputstream，要么是outputstream, 不能双向。但是 NIO 的 Buffer 是可以读也可以写, 需要 flip 方法切换 </li>
+<li>channel 也是双向的, 可以返回底层操作系统的情况, 比如 Linux ， 底层的操作系统通道就是双向的.。</li>
+<li>channel能提供从网络或则文件读取数据的渠道，但是读写数据必须通过buffer</li>
+</ol>
+<h4 id="NIO-的-buffer"><a href="#NIO-的-buffer" class="headerlink" title="NIO 的 buffer"></a>NIO 的 buffer</h4><p>在 NIO 中，Buffer 是一个顶层父类，它是一个抽象类</p>
+<p>常用Buffer子类一览</p>
+<ul>
+<li>ByteBuffer，存储字节数据到缓冲区  （<strong>ByteBuffer 使用的最多</strong>）</li>
+<li>ShortBuffer，存储字符串数据到缓冲区</li>
+<li>CharBuffer，存储字符数据到缓冲区</li>
+<li>IntBuffer，存储整数数据到缓冲区</li>
+<li>LongBuffer，存储长整型数据到缓冲区</li>
+<li>DoubleBuffer，存储小数到缓冲区</li>
+<li>FloatBuffer，存储小数到缓冲区 </li>
+</ul>
+<p>使用方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//举例说明Buffer 的使用 (简单说明)</span></span><br><span class="line">    <span class="comment">//创建一个Buffer, 大小为 5, 即可以存放5个int</span></span><br><span class="line">    IntBuffer intBuffer = IntBuffer.allocate(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    intBuffer.put(<span class="number">1</span>);</span><br><span class="line">    intBuffer.put(<span class="number">2</span>);</span><br><span class="line">    intBuffer.put(<span class="number">3</span>);</span><br><span class="line">    intBuffer.put(<span class="number">4</span>);</span><br><span class="line">    intBuffer.put(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">  	<span class="comment">// 这个flip方法很重要</span></span><br><span class="line">    intBuffer.flip();</span><br><span class="line">    <span class="keyword">while</span> (intBuffer.hasRemaining()) &#123;</span><br><span class="line">        <span class="keyword">int</span> i = intBuffer.get();</span><br><span class="line">        System.out.println(i);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>buffer 用4个变量来操作数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private int mark = -1;</span><br><span class="line">private int position = 0;</span><br><span class="line">private int limit;</span><br><span class="line">private int capacity;</span><br></pre></td></tr></table></figure></p>
+<table>
 <thead>
 <tr>
-<th style="text-align:center">protoc类型</th>
-<th style="text-align:center">java类型</th>
-<th style="text-align:center">c++类型</th>
+<th><strong>属性</strong></th>
+<th><strong>描述</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">double</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">double</td>
+<td>Capacity</td>
+<td>容量，即可以容纳的最大数据量；在缓冲区创建时被设定并且不能改变</td>
 </tr>
 <tr>
-<td style="text-align:center">float</td>
-<td style="text-align:center">float</td>
-<td style="text-align:center">float</td>
+<td>Limit</td>
+<td>表示缓冲区的当前终点，不能对缓冲区超过极限的位置进行读写操作。且极限是可以修改的</td>
 </tr>
 <tr>
-<td style="text-align:center">int32</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">int32</td>
+<td>Position</td>
+<td>位置，下一个要被读或写的元素的索引，每次读写缓冲区数据时都会改变改值，为下次读写作准备</td>
 </tr>
 <tr>
-<td style="text-align:center">int64</td>
-<td style="text-align:center">long</td>
-<td style="text-align:center">int64</td>
-</tr>
-<tr>
-<td style="text-align:center">uint32</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">uint32</td>
-</tr>
-<tr>
-<td style="text-align:center">uint64</td>
-<td style="text-align:center">long</td>
-<td style="text-align:center">uint64</td>
-</tr>
-<tr>
-<td style="text-align:center">sint32</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">int32</td>
-</tr>
-<tr>
-<td style="text-align:center">sint64</td>
-<td style="text-align:center">long</td>
-<td style="text-align:center">int64</td>
-</tr>
-<tr>
-<td style="text-align:center">fixed32</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">uint32</td>
-</tr>
-<tr>
-<td style="text-align:center">fixed64</td>
-<td style="text-align:center">long</td>
-<td style="text-align:center">uint64</td>
-</tr>
-<tr>
-<td style="text-align:center">sfixed32</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">uint32</td>
-</tr>
-<tr>
-<td style="text-align:center">sfixed64</td>
-<td style="text-align:center">long</td>
-<td style="text-align:center">uint64</td>
-</tr>
-<tr>
-<td style="text-align:center">bool</td>
-<td style="text-align:center">boolean</td>
-<td style="text-align:center">bool</td>
-</tr>
-<tr>
-<td style="text-align:center">string</td>
-<td style="text-align:center">String</td>
-<td style="text-align:center">string</td>
-</tr>
-<tr>
-<td style="text-align:center">bytes</td>
-<td style="text-align:center">ByteString</td>
-<td style="text-align:center">string</td>
+<td>Mark</td>
+<td>标记</td>
 </tr>
 </tbody>
 </table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">option java_package = &quot;cn.guxiangfly.netty5.protobuf&quot;;</span><br><span class="line">option java_outer_classname = &quot;PlayerModule&quot;;</span><br><span class="line"></span><br><span class="line">message PBPlayer&#123;</span><br><span class="line">    required int64 playerId = 1;</span><br><span class="line"></span><br><span class="line">    required int32 age = 2;</span><br><span class="line"></span><br><span class="line">    required string name = 3;</span><br><span class="line"></span><br><span class="line">    repeated int32 skills = 4;</span><br><span class="line">    repeated 对应的是 List</span><br><span class="line">    int32   就对其中List 内部的类型</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对应的java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PBPlayer</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> playerId;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> List&lt;Integer&gt; skills = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="多路复用器-selector"><a href="#多路复用器-selector" class="headerlink" title="多路复用器 selector"></a>多路复用器 selector</h2><p><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181120200429.png" alt></p>
-<h2 id="epoll-模式"><a href="#epoll-模式" class="headerlink" title="epoll 模式"></a>epoll 模式</h2></span>
+<h4 id="NIO中的通道-Channel"><a href="#NIO中的通道-Channel" class="headerlink" title="NIO中的通道 Channel"></a>NIO中的通道 Channel</h4><p>NIO中,  Channel 主要有以下的几种</p>
+<ul>
+<li><p>FileChannel 用于文件的数据读写</p>
+</li>
+<li><p>DatagramChannel 用于 UDP 的数据读写</p>
+</li>
+<li>ServerSocketChannel   这是服务端的channel   （类似BIO中的 ServerSocket）</li>
+<li>SocketChannel  这是客户端的channel  （类似BIO的 Socket）</li>
+</ul>
+<p>如下图：</p>
+<p> 程序建立连接的流程为</p>
+<ol>
+<li>首先一个客户端连接过来，先连接到 Server 的 ServerSocketChannel</li>
+<li>这个ServerSocketChannel 会给他创建一个相应的 SocketChannel</li>
+</ol>
+<p><img src="https://i.loli.net/2020/01/21/q9DSgVLWf7Zax5U.png"></p>
+</span>
       
     </div>
 
@@ -435,13 +446,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/16/SpringBoot Quartz 整合/" rel="prev">Springboot整合Quartz定时任务调度</a>
+              <a href="/2018/01/02/interview/Redis面试/" rel="prev">Redis面试</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/02/interview/Spring笔记/" rel="next">Spring笔记</a>
+              <a href="/2018/01/02/interview/Netty总结 /" rel="next">Netty ProtoBuf笔记</a>
             
           </div>
         </div>
@@ -647,7 +658,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">161</span>
+              <span class="site-state-item-count">167</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -661,7 +672,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">66</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -707,7 +718,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#多路复用器-selector"><span class="nav-number">1.</span> <span class="nav-text">多路复用器 selector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-模式"><span class="nav-number">2.</span> <span class="nav-text">epoll 模式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty-学习"><span class="nav-number">1.</span> <span class="nav-text">Netty 学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO模型"><span class="nav-number">2.</span> <span class="nav-text">IO模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BIO-（block-IO-同步并阻塞）"><span class="nav-number">2.0.1.</span> <span class="nav-text">BIO （block IO   同步并阻塞）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-同步非阻塞"><span class="nav-number">2.0.2.</span> <span class="nav-text">NIO 同步非阻塞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AIO-NIO-2-异步非阻塞"><span class="nav-number">2.0.3.</span> <span class="nav-text">AIO(NIO.2) 异步非阻塞</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO-详解"><span class="nav-number">3.</span> <span class="nav-text">NIO 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-核心三个组件"><span class="nav-number">3.0.1.</span> <span class="nav-text">NIO 核心三个组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-的-Selector-、-Channel-和-Buffer-的关系"><span class="nav-number">3.0.2.</span> <span class="nav-text">NIO 的 Selector 、 Channel 和 Buffer 的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-的-buffer"><span class="nav-number">3.0.3.</span> <span class="nav-text">NIO 的 buffer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO中的通道-Channel"><span class="nav-number">3.0.4.</span> <span class="nav-text">NIO中的通道 Channel</span></a></li></ol></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

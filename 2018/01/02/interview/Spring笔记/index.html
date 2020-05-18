@@ -27,7 +27,7 @@
 
 
 
-  <meta name="keywords" content="Netty,">
+  <meta name="keywords" content="Spring,">
 
 
 
@@ -36,18 +36,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="而AOP，是通过动态代理实现的。 一、简单来说： 　　JDK动态代理只能对实现了接口的类生成代理，而不能针对类 　　CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法（继承） 二、Spring在选择用JDK还是CGLiB的依据：    (1)当Bean实现接口时，Spring就会用JDK的动态代理    (2)当Bean没有实现接口时，Spring使用CGlib是实现">
-<meta name="keywords" content="Netty">
+<meta name="description" content="Spring 的生命周期 实例Spring容器  扫描类    1通过 scan()  解析这个扫描类  实例 BeanDefinition  所有的 BeanDefinition 存入 beanDefinitionMap  调用bean工厂后置处理器  验证  推断构造方法  通过反射  new 出对象   12nstanceWrapper = createBeanInstance(beanNa">
+<meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring笔记">
 <meta property="og:url" content="http://yoursite.com/2018/01/02/interview/Spring笔记/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="而AOP，是通过动态代理实现的。 一、简单来说： 　　JDK动态代理只能对实现了接口的类生成代理，而不能针对类 　　CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法（继承） 二、Spring在选择用JDK还是CGLiB的依据：    (1)当Bean实现接口时，Spring就会用JDK的动态代理    (2)当Bean没有实现接口时，Spring使用CGlib是实现">
+<meta property="og:description" content="Spring 的生命周期 实例Spring容器  扫描类    1通过 scan()  解析这个扫描类  实例 BeanDefinition  所有的 BeanDefinition 存入 beanDefinitionMap  调用bean工厂后置处理器  验证  推断构造方法  通过反射  new 出对象   12nstanceWrapper = createBeanInstance(beanNa">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-01T10:12:05.964Z">
+<meta property="og:updated_time" content="2020-03-22T08:05:28.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring笔记">
-<meta name="twitter:description" content="而AOP，是通过动态代理实现的。 一、简单来说： 　　JDK动态代理只能对实现了接口的类生成代理，而不能针对类 　　CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法（继承） 二、Spring在选择用JDK还是CGLiB的依据：    (1)当Bean实现接口时，Spring就会用JDK的动态代理    (2)当Bean没有实现接口时，Spring使用CGlib是实现">
+<meta name="twitter:description" content="Spring 的生命周期 实例Spring容器  扫描类    1通过 scan()  解析这个扫描类  实例 BeanDefinition  所有的 BeanDefinition 存入 beanDefinitionMap  调用bean工厂后置处理器  验证  推断构造方法  通过反射  new 出对象   12nstanceWrapper = createBeanInstance(beanNa">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -327,17 +327,152 @@
       
 
       
-        <span itemprop="articleBody"><p>而AOP，是通过动态代理实现的。</p>
-<p>一、简单来说：</p>
-<p>　　JDK动态代理只能对实现了接口的类生成代理，而不能针对类</p>
-<p>　　CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法（继承）</p>
-<p>二、Spring在选择用JDK还是CGLiB的依据：</p>
-<p>   (1)当Bean实现接口时，Spring就会用JDK的动态代理</p>
-<p>   (2)当Bean没有实现接口时，Spring使用CGlib是实现</p>
-<p>　  (3)可以强制使用CGlib（在spring配置中加入&lt;aop:aspectj-autoproxy proxy-target-class=”true”/&gt;）</p>
-<p>三、CGlib比JDK快？</p>
-<p>　 (1)使用CGLib实现动态代理，CGLib底层采用ASM字节码生成框架，使用字节码技术生成代理类，比使用Java反射效率要高。唯一需要注意的是，CGLib不能对声明为final的方法进行代理，因为CGLib原理是动态生成被代理类的子类。</p>
-<p>　 (2)在对JDK动态代理与CGlib动态代理的代码实验中看，1W次执行下，JDK7及8的动态代理性能比CGlib要好20%左右。 </p>
+        <span itemprop="articleBody"><h2 id="Spring-的生命周期"><a href="#Spring-的生命周期" class="headerlink" title="Spring 的生命周期"></a>Spring 的生命周期</h2><ol>
+<li><p>实例Spring容器</p>
+</li>
+<li><p>扫描类  </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">通过 scan()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解析这个扫描类</p>
+</li>
+<li><p>实例 BeanDefinition</p>
+</li>
+<li><p>所有的 BeanDefinition 存入 beanDefinitionMap</p>
+</li>
+<li><p>调用bean工厂后置处理器</p>
+</li>
+<li><p>验证</p>
+</li>
+<li><p>推断构造方法</p>
+</li>
+<li><p>通过反射  new 出对象  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nstanceWrapper = createBeanInstance(beanName, mbd, args); 返回的是一个 wrapper</span><br><span class="line">createBeanInstance 推断构造方法，并且将构造出来的beanName</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>缓存注解信息 并且合并</p>
+</li>
+<li><p>提前暴露自己调用了构造方法的对象 <code>addSingletonFactory</code>  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">addSingletonFactory(beanName, () -&gt; getEarlyBeanReference(beanName, mbd, bean));</span><br><span class="line">通过这个方法暴露</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>判断是否需要属性注入 </p>
+</li>
+<li><p>完成属性注入<code>populateBean</code></p>
+</li>
+<li><p>调用 所有的Aware  <code>initializeBean</code> 调用 <code>invokeAwareMethods</code></p>
+</li>
+<li><p>调用生命周期回调方法</p>
+</li>
+<li><p>完成代理</p>
+</li>
+<li><p>put到 singletonObjects 放入单例池</p>
+</li>
+<li><p>销毁这个对象</p>
+</li>
+</ol>
+<p>注： AbstractAutowireCapableBeanFactory#doCreateBean 完成了<code>createBeanInstance</code> . <code>addSingletonFactory</code> . <code>populateBean</code></p>
+<h2 id="Spring源码注册的流程"><a href="#Spring源码注册的流程" class="headerlink" title="Spring源码注册的流程"></a>Spring源码注册的流程</h2><ol>
+<li><p>创建Spring容器的时候 我们一般第一步走</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IOCTest_Autowired</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        AnnotationConfigApplicationContext ctx = <span class="keyword">new</span> AnnotationConfigApplicationContext(MainConfigAutowired.class);</span><br><span class="line">        BookService bookService = ctx.getBean(BookService.class);</span><br><span class="line">        System.out.println(bookService);</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> AnnotationConfigApplicationContext(MainConfigAutowired.class);</span><br></pre></td></tr></table></figure>
+<p>这个的构造函数为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Create a new AnnotationConfigApplicationContext, deriving bean definitions</span></span><br><span class="line"><span class="comment"> * from the given annotated classes and automatically refreshing the context.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> annotatedClasses one or more annotated classes,</span></span><br><span class="line"><span class="comment"> * e.g. &#123;<span class="doctag">@link</span> Configuration <span class="doctag">@Configuration</span>&#125; classes</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">AnnotationConfigApplicationContext</span><span class="params">(Class&lt;?&gt;... annotatedClasses)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>();</span><br><span class="line">	register(annotatedClasses);</span><br><span class="line">	refresh();</span><br><span class="line">&#125;</span><br><span class="line">   </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Create a new AnnotationConfigApplicationContext, scanning for bean definitions</span></span><br><span class="line"><span class="comment"> * in the given packages and automatically refreshing the context.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> basePackages the packages to check for annotated classes</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">AnnotationConfigApplicationContext</span><span class="params">(String... basePackages)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>();</span><br><span class="line">	scan(basePackages);</span><br><span class="line">	refresh();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主要走三步</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>();</span><br><span class="line">scan(basePackages); <span class="comment">//传入扫描的基础包使用scan   传入类注解的字节码为 register </span></span><br><span class="line">refresh();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Spring的IOC容器"><a href="#Spring的IOC容器" class="headerlink" title="Spring的IOC容器"></a>Spring的IOC容器</h4><ul>
+<li>spring容器分为基础容器和高级容器<ul>
+<li>BeanFactory结尾的是基础容器</li>
+<li>applicationcontext结尾的是高级容器</li>
+</ul>
+</li>
+</ul>
+<h4 id="BeanFactory基础容器"><a href="#BeanFactory基础容器" class="headerlink" title="BeanFactory基础容器"></a>BeanFactory基础容器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">里面主要是获取bean对象的各种方法， 还有就是对bean属性的获取和判定</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>HierarchicalBeanFactory</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HierarchicalBeanFactory 意思为分层的，这个赋予了获取父类BeanFactory的方法getParentBeanFactory()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>ListableBeanFactory</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> ListableBeanFactory   用于bean配置的方法</span><br><span class="line"> 类似：</span><br><span class="line">int getBeanDefinitionCount();  获取bean的个数</span><br><span class="line"> 	String[] getBeanDefinitionNames();  获取bean的名称列表</span><br><span class="line"> 等方法。</span><br><span class="line"> Listable 意思为 可列举的，对于容器而言，bean的定义和属性是可列举的</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>AutowireCapableBeanFactory</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutowireCapableBeanFactory提供了创建bean、自动注入，初始化以及应用bean的后置处理器</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>ConfigurableBeanFactory</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">记录被</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="ApplicationContext高级容器"><a href="#ApplicationContext高级容器" class="headerlink" title="ApplicationContext高级容器"></a>ApplicationContext高级容器</h4><ul>
+<li><p><strong>ApplicationContext</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext 提供了  messageResource 用户实现国际化</span><br><span class="line">ApplicationContext 提供了 ApplicationEventPublisher的接口  ApplicationEventPublisher用于发布容器。 Bean实现</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>ConfigurableApplicationContext</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConfigurableApplicationContext 接口继承了 ApplicationContext 接口， 主要添加了 refresh()和Close()方法。 其中 refresh()方法是Spring高级容器的核心方法</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="BeanDefinition-详解"><a href="#BeanDefinition-详解" class="headerlink" title="BeanDefinition 详解"></a>BeanDefinition 详解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BeanDefinition（接口） 是存放的基础bean信息（所有bean都会有的信息， 具体definition描述的bean 并没有信息体现在 BeanDefinition接口中，而是由BeanDefinition的子类来描述）</span><br><span class="line"></span><br><span class="line">AbstractBeanDefinition （抽象类，有部分实现） 实现了BeanDefinition接口</span><br><span class="line">GenericBeanDefinition  继承了 AbstractBeanDefinition</span><br><span class="line"></span><br><span class="line">AnnotatedGenericBeanDefinition 和 ScannedGenericBeanDefinition 继承了GenericBeanDefinition</span><br><span class="line">它们两个 分别对应了 扫描Bean</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>BeanDefinitionRegistry</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BeanDefinitionRegistry 是interface 主要由其实现类实现功能 </span><br><span class="line">SimpleBeanDefinitionRegistry 主要以 Map实现存储bean</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Bean的作用域（ScopeMetaData）"><a href="#Bean的作用域（ScopeMetaData）" class="headerlink" title="Bean的作用域（ScopeMetaData）"></a>Bean的作用域（ScopeMetaData）</h4><h4 id="register-scan-方法的作用"><a href="#register-scan-方法的作用" class="headerlink" title="register()  scan()方法的作用"></a>register()  scan()方法的作用</h4><ol>
+<li><p>解析总体的注册类 </p>
+<p> 下面代码就是   MainConfigAutowired.class 这个类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AnnotationConfigApplicationContext ctx = <span class="keyword">new</span> AnnotationConfigApplicationContext(MainConfigAutowired.class);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用到 DefaultListableBeanFactory 这个类, 向beanDefinitionMap.put  bean名字和beanDefinition   （但是这个 register只处理spring基础的bean，不放入开发者自定义的 bean）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.beanDefinitionMap.put(beanName, beanDefinition);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="refresh-方法"><a href="#refresh-方法" class="headerlink" title="refresh() 方法"></a>refresh() 方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</span><br><span class="line">   <span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">      <span class="comment">// Prepare this context for refreshing.</span></span><br><span class="line">      <span class="comment">// 1. 准备容器，设置一些初始化信息</span></span><br><span class="line">      prepareRefresh();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 获取 register()  scan() 所使用的 DefaultListableBeanFactory 把它看成 ConfigurableListableBeanFactory</span></span><br><span class="line">      ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Prepare the bean factory for use in this context.</span></span><br><span class="line">      prepareBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">         <span class="comment">// Allows post-processing of the bean factory in context subclasses.</span></span><br><span class="line">         postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Invoke factory processors registered as beans in the context.</span></span><br><span class="line">         invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Register bean processors that intercept bean creation.</span></span><br><span class="line">         registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// 初始化消息资源的接口 （主要用于国际化）</span></span><br><span class="line">         initMessageSource();</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Initialize event multicaster for this context.</span></span><br><span class="line">         <span class="comment">// 8. 为容器注册一个事件组播器</span></span><br><span class="line">         initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Initialize other special beans in specific context subclasses.</span></span><br><span class="line">         <span class="comment">// 9. 在AbstractApplicationContext 的子类中初始化其他特殊的bean</span></span><br><span class="line">         onRefresh();</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Check for listener beans and register them.</span></span><br><span class="line">         registerListeners();</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Instantiate all remaining (non-lazy-init) singletons.</span></span><br><span class="line">         <span class="comment">// 这个方法加载了 非spring本身自带的，业务开发工程师写代码自定义的spring bean</span></span><br><span class="line">         finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Last step: publish corresponding event.</span></span><br><span class="line">         finishRefresh();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">catch</span> (BeansException ex) &#123;</span><br><span class="line">         <span class="keyword">if</span> (logger.isWarnEnabled()) &#123;</span><br><span class="line">            logger.warn(<span class="string">"Exception encountered during context initialization - "</span> +</span><br><span class="line">                  <span class="string">"cancelling refresh attempt: "</span> + ex);</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Destroy already created singletons to avoid dangling resources.</span></span><br><span class="line">         destroyBeans();</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Reset 'active' flag.</span></span><br><span class="line">         cancelRefresh(ex);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Propagate exception to caller.</span></span><br><span class="line">         <span class="keyword">throw</span> ex;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">finally</span> &#123;</span><br><span class="line">         <span class="comment">// Reset common introspection caches in Spring's core, since we</span></span><br><span class="line">         <span class="comment">// might not ever need metadata for singleton beans anymore...</span></span><br><span class="line">         resetCommonCaches();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li></li>
+<li><p><strong>obtainFreshBeanFactory()</strong> : </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br></pre></td></tr></table></figure>
+<p>这方法用于获取 scan 和 register 里面使用的 DefaultListableBeanFactory</p>
+</li>
+<li><p><strong>finishBeanFactoryInitialization</strong> : </p>
+<p><code>this.finishBeanFactoryInitialization(beanFactory)</code>这个方法调用了<code>preInstantiateSingletons</code>，这方法又调用了 <code>doGetBean</code>方法， 这个方法放在下面将</p>
+</li>
+<li></li>
+</ol>
+<h4 id="doGetBean-方法"><a href="#doGetBean-方法" class="headerlink" title="doGetBean() 方法"></a>doGetBean() 方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> AnnotationConfigApplicationContext ctx = <span class="keyword">new</span> AnnotationConfigApplicationContext(MainConfigAutowired.class);</span><br><span class="line"></span><br><span class="line">BookService bookService = ctx.getBean(BookService.class);</span><br></pre></td></tr></table></figure>
+<p>上面这个<code>BookService bookService = ctx.getBean(BookService.class);</code> 使用的是</p>
+<p><code>AbstractBeanFactory</code> 的 <code>doGetBean</code> 方法，</p>
+<p>doGetBean 方法会传入beanName</p>
+<p><code>doGetBean</code> 首先调用了<code>getSingleton(String beanName, boolean allowEarlyReference)</code>  这个代码的具体内容如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> Object <span class="title">getSingleton</span><span class="params">(String beanName, <span class="keyword">boolean</span> allowEarlyReference)</span> </span>&#123;</span><br><span class="line">	Object singletonObject = <span class="keyword">this</span>.singletonObjects.get(beanName);</span><br><span class="line">   </span><br><span class="line">   <span class="comment">// 这个isSingletonCurrentlyInCreation 是判断是否有正在创建的，就是是否有循环依赖</span></span><br><span class="line">	<span class="keyword">if</span> (singletonObject == <span class="keyword">null</span> &amp;&amp; isSingletonCurrentlyInCreation(beanName)) &#123;</span><br><span class="line">		<span class="keyword">synchronized</span> (<span class="keyword">this</span>.singletonObjects) &#123;</span><br><span class="line">			singletonObject = <span class="keyword">this</span>.earlySingletonObjects.get(beanName);</span><br><span class="line">			<span class="keyword">if</span> (singletonObject == <span class="keyword">null</span> &amp;&amp; allowEarlyReference) &#123;</span><br><span class="line">				ObjectFactory&lt;?&gt; singletonFactory = <span class="keyword">this</span>.singletonFactories.get(beanName);</span><br><span class="line">				<span class="keyword">if</span> (singletonFactory != <span class="keyword">null</span>) &#123;</span><br><span class="line">					singletonObject = singletonFactory.getObject();</span><br><span class="line">					<span class="keyword">this</span>.earlySingletonObjects.put(beanName, singletonObject);</span><br><span class="line">					<span class="keyword">this</span>.singletonFactories.remove(beanName);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> singletonObject;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    它首先会调用<code>singletonObjects</code>，这是一个<code>ConcurrentHashMap</code>，可以认为是 <strong>单例池</strong>，</p>
+<p><code>private final Map&lt;String, Object&gt; singletonObjects = new ConcurrentHashMap&lt;&gt;(256);</code></p>
+<h3 id="四个Map-一个Set"><a href="#四个Map-一个Set" class="headerlink" title="四个Map 一个Set"></a>四个Map 一个Set</h3><h4 id="1-singletonObjects-单例池"><a href="#1-singletonObjects-单例池" class="headerlink" title="1.singletonObjects  单例池"></a>1.singletonObjects  单例池</h4><p>singletonObjects是单例池，里面存放走完生命周期的bean</p>
+<p><code>private final Map&lt;String, Object&gt; singletonObjects = new ConcurrentHashMap&lt;&gt;(256);</code></p>
+<h4 id="2-beanDefinitionMap-bean定义信息map"><a href="#2-beanDefinitionMap-bean定义信息map" class="headerlink" title="2. beanDefinitionMap    bean定义信息map"></a>2. beanDefinitionMap    bean定义信息map</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Map of bean definition objects, keyed by bean name. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, BeanDefinition&gt; beanDefinitionMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;(<span class="number">256</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="3-singletonsCurrentlyInCreation-Set，正在创建的bean的Set"><a href="#3-singletonsCurrentlyInCreation-Set，正在创建的bean的Set" class="headerlink" title="3. singletonsCurrentlyInCreation  Set，正在创建的bean的Set"></a>3. singletonsCurrentlyInCreation  Set，正在创建的bean的Set</h4><p>在 doGetBean 中会调用<code>createBean</code> ，doCreateBean会调用<code>getSingleton</code> 方法获取当前单例池的springbean， 有两个<code>getSingleton</code>方法，其中一个会调用<code>beforeSingletonCreation(beanName)</code> 这个方法会将beanName放到<code>singletonsCurrentlyInCreation</code>这个set中去</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">beforeSingletonCreation</span><span class="params">(String beanName)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (!<span class="keyword">this</span>.inCreationCheckExclusions.contains(beanName) &amp;&amp; !<span class="keyword">this</span>.singletonsCurrentlyInCreation.add(beanName)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> BeanCurrentlyInCreationException(beanName);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Names of beans that are currently in creation. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Set&lt;String&gt; singletonsCurrentlyInCreation =</span><br><span class="line">		Collections.newSetFromMap(<span class="keyword">new</span> ConcurrentHashMap&lt;&gt;(<span class="number">16</span>));</span><br></pre></td></tr></table></figure>
+<h4 id="4-singletonFactories-单例bean的工厂"><a href="#4-singletonFactories-单例bean的工厂" class="headerlink" title="4.singletonFactories 单例bean的工厂"></a>4.singletonFactories 单例bean的工厂</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, ObjectFactory&lt;?&gt;&gt; singletonFactories = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="5-earlySingletonObjects-是个map-，半成品的bean"><a href="#5-earlySingletonObjects-是个map-，半成品的bean" class="headerlink" title="5.earlySingletonObjects  是个map ，半成品的bean"></a>5.earlySingletonObjects  是个map ，半成品的bean</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, Object&gt; earlySingletonObjects = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="Spring-Bean-和java-对象的区别"><a href="#Spring-Bean-和java-对象的区别" class="headerlink" title="Spring Bean 和java 对象的区别"></a>Spring Bean 和java 对象的区别</h4><p>Spring Bean 首先是个java对象，但是Spring Bean必须走完Spring 的所有生命周期。类似下面的bean对象，它如果不走完PostConstruct 仅仅走完构造方法，那么它只是个java 对象，不是 Spring Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Y</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Y</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"create Y"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostConstruct</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postConstructInit</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"y postConstructInit"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Spring循环依赖的解决"><a href="#Spring循环依赖的解决" class="headerlink" title="Spring循环依赖的解决"></a>Spring循环依赖的解决</h3><blockquote>
+<p>首先，简单的bean在createbeanInstance 这个方法中会使用反射创建成功，这是没有经过spring生命周期的bean</p>
+</blockquote>
+<ol>
+<li>使用了三级缓存技术，分别为<ul>
+<li>一级缓存 <strong>singletonObjects</strong>  (是个map)   存放已经创建完成，走完生命周期的bean对象</li>
+<li>二级缓存 <strong>singletonFactories</strong>   (是个map)   存放正在创建的bean对象的创建工厂</li>
+<li>三级缓存 <strong>earlySingletonObjects</strong>   (是个map)  存放正在创建的bean对象</li>
+</ul>
+</li>
+<li>使用流程为<ol>
+<li>假设有两个bean</li>
+</ol>
+</li>
+</ol>
+<p>Spring AOP 和 AspectJ </p>
 <h2 id="spring事务传播"><a href="#spring事务传播" class="headerlink" title="spring事务传播"></a>spring事务传播</h2><p>propagation_request     request（必须）（默认的）<br>支持当前事务，A如果有事务，B将使用该事务<br>如果A没有事务，B将创建一个新的事务 </p>
 <p>propagation_supports    supports （必须）<br>支持当前事务，A如果有事务，B将使用该事务<br>如果A没有事务，B将以非事务执行</p>
 <p>PROPAGATION_REQUIRED</p>
@@ -363,6 +498,12 @@
 <li>never 绝不，总是非事务的执行，如果存在一个活动事务，就抛出异常</li>
 <li>nested 嵌套的 如果有就嵌套，如果没有就开启</li>
 </ul>
+<p>注：</p>
+<ul>
+<li><p>classpath用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">classpath:config   的意思: 在类路径下寻找config 这个文件夹</span><br><span class="line">classpath*:config  的意思: 多个工程下的类路径下全都寻找config 这个文件夹</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 </span>
       
     </div>
@@ -371,7 +512,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Netty/" rel="tag">#Netty</a>
+            <a href="/tags/Spring/" rel="tag">#Spring</a>
           
         </div>
       
@@ -380,13 +521,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/02/Netty总结 /" rel="prev">Netty总结</a>
+              <a href="/2018/01/02/interview/分布式锁/" rel="prev">分布式锁面试</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/02/interview/Netty总结 /" rel="next">Netty ProtoBuf笔记</a>
+              <a href="/2018/01/02/interview/音标学习/" rel="next">英标学习</a>
             
           </div>
         </div>
@@ -592,7 +733,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">161</span>
+              <span class="site-state-item-count">167</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -606,7 +747,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">66</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -652,7 +793,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring事务传播"><span class="nav-number">1.</span> <span class="nav-text">spring事务传播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring事务的传播属性"><span class="nav-number">2.</span> <span class="nav-text">Spring事务的传播属性</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-的生命周期"><span class="nav-number">1.</span> <span class="nav-text">Spring 的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring源码注册的流程"><span class="nav-number">2.</span> <span class="nav-text">Spring源码注册的流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring的IOC容器"><span class="nav-number">2.0.1.</span> <span class="nav-text">Spring的IOC容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BeanFactory基础容器"><span class="nav-number">2.0.2.</span> <span class="nav-text">BeanFactory基础容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ApplicationContext高级容器"><span class="nav-number">2.0.3.</span> <span class="nav-text">ApplicationContext高级容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BeanDefinition-详解"><span class="nav-number">2.0.4.</span> <span class="nav-text">BeanDefinition 详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bean的作用域（ScopeMetaData）"><span class="nav-number">2.0.5.</span> <span class="nav-text">Bean的作用域（ScopeMetaData）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#register-scan-方法的作用"><span class="nav-number">2.0.6.</span> <span class="nav-text">register()  scan()方法的作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#refresh-方法"><span class="nav-number">2.0.7.</span> <span class="nav-text">refresh() 方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#doGetBean-方法"><span class="nav-number">2.0.8.</span> <span class="nav-text">doGetBean() 方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四个Map-一个Set"><span class="nav-number">2.1.</span> <span class="nav-text">四个Map 一个Set</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-singletonObjects-单例池"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.singletonObjects  单例池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-beanDefinitionMap-bean定义信息map"><span class="nav-number">2.1.2.</span> <span class="nav-text">2. beanDefinitionMap    bean定义信息map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-singletonsCurrentlyInCreation-Set，正在创建的bean的Set"><span class="nav-number">2.1.3.</span> <span class="nav-text">3. singletonsCurrentlyInCreation  Set，正在创建的bean的Set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-singletonFactories-单例bean的工厂"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.singletonFactories 单例bean的工厂</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-earlySingletonObjects-是个map-，半成品的bean"><span class="nav-number">2.1.5.</span> <span class="nav-text">5.earlySingletonObjects  是个map ，半成品的bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Bean-和java-对象的区别"><span class="nav-number">2.1.6.</span> <span class="nav-text">Spring Bean 和java 对象的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring循环依赖的解决"><span class="nav-number">2.2.</span> <span class="nav-text">Spring循环依赖的解决</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#spring事务传播"><span class="nav-number">3.</span> <span class="nav-text">spring事务传播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring事务的传播属性"><span class="nav-number">4.</span> <span class="nav-text">Spring事务的传播属性</span></a></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
