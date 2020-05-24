@@ -1,0 +1,968 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="分布式,">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="前言if you can&amp;#39;t measure it, you can&amp;#39;t improve it  --lord kelvin 1you build it, you run it, you monitor it.     -- 亚马逊CTO 什么是APM系统SkyWalking 是一个基于opentracing规范开源的APM（应用性能管理application performanc">
+<meta name="keywords" content="分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式链路追踪">
+<meta property="og:url" content="http://yoursite.com/2019/06/08/分布式链路/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="前言if you can&amp;#39;t measure it, you can&amp;#39;t improve it  --lord kelvin 1you build it, you run it, you monitor it.     -- 亚马逊CTO 什么是APM系统SkyWalking 是一个基于opentracing规范开源的APM（应用性能管理application performanc">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2020/01/19/JWmxXdEHSB84Pyl.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/5vhVlzoEgrGZJnc.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/1mzh2DkaMTvQnYP.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/caHA3lfZYo6FK5Q.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/8EJGBxLsqet5Nwk.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/AfFpn6laLeKT8Ei.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/7tBqW5ayLOGwkXr.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/tJrdBunpF3gwMHy.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/E6kgcsyDmtT41eW.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/kzAYXyh3tRpa8J7.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/eX1PQd34RZNuSKn.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/Lzoj8JTGWSBP1FX.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/4eCmA9YoxaFnlZV.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/fd7ez4oCtvmHpuc.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/6v5HJdEkFb7KGOw.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/18/dgq6FMsj2Um8KS9.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/24/2UQPXumldLy5rpq.png">
+<meta property="og:updated_time" content="2020-05-24T15:16:54.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式链路追踪">
+<meta name="twitter:description" content="前言if you can&amp;#39;t measure it, you can&amp;#39;t improve it  --lord kelvin 1you build it, you run it, you monitor it.     -- 亚马逊CTO 什么是APM系统SkyWalking 是一个基于opentracing规范开源的APM（应用性能管理application performanc">
+<meta name="twitter:image" content="https://i.loli.net/2020/01/19/JWmxXdEHSB84Pyl.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 分布式链路追踪 | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              分布式链路追踪
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2019-06-08T13:22:54+08:00" content="2019-06-08">
+            2019-06-08
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>if you can&#39;t measure it, you can&#39;t improve it  --lord kelvin</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">you build it, you run it, you monitor it.     -- 亚马逊CTO</span><br></pre></td></tr></table></figure>
+<h2 id="什么是APM系统"><a href="#什么是APM系统" class="headerlink" title="什么是APM系统"></a>什么是APM系统</h2><p>SkyWalking 是一个基于opentracing规范开源的APM（应用性能管理application performance management）系统</p>
+<h2 id="什么是OpenTracing"><a href="#什么是OpenTracing" class="headerlink" title="什么是OpenTracing"></a>什么是OpenTracing</h2><p>分布式链路追踪最先由Google在 Dapper论文中提出，而opentracing通过提供平台无关的规范</p>
+<ul>
+<li>调用过程图：</li>
+</ul>
+<p><img src="https://i.loli.net/2020/01/19/JWmxXdEHSB84Pyl.png" alt="image.png"></p>
+<p>主流的APM系统</p>
+<ul>
+<li><p>PinPoint</p>
+</li>
+<li><p>skywalking   （apache的基金会）</p>
+</li>
+<li><p>Zipkin   （Twitter开源的）</p>
+</li>
+<li><p>CAT   （大众点评开源的）</p>
+</li>
+</ul>
+<h2 id="发展历史"><a href="#发展历史" class="headerlink" title="发展历史"></a>发展历史</h2><p><img src="https://i.loli.net/2020/02/17/5vhVlzoEgrGZJnc.png" alt></p>
+<p>两个分支：</p>
+<ul>
+<li>基于 ebay CAL:   CAL,  美团CAT</li>
+<li>基于Dapper论文： 携程CTrace ， skywalking，zipkin，open tracing</li>
+</ul>
+<p><img src="https://i.loli.net/2020/02/18/1mzh2DkaMTvQnYP.png" alt></p>
+<h4 id="APM监控的报表：（CAT的报表）"><a href="#APM监控的报表：（CAT的报表）" class="headerlink" title="APM监控的报表：（CAT的报表）"></a>APM监控的报表：（CAT的报表）</h4><p><img src="https://i.loli.net/2020/02/18/caHA3lfZYo6FK5Q.png" alt></p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><p><img src="https://i.loli.net/2020/02/17/8EJGBxLsqet5Nwk.png" alt></p>
+<ul>
+<li>Trace： 代表一次完整的调用链路</li>
+<li><p>Span： 代表一个方法，  多个span组成一个Trace</p>
+</li>
+<li><p>Annotation:   Span上附着的日志信息</p>
+</li>
+<li>Sampling： 采样率（为了节省日志存储的空间， 比方说每10个请求，才记录一次，这就是采样率）</li>
+</ul>
+<ul>
+<li>tid（trace Id）：   这个traceId是唯一的</li>
+<li>sid（span Id）： 这个就是每次调用的spanId   service1 调用 service2 会生成两个 spanId  每个spanId 不重复</li>
+<li>pid（parent Id）： service1 调用 Service2 的 parentId 是  service1中那个方法的 spanId</li>
+</ul>
+<h3 id="CAT-深入理解"><a href="#CAT-深入理解" class="headerlink" title="CAT 深入理解"></a>CAT 深入理解</h3><h4 id="业务大盘"><a href="#业务大盘" class="headerlink" title="业务大盘"></a>业务大盘</h4><p><img src="https://i.loli.net/2020/02/18/AfFpn6laLeKT8Ei.png" alt></p>
+<h4 id="LogView-的报表"><a href="#LogView-的报表" class="headerlink" title="LogView 的报表"></a>LogView 的报表</h4><p>第一层的  category 是带包</p>
+<p><img src="https://i.loli.net/2020/02/18/7tBqW5ayLOGwkXr.png" alt></p>
+<h4 id="Transaction-报表"><a href="#Transaction-报表" class="headerlink" title="Transaction 报表"></a>Transaction 报表</h4><p>调用 transaction报表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下图介绍了一些 95line  99line  如果95line 和 99line 对服务的延迟不大的话代表服务较为稳定</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/02/18/tJrdBunpF3gwMHy.png" alt></p>
+<h4 id="Event报表"><a href="#Event报表" class="headerlink" title="Event报表"></a>Event报表</h4><p><img src="https://i.loli.net/2020/02/18/E6kgcsyDmtT41eW.png" alt></p>
+<h4 id="Problem报表"><a href="#Problem报表" class="headerlink" title="Problem报表"></a>Problem报表</h4><p><img src="https://i.loli.net/2020/02/18/kzAYXyh3tRpa8J7.png" alt></p>
+<h4 id="HeartBeat-报表"><a href="#HeartBeat-报表" class="headerlink" title="HeartBeat 报表"></a>HeartBeat 报表</h4><p>这个报表检测一些GC的情况</p>
+<p><img src="https://i.loli.net/2020/02/18/eX1PQd34RZNuSKn.png" alt></p>
+<h4 id="Storage报表"><a href="#Storage报表" class="headerlink" title="Storage报表"></a>Storage报表</h4><p>主要是对数据库的访问和监控</p>
+<p><img src="https://i.loli.net/2020/02/18/Lzoj8JTGWSBP1FX.png" alt></p>
+<h3 id="CAT的架构原理"><a href="#CAT的架构原理" class="headerlink" title="CAT的架构原理"></a>CAT的架构原理</h3><ol>
+<li>首先一个 Http请求过来了，CAT 会使用TreadLocal   创建一个当前线程的 消息树</li>
+<li>Call 开始，就往消息树上添加 Call节点</li>
+<li>SQL执行，就往消息树上添加SQL 节点</li>
+<li>Cache命中，就往消息树上添加Cache节点</li>
+<li>http请求结束返回，消息树就构建结束，将消息树放到MQ上</li>
+<li>另一端会有一个sender读取 MQ 发送到CAT的server 上</li>
+</ol>
+<p><img src="https://i.loli.net/2020/02/18/4eCmA9YoxaFnlZV.png" alt></p>
+<h4 id="服务端的架构"><a href="#服务端的架构" class="headerlink" title="服务端的架构"></a>服务端的架构</h4><p>server端通过 receiver 接受 Sender 发来的数据， 然后通过Analyzer 对它进行分析聚合，按一分钟，一小时 各种维度进行聚合，聚合后的数据 存入mysql， 原始的数据，存入HDFS中</p>
+<p><img src="https://i.loli.net/2020/02/18/fd7ez4oCtvmHpuc.png" alt></p>
+<h4 id="CAT-监控模型"><a href="#CAT-监控模型" class="headerlink" title="CAT 监控模型"></a>CAT 监控模型</h4><p><img src="https://i.loli.net/2020/02/18/6v5HJdEkFb7KGOw.png" alt></p>
+<h4 id="监控API的代码实现"><a href="#监控API的代码实现" class="headerlink" title="监控API的代码实现"></a>监控API的代码实现</h4><p><img src="https://i.loli.net/2020/02/18/dgq6FMsj2Um8KS9.png" alt></p>
+<h4 id="CAT-日志代表的含义"><a href="#CAT-日志代表的含义" class="headerlink" title="CAT 日志代表的含义"></a>CAT 日志代表的含义</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">::hide::   一个::hide:: 代表是在另一个进程里了   每个进程的执行信息可以用hide来折叠</span><br><span class="line"></span><br><span class="line">下面我展开所有的::hide::</span><br><span class="line">查看到的执行逻辑</span><br><span class="line">step1:  进程1-localhost8081  通过call url   localhost:8081/start 调用 进程2-localhost8082</span><br><span class="line"></span><br><span class="line">step2:  进程2-localhost8082  通过call url   http://localhost:8082/startOfBackOffice-Service 调用 进程3-localhost8083 （进程3-localhost8083 没有在调用其他的进程）</span><br><span class="line"></span><br><span class="line">step3:  进程2-localhost8082  通过call url   	http://localhost:8084/startOfCustomer-Microservice 调用 进程4-localhost8084 （进程4-localhost8084 没有在调用其他的进程）</span><br><span class="line"></span><br><span class="line">step4:   结束并且返回</span><br></pre></td></tr></table></figure>
+<h5 id="下图有text-和-graph"><a href="#下图有text-和-graph" class="headerlink" title="下图有text 和 graph"></a>下图有text 和 graph</h5><p><img src="https://i.loli.net/2020/02/24/2UQPXumldLy5rpq.png" alt></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分布式/" rel="tag">#分布式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/08/Java Agent技术/" rel="prev">Java-Agent技术</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/08/做事方法总结/" rel="next">做事方法总结</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">165</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是APM系统"><span class="nav-number">2.</span> <span class="nav-text">什么是APM系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是OpenTracing"><span class="nav-number">3.</span> <span class="nav-text">什么是OpenTracing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发展历史"><span class="nav-number">4.</span> <span class="nav-text">发展历史</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#APM监控的报表：（CAT的报表）"><span class="nav-number">4.0.1.</span> <span class="nav-text">APM监控的报表：（CAT的报表）</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#核心概念"><span class="nav-number">5.</span> <span class="nav-text">核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAT-深入理解"><span class="nav-number">5.1.</span> <span class="nav-text">CAT 深入理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#业务大盘"><span class="nav-number">5.1.1.</span> <span class="nav-text">业务大盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LogView-的报表"><span class="nav-number">5.1.2.</span> <span class="nav-text">LogView 的报表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transaction-报表"><span class="nav-number">5.1.3.</span> <span class="nav-text">Transaction 报表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Event报表"><span class="nav-number">5.1.4.</span> <span class="nav-text">Event报表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Problem报表"><span class="nav-number">5.1.5.</span> <span class="nav-text">Problem报表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HeartBeat-报表"><span class="nav-number">5.1.6.</span> <span class="nav-text">HeartBeat 报表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Storage报表"><span class="nav-number">5.1.7.</span> <span class="nav-text">Storage报表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAT的架构原理"><span class="nav-number">5.2.</span> <span class="nav-text">CAT的架构原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#服务端的架构"><span class="nav-number">5.2.1.</span> <span class="nav-text">服务端的架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CAT-监控模型"><span class="nav-number">5.2.2.</span> <span class="nav-text">CAT 监控模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#监控API的代码实现"><span class="nav-number">5.2.3.</span> <span class="nav-text">监控API的代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CAT-日志代表的含义"><span class="nav-number">5.2.4.</span> <span class="nav-text">CAT 日志代表的含义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#下图有text-和-graph"><span class="nav-number">5.2.4.1.</span> <span class="nav-text">下图有text 和 graph</span></a></li></ol></li></ol></li></ol></li></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2020
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

@@ -3376,94 +3376,6 @@
           
           
             
-              <a class="post-title-link" href="/2018/01/02/interview/Spring笔记/" itemprop="url">
-                Spring笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-01-02T20:09:04+08:00" content="2018-01-02">
-            2018-01-02
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            Spring 的生命周期
-实例Spring容器
-
-扫描类  
- 1通过 scan()
-
-解析这个扫描类
-
-实例 BeanDefinition
-
-所有的 BeanDefinition 存入 beanDefinitionMap
-
-调用bean工厂后置处理器
-
-验证
-
-推断构造方法
-
-通过反射  new 
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/01/02/interview/Spring笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
               <a class="post-title-link" href="/2018/01/02/interview/音标学习/" itemprop="url">
                 英标学习
               </a>
@@ -3611,8 +3523,8 @@ string类型1234567891011- 单值操作    set key value    DD- 分布式锁    
           
           
             
-              <a class="post-title-link" href="/2018/01/02/Netty总结 /" itemprop="url">
-                Netty学习
+              <a class="post-title-link" href="/2018/01/02/interview/Spring笔记/" itemprop="url">
+                Spring笔记
               </a>
             
           
@@ -3644,25 +3556,29 @@ string类型1234567891011- 单值操作    set key value    DD- 分布式锁    
         
           <span itemprop="articleBody">
             
-            Netty 学习IO模型BIO （block IO   同步并阻塞）
-BIO缺点
+            Spring 的生命周期
+实例Spring容器
 
-这种服务端的模型为一个连接一个线程， 对客户端而言没有压力，但是对服务端压力比较大
-缺点
-如果这个连接不做任何事情，会浪费资源
-如果读取没有返回 会阻塞
+扫描类  
+ 1通过 scan()
 
+解析这个扫描类
 
+实例 BeanDefinition
 
+所有的 BeanDefinition 存入 beanDefinitionMap
 
+调用bean工厂后置处理器
 
+验证
 
-NIO 同步非阻塞
-同步非阻塞，服务器实现模式为一
+推断构造方法
+
+通过反射  new 
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/01/02/Netty总结 /#more" rel="contents">
+            <a class="btn" href="/2018/01/02/interview/Spring笔记/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3695,8 +3611,8 @@ NIO 同步非阻塞
           
           
             
-              <a class="post-title-link" href="/2018/01/02/interview/Netty总结 /" itemprop="url">
-                Netty ProtoBuf笔记
+              <a class="post-title-link" href="/2018/01/02/interview/分布式锁/" itemprop="url">
+                分布式锁面试
               </a>
             
           
@@ -3728,51 +3644,17 @@ NIO 同步非阻塞
         
           <span itemprop="articleBody">
             
-            
+            分布式锁的实现思路
+1）获取锁 ，进行业务操作
+2）库存不足 释放锁
+3）异常，释放锁
+4）执行成功，释放锁
 
-
-protoc类型
-java类型
-c++类型
-
-
-
-
-double
-double
-double
-
-
-float
-float
-float
-
-
-int32
-int
-int32
-
-
-int64
-long
-int64
-
-
-uint32
-int
-uint32
-
-
-uint64
-long
-uint64
-
-
-
+使用zookeeper的临时节点Java zookeeper分布式锁实现1234567891011121314151617181920212223242526272829303132333
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/01/02/interview/Netty总结 /#more" rel="contents">
+            <a class="btn" href="/2018/01/02/interview/分布式锁/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3956,76 +3838,6 @@ write a g
           
           
             
-              <a class="post-title-link" href="/2017/11/11/interview/JVM笔记/" itemprop="url">
-                JVM笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2017-11-11T13:09:04+08:00" content="2017-11-11">
-            2017-11-11
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            JVM类加载引导类加载器（bootstrapclassloader）-它用来加载Java的核心库(JAVAHOME/jre/lib/rt.jar,üsun.boot.class.path路径下的内容）是用原生代码来实现的，并不继承自java」ang.ClassLoadero加载扩展类和应用程序类加载
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/11/interview/JVM笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
               <a class="post-title-link" href="/2017/11/11/JVM笔记/" itemprop="url">
                 JVM笔记
               </a>
@@ -4064,6 +3876,76 @@ write a g
           </span>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/11/11/JVM笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2017/11/11/interview/JVM笔记/" itemprop="url">
+                JVM笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-11T13:09:04+08:00" content="2017-11-11">
+            2017-11-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            JVM类加载引导类加载器（bootstrapclassloader）-它用来加载Java的核心库(JAVAHOME/jre/lib/rt.jar,üsun.boot.class.path路径下的内容）是用原生代码来实现的，并不继承自java」ang.ClassLoadero加载扩展类和应用程序类加载
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/11/interview/JVM笔记/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -4156,6 +4038,77 @@ ndim
 
 
     
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2017/11/01/OpenCV学习/" itemprop="url">
+                OpenCV学习
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
+            2017-11-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            获取颜色通道1b,g,r=cv2.split(img)
+只保留某个颜色(opencv 中通道为 BGR)1234567891011121314151617#%% # 只保留R #opencv中颜色cur_img = img.copy()cur_img[:,:,0] = 0cur_img[:,:,1]
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/01/OpenCV学习/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -4194,7 +4147,7 @@ ndim
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">167</span>
+              <span class="site-state-item-count">165</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
