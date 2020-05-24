@@ -3376,77 +3376,6 @@
           
           
             
-              <a class="post-title-link" href="/2017/11/01/ZooKeeper使用总结/" itemprop="url">
-                Zookeeper使用教程
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
-            2017-11-01
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            Zookeeper使用教程开启服务器：12345bin/zkServer.sh start如果遇见 already running as process 去 zoo.cfg配置的 data目录 删除zookeeper_server.pid 文件./zkServer status 可以查看状态
-使用z
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/ZooKeeper使用总结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
               <a class="post-title-link" href="/2017/11/01/MyBatisGenerator 配置/" itemprop="url">
                 MyBatis Generator配置
               </a>
@@ -3517,8 +3446,8 @@
           
           
             
-              <a class="post-title-link" href="/2017/11/01/Maven依赖冲突/" itemprop="url">
-                Maven依赖冲突
+              <a class="post-title-link" href="/2017/11/01/Numpy学习/" itemprop="url">
+                Numpy学习
               </a>
             
           
@@ -3550,13 +3479,12 @@
         
           <span itemprop="articleBody">
             
-            解决方法具体我参考了这个博客
-https://blog.csdn.net/justry_deng/article/details/98665086
-
-            
+            ndarray 多维数组(N Dimension Array)NumPy数组是一个多维的数组对象（矩阵），称为ndarray，具有矢量算术运算能力和复杂的广播能力，并具有执行速度快和节省空间的特点。注意：ndarray的下标从0开始，且数组里的所有元素必须是相同类型ndarray拥有的属性
+ndim
+            ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/Maven依赖冲突/#more" rel="contents">
+            <a class="btn" href="/2017/11/01/Numpy学习/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3660,8 +3588,8 @@ https://blog.csdn.net/justry_deng/article/details/98665086
           
           
             
-              <a class="post-title-link" href="/2017/11/01/MongoDB常用命令/" itemprop="url">
-                MongoDB常用命令.md
+              <a class="post-title-link" href="/2017/11/01/ZooKeeper使用总结/" itemprop="url">
+                Zookeeper使用教程
               </a>
             
           
@@ -3693,13 +3621,83 @@ https://blog.csdn.net/justry_deng/article/details/98665086
         
           <span itemprop="articleBody">
             
-            MongoDB常用命令开启服务器：1mongod -f mongod.cfg
-开启链接:1mongo localhost:27017  (默认是 localhost:27017 可以不加)
-说明MongoDB命令是区分大小写的，使用的命名规则是驼峰命名法。对于database和collection无
+            Zookeeper使用教程开启服务器：12345bin/zkServer.sh start如果遇见 already running as process 去 zoo.cfg配置的 data目录 删除zookeeper_server.pid 文件./zkServer status 可以查看状态
+使用z
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/MongoDB常用命令/#more" rel="contents">
+            <a class="btn" href="/2017/11/01/ZooKeeper使用总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2017/11/01/OpenCV学习/" itemprop="url">
+                OpenCV学习
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
+            2017-11-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            获取颜色通道1b,g,r=cv2.split(img)
+只保留某个颜色(opencv 中通道为 BGR)1234567891011121314151617#%% # 只保留R #opencv中颜色cur_img = img.copy()cur_img[:,:,0] = 0cur_img[:,:,1]
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/01/OpenCV学习/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
