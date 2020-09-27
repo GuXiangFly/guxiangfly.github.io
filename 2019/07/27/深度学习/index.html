@@ -36,21 +36,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="Numpy基础TensorFlow 基础学习 创建一张图包含了一组op和tensor  op： 只要使用TensorFlow的API定义的函数都是op  下面的程序中 tf.constant ,tf.add ,tf.Variable ，tf.get_default_graph这些都是op  12345678910111213import tensorflow as tfimport osos.en">
+<meta name="description" content="Numpy基础">
 <meta name="keywords" content="数据结构与算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习">
 <meta property="og:url" content="http://yoursite.com/2019/07/27/深度学习/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="Numpy基础TensorFlow 基础学习 创建一张图包含了一组op和tensor  op： 只要使用TensorFlow的API定义的函数都是op  下面的程序中 tf.constant ,tf.add ,tf.Variable ，tf.get_default_graph这些都是op  12345678910111213import tensorflow as tfimport osos.en">
+<meta property="og:description" content="Numpy基础">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2020/04/17/FoSBqOTA4E9tgf7.png">
-<meta property="og:image" content="https://i.loli.net/2020/04/17/CbOM1IxWHJLFUyG.png">
-<meta property="og:updated_time" content="2020-04-17T12:26:07.838Z">
+<meta property="og:updated_time" content="2020-05-28T12:54:45.242Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习">
-<meta name="twitter:description" content="Numpy基础TensorFlow 基础学习 创建一张图包含了一组op和tensor  op： 只要使用TensorFlow的API定义的函数都是op  下面的程序中 tf.constant ,tf.add ,tf.Variable ，tf.get_default_graph这些都是op  12345678910111213import tensorflow as tfimport osos.en">
-<meta name="twitter:image" content="https://i.loli.net/2020/04/17/FoSBqOTA4E9tgf7.png">
+<meta name="twitter:description" content="Numpy基础">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -330,112 +327,7 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="Numpy基础"><a href="#Numpy基础" class="headerlink" title="Numpy基础"></a>Numpy基础</h2><h2 id="TensorFlow-基础学习"><a href="#TensorFlow-基础学习" class="headerlink" title="TensorFlow 基础学习"></a>TensorFlow 基础学习</h2><ul>
-<li><p>创建一张图包含了一组op和tensor</p>
-<ul>
-<li><p>op： 只要使用TensorFlow的API定义的函数都是op</p>
-<ul>
-<li>下面的程序中 <code>tf.constant</code> ,<code>tf.add</code> ,<code>tf.Variable</code> ，<code>tf.get_default_graph</code>这些都是op</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span></span><br><span class="line"></span><br><span class="line">a = tf.constant(<span class="number">5.0</span>)</span><br><span class="line">b = tf.constant(<span class="number">6.0</span>)</span><br><span class="line">data2 = tf.Variable(<span class="number">10</span>, name=<span class="string">'var'</span>)</span><br><span class="line">sum1 = tf.add(a, b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一张图，相当于给程序分配一段内存</span></span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph) <span class="keyword">as</span> sess:</span><br><span class="line">    print(sess.run(sum1))</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>张量Tensor</p>
-<ul>
-<li>5.0 ，6.0  这些常量是张量</li>
-</ul>
-</li>
-<li><p>变量</p>
-<ul>
-<li><code>10, name=&#39;var&#39;</code> 这个就是变量</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>graph </p>
-<ul>
-<li>定义一张图，相当于给程序<strong>分配一段内存</strong></li>
-</ul>
-</li>
-<li><p>Session （会话）</p>
-<ul>
-<li><p>tf.Session()<br>运行TensorFlow操作图的类，使用默认注册的图（可以指定运行图）</p>
-</li>
-<li><p>会话资源</p>
-<ul>
-<li>会话可能拥有很多资源，如 tf.Variable，tf.QueueBase和tf.ReaderBase，会话结束后需要进行资源释放</li>
-</ul>
-</li>
-<li><p>sess = tf.Session()    </p>
-<ul>
-<li><p>sess.run(…)      run是启动这个图，可以run多次</p>
-</li>
-<li><p>sess.close() </p>
-<ul>
-<li>使用上下文管理器  运行完代码块后，会自己调用sess.close()<br>with tf.Session() as sess: <pre><code>sess.run(...)
-</code></pre></li>
-</ul>
-</li>
-<li><p>使用config=tf.ConfigProto(log_device_placement=True) 可以打印出在哪个CPU运行的</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph = tf.get_default_graph()</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph, config=tf.ConfigProto(log_device_placement=<span class="literal">True</span>)) <span class="keyword">as</span> sess:</span><br><span class="line">    <span class="comment">#print(sess.run(sum1))</span></span><br><span class="line">    <span class="keyword">print</span>（sum1.eval()）</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<pre><code>- 交互式：tf.InteractiveSession()
-</code></pre><h5 id="重载运算符运行"><a href="#重载运算符运行" class="headerlink" title="重载运算符运行"></a>重载运算符运行</h5><ul>
-<li><code>sum2 = a + c</code> 由于a 是张量， 执行程序的时候  c也会转为张量， +操作会转为tf.add(….)</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a = tf.constant(<span class="number">5.0</span>)</span><br><span class="line">b = tf.constant(<span class="number">6.0</span>)</span><br><span class="line">sum1 = tf.add(a, b)</span><br><span class="line">c = <span class="number">10.0</span></span><br><span class="line"></span><br><span class="line">sum2 = a + c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一张图，相当于给程序分配一段内存</span></span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph, config=tf.ConfigProto(log_device_placement=<span class="literal">True</span>)) <span class="keyword">as</span> sess:</span><br><span class="line">    print(sess.run(sum1))</span><br><span class="line">    print(sess.run(sum2))</span><br><span class="line">    print(sess.run([a, b, sum1, sum2]))</span><br></pre></td></tr></table></figure>
-<h5 id="placeholder-占位符"><a href="#placeholder-占位符" class="headerlink" title="placeholder 占位符"></a>placeholder 占位符</h5><ul>
-<li>意义：在程序执行的时候,不确定输入的是什么，提前“占个坑”</li>
-<li>语法：placeholder提供占位符，run时候通过feed_dict指定参数</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span></span><br><span class="line"><span class="comment"># 这个代表给的数据必须是两行三列的</span></span><br><span class="line">tf.placeholder(tf.float32, [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="comment"># 这个代表给的数据可以是不固定行数，三列的</span></span><br><span class="line">plt = tf.placeholder(tf.float32, [<span class="literal">None</span>, <span class="number">3</span>])</span><br><span class="line"><span class="comment"># 定义一张图，相当于给程序分配一段内存</span></span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph, config=tf.ConfigProto(log_device_placement=<span class="literal">True</span>)) <span class="keyword">as</span> sess:</span><br><span class="line">    print(sess.run(plt, feed_dict=&#123;plt: [</span><br><span class="line">        [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">2</span>, <span class="number">66</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">78</span>, <span class="number">3</span>],</span><br><span class="line">    ]&#125;))</span><br></pre></td></tr></table></figure>
-<h5 id="张量"><a href="#张量" class="headerlink" title="张量"></a>张量</h5><ul>
-<li>1、张量的阶和数据类型<ul>
-<li>tensor 是对 numpy的 ndarray 进行了封装</li>
-</ul>
-</li>
-<li>2、张量操作</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># tensorflow:打印出来的形状表示</span></span><br><span class="line"><span class="comment"># 0维：()   1维:(5)  2维：(5,6)   3维：(2,3,4)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 形状的概念</span></span><br><span class="line"><span class="comment"># 静态形状和动态性状</span></span><br><span class="line"><span class="comment"># 对于静态形状来说，一旦张量形状固定了，不能再次设置静态形状, 不能夸维度修改 1D-&gt;1D 2D-&gt;2D</span></span><br><span class="line"><span class="comment"># 动态形状可以去创建一个新的张量,改变时候一定要注意元素数量要匹配  1D-&gt;2D  1-&gt;3D</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"> plt = tf.placeholder(tf.float32, [<span class="literal">None</span>, <span class="number">2</span>])</span><br><span class="line"> print(plt)</span><br><span class="line"> plt.set_shape([<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>])</span><br><span class="line"> print(plt)</span><br><span class="line"> <span class="comment"># plt.set_shape([2, 3]) # 不能再次修改</span></span><br><span class="line"> plt_reshape = tf.reshape(plt, [<span class="number">3</span>, <span class="number">3</span>])</span><br><span class="line"> print(plt_reshape)</span><br><span class="line"> <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br></pre></td></tr></table></figure>
-<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><ul>
-<li><p>变量op</p>
-<ul>
-<li><p>1、变量op能够持久化保存，普通张量op是不行的</p>
-</li>
-<li><p>2、当定义一个变量op的时候，一定要在会话当中去运行初始化</p>
-<ul>
-<li><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(init_op)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>3、name参数：在tensorboard使用的时候显示名字，可以让相同op名字的进行区分</p>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="TensorBoard"><a href="#TensorBoard" class="headerlink" title="TensorBoard"></a>TensorBoard</h4><ul>
-<li><p><strong>显示TensorBoard</strong></p>
-<p>数据序列化-events文件</p>
-<p>TensorBoard 通过读取 TensorFlow 的事件文件来运行。TensorFlow 的事件文件包括了你会在 TensorFlow 运行中涉及到的主要数据。事件文件的生成通过在程序中指定tf.summary.FileWriter存储的目录,以及要运行的图</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.summary.FileWriter(<span class="string">'/tmp/summary/test/'</span>, graph=default_graph)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>启动TensorBoard</strong></p>
-<p>要运行TensorBoard，请使用以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=&quot;path/to/log-directory&quot;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h5 id="TensorBoard-基础查看"><a href="#TensorBoard-基础查看" class="headerlink" title="TensorBoard 基础查看"></a>TensorBoard 基础查看</h5><p><img src="https://i.loli.net/2020/04/17/FoSBqOTA4E9tgf7.png" alt></p>
-<p>variable通过 random_normal 进行初始化，并且生成的是2x3的矩阵</p>
-<p><img src="https://i.loli.net/2020/04/17/CbOM1IxWHJLFUyG.png" alt></p>
-</span>
+        <span itemprop="articleBody"><h2 id="Numpy基础"><a href="#Numpy基础" class="headerlink" title="Numpy基础"></a>Numpy基础</h2></span>
       
     </div>
 
@@ -664,7 +556,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">165</span>
+              <span class="site-state-item-count">171</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -724,7 +616,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Numpy基础"><span class="nav-number">1.</span> <span class="nav-text">Numpy基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow-基础学习"><span class="nav-number">2.</span> <span class="nav-text">TensorFlow 基础学习</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#重载运算符运行"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">重载运算符运行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#placeholder-占位符"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">placeholder 占位符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#张量"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">张量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#变量"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">变量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TensorBoard"><span class="nav-number">2.0.1.</span> <span class="nav-text">TensorBoard</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TensorBoard-基础查看"><span class="nav-number">2.0.1.1.</span> <span class="nav-text">TensorBoard 基础查看</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Numpy基础"><span class="nav-number">1.</span> <span class="nav-text">Numpy基础</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

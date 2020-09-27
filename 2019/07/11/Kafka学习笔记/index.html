@@ -36,15 +36,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="Kafka的基础概念kafka工作流程 kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的. kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]  .log文件存储的是kafka队列里面的数据 .index 记录的是kafka的某个consumer的   .log 和 .index">
+<meta name="description" content="Kafka的基础概念kafka工作流程 kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的.   kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]  .log文件存储的是kafka队列里面的数据 .index 记录的是kafka的某个consumer的   .log 和 .ind">
 <meta name="keywords" content="Kafka">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kafka学习笔记">
 <meta property="og:url" content="http://yoursite.com/2019/07/11/Kafka学习笔记/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="Kafka的基础概念kafka工作流程 kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的. kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]  .log文件存储的是kafka队列里面的数据 .index 记录的是kafka的某个consumer的   .log 和 .index">
+<meta property="og:description" content="Kafka的基础概念kafka工作流程 kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的.   kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]  .log文件存储的是kafka队列里面的数据 .index 记录的是kafka的某个consumer的   .log 和 .ind">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518155036500.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200914164905228.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518174054937.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518173852677.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518174400952.png">
@@ -52,10 +53,10 @@
 <meta property="og:image" content="https://i.loli.net/2019/11/05/WpMfsVAKSUR4Hij.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/10/6RB9HxuMOhsdbz2.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/10/C7k2pbK1OJfWYAI.png">
-<meta property="og:updated_time" content="2020-05-18T11:33:56.362Z">
+<meta property="og:updated_time" content="2020-09-14T08:49:31.815Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka学习笔记">
-<meta name="twitter:description" content="Kafka的基础概念kafka工作流程 kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的. kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]  .log文件存储的是kafka队列里面的数据 .index 记录的是kafka的某个consumer的   .log 和 .index">
+<meta name="twitter:description" content="Kafka的基础概念kafka工作流程 kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的.   kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]  .log文件存储的是kafka队列里面的数据 .index 记录的是kafka的某个consumer的   .log 和 .ind">
 <meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518155036500.png">
 
 
@@ -338,6 +339,7 @@
       
         <span itemprop="articleBody"><h2 id="Kafka的基础概念"><a href="#Kafka的基础概念" class="headerlink" title="Kafka的基础概念"></a>Kafka的基础概念</h2><h3 id="kafka工作流程"><a href="#kafka工作流程" class="headerlink" title="kafka工作流程"></a>kafka工作流程</h3><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518155036500.png" alt="image-20200518155036500"></p>
 <p>kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的.</p>
+<p> <img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200914164905228.png" alt="image-20200914164905228"></p>
 <h4 id="kafka的文件存储"><a href="#kafka的文件存储" class="headerlink" title="kafka的文件存储"></a>kafka的文件存储</h4><p>视频连接 [<a href="https://www.bilibili.com/video/BV1a4411B7V9?p=12]" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1a4411B7V9?p=12]</a></p>
 <p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518174054937.png" alt="image-20200518174054937"></p>
 <p>.log文件存储的是kafka队列里面的数据</p>
@@ -656,7 +658,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">165</span>
+              <span class="site-state-item-count">171</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

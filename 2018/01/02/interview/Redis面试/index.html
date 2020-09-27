@@ -46,7 +46,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/11/02/yP3W6A2kaE5NpFD.png">
 <meta property="og:image" content="https://i.loli.net/2019/11/02/GrwTpmRlUiHDMkq.png">
-<meta property="og:updated_time" content="2020-05-19T08:24:15.773Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200927191957310.png">
+<meta property="og:updated_time" content="2020-09-27T12:36:35.078Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis面试">
 <meta name="twitter:description" content="Redis 数据结构 string hash set list   zset （排序的set）  string类型1234567891011- 单值操作    set key value    DD- 分布式锁    SETNX（set if not exsit）的原理：只有在 key为空的时候  才会设置value成功，若键 key 已经存在， 则 SETNX 命令不做任何动作。    SETN">
@@ -351,11 +352,47 @@
 <li>失效更新</li>
 </ul>
 </li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200927191957310.png" alt="image-20200927191957310" style="zoom:43%;"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/getUserById"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">getUserById</span><span class="params">(Integer id)</span></span>&#123;</span><br><span class="line">    <span class="comment">//1.查询缓存中是否有数据,如果有数据就返回数据。</span></span><br><span class="line">    User user = cacheHelper.get(String.valueOf(id));</span><br><span class="line">    <span class="keyword">if</span> (user!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//2.缓存中没有数据，就去db中查询</span></span><br><span class="line">    User userInDdById = getUserInDdById(id);</span><br><span class="line">    <span class="keyword">if</span> (userInDdById!=<span class="keyword">null</span>)&#123;</span><br><span class="line">       <span class="comment">//3.查询到数据并且存入DB，并且设置过期时间</span></span><br><span class="line">        cacheHelper.setUserToCache(String.valueOf(id), user,<span class="number">30</span>);</span><br><span class="line">        <span class="keyword">return</span> userInDdById;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
 <li>缓存穿透<ul>
-<li>恶意攻击（可以使用布隆过滤器进行过滤）</li>
+<li>描述：  缓存中没有，数据库中也没有<ul>
+<li>类似上述代码，如果 id查询为 111，但是数据库里面没有 id为111的，那么就产生了缓存穿透</li>
+</ul>
+</li>
+<li>解决方法：  <ul>
+<li>缓存空对象 (缺点：1.会占用大量内存,  2.数据过期后也会  )</li>
+<li>布隆过滤器</li>
 </ul>
 </li>
 </ul>
+</li>
+<li>缓存击穿<ul>
+<li>描述： 缓存中没有，但是数据库中有。   （假设所有子弹都打在墙上同一个点，那么这堵墙很可能被击穿）<ul>
+<li>热点数据</li>
+<li>假设刚上新一个商品（热点数据）， 突然有10000个请求同时访问此产品， 第1个请求还没往redis缓存中存储进去， 第2到第10000个请求已经打到机器， 这样也会导致数据库宕机</li>
+</ul>
+</li>
+<li>解决方法:<ul>
+<li>热点数据不过期 或 错开时间过期</li>
+<li>加互斥锁：使用分布式锁，保证每个key只有一个线程去查询后端服务</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>缓存雪崩<ul>
+<li>描述： 大量缓存数据过期不可用， 或者甚至缓存挂掉。</li>
+<li>解决办法：<ul>
+<li>主从模式  集群模式</li>
+<li>双11停掉部分服务，保证主要的服务可用（比如双11停止退款服务）</li>
+<li>数据预热</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="三个问题的解决代码"><a href="#三个问题的解决代码" class="headerlink" title="三个问题的解决代码"></a>三个问题的解决代码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">CacheHelper cacheHelper;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">RedisLock redisLock;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> size = <span class="number">1000000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> BloomFilter&lt;Integer&gt; bloomFilter = BloomFilter.create(Funnels.integerFunnel(), size, <span class="number">0.0001</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/getUserById"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Result <span class="title">getUserById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 布隆过滤器过滤 解决缓存穿透问题</span></span><br><span class="line">    <span class="keyword">if</span> (!bloomFilter.mightContain(id)) &#123;</span><br><span class="line">        <span class="keyword">return</span> Result.error(<span class="string">"无数据"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查询缓存中是否有数据,如果有数据就返回数据。</span></span><br><span class="line">    User user = cacheHelper.get(String.valueOf(id));</span><br><span class="line">    <span class="keyword">if</span> (user != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> Result.success(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用分布式锁解决 缓存击穿问题</span></span><br><span class="line">    redisLock.lock(String.valueOf(id));</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//查询缓存中是否有数据,如果有数据就返回数据。</span></span><br><span class="line">        User user2 = cacheHelper.get(String.valueOf(id));</span><br><span class="line">        <span class="keyword">if</span> (user2 != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.success(user2);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//2.缓存中没有数据，就去db中查询</span></span><br><span class="line">        User userInDdById = getUserInDdById(id);</span><br><span class="line">        <span class="keyword">if</span> (userInDdById != <span class="keyword">null</span>) &#123;</span><br><span class="line">            cacheHelper.setUserToCache(String.valueOf(id), user, <span class="number">30</span>);</span><br><span class="line">            <span class="keyword">return</span> Result.success(userInDdById);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">        redisLock.unLock(String.valueOf(id));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Result.error(<span class="string">"无数据"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="Redis缓存穿透布隆过滤器"><a href="#Redis缓存穿透布隆过滤器" class="headerlink" title="Redis缓存穿透布隆过滤器"></a>Redis缓存穿透布隆过滤器</h3><p>为了应对缓存穿透的问题，我们可以采用布隆过滤器<br>布隆过滤器的原则: 如果这些点有任何一个0，则被检元素一定不在；如果都是1，则被检元素很可能在。<br>也就是说:如果被布隆过滤器检测不存在的元素，那么这个元素一定不存在，如果被检测元素布隆过滤器检测存在，那么被检测元素可能存在可能不存在。</p>
 <h3 id="为什么Redis那么快"><a href="#为什么Redis那么快" class="headerlink" title="为什么Redis那么快"></a>为什么Redis那么快</h3><ul>
 <li>完全基于内存</li>
@@ -372,6 +409,7 @@
 <ul>
 <li>redis的事务 </li>
 </ul>
+<h4 id="Bitmaps"><a href="#Bitmaps" class="headerlink" title="Bitmaps"></a>Bitmaps</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">## 设置bit，将0位 改为1</span><br><span class="line">setBit  bits  0  1    </span><br><span class="line"></span><br><span class="line">## 获取0位上的值</span><br><span class="line">getBit bits 0</span><br><span class="line"></span><br><span class="line">## 获取10位上的值 （如果10这个位没有被初始值，那么10位上返回默认值0）</span><br><span class="line">getbit bits  10</span><br><span class="line"></span><br><span class="line">## 设置10000000这个位上的值为1 （这样如果10000000 前面9999999个值没有设置过，需要补0，实际存储的是00000000000000000000000000.....0001） （比较耗时）</span><br><span class="line"></span><br><span class="line">setbit bits 10000000  1</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -389,13 +427,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/02/Netty总结 /" rel="prev">Netty学习</a>
+              <a href="/2018/01/08/理财基本功/" rel="prev">理财基本功</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/02/interview/Spring笔记/" rel="next">Spring笔记</a>
+              <a href="/2018/01/02/Netty总结 /" rel="next">Netty学习</a>
             
           </div>
         </div>
@@ -601,7 +639,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">165</span>
+              <span class="site-state-item-count">171</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -661,7 +699,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-数据结构"><span class="nav-number">1.</span> <span class="nav-text">Redis 数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#string类型"><span class="nav-number">1.1.</span> <span class="nav-text">string类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash类型"><span class="nav-number">1.2.</span> <span class="nav-text">Hash类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#list类型"><span class="nav-number">1.3.</span> <span class="nav-text">list类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set类型"><span class="nav-number">1.4.</span> <span class="nav-text">Set类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-缓存"><span class="nav-number">2.</span> <span class="nav-text">Redis 缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis缓存穿透布隆过滤器"><span class="nav-number">2.1.</span> <span class="nav-text">Redis缓存穿透布隆过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么Redis那么快"><span class="nav-number">2.2.</span> <span class="nav-text">为什么Redis那么快</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis多路I-O复用模型"><span class="nav-number">2.3.</span> <span class="nav-text">Redis多路I/O复用模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis大量Key同时过期的注意事项"><span class="nav-number">2.4.</span> <span class="nav-text">Redis大量Key同时过期的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-事务"><span class="nav-number">2.5.</span> <span class="nav-text">Redis 事务</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-数据结构"><span class="nav-number">1.</span> <span class="nav-text">Redis 数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#string类型"><span class="nav-number">1.1.</span> <span class="nav-text">string类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash类型"><span class="nav-number">1.2.</span> <span class="nav-text">Hash类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#list类型"><span class="nav-number">1.3.</span> <span class="nav-text">list类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set类型"><span class="nav-number">1.4.</span> <span class="nav-text">Set类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-缓存"><span class="nav-number">2.</span> <span class="nav-text">Redis 缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#三个问题的解决代码"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">三个问题的解决代码</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis缓存穿透布隆过滤器"><span class="nav-number">2.1.</span> <span class="nav-text">Redis缓存穿透布隆过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么Redis那么快"><span class="nav-number">2.2.</span> <span class="nav-text">为什么Redis那么快</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis多路I-O复用模型"><span class="nav-number">2.3.</span> <span class="nav-text">Redis多路I/O复用模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis大量Key同时过期的注意事项"><span class="nav-number">2.4.</span> <span class="nav-text">Redis大量Key同时过期的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-事务"><span class="nav-number">2.5.</span> <span class="nav-text">Redis 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bitmaps"><span class="nav-number">2.5.1.</span> <span class="nav-text">Bitmaps</span></a></li></ol></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -36,18 +36,22 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="arthas 官方教程https://alibaba.github.io/arthas/quick-start.html 启动方式12wget https://alibaba.github.io/arthas/arthas-boot.jarjava -jar arthas-boot.jar">
+<meta name="description" content="arthas 官方教程https://alibaba.github.io/arthas/quick-start.html 启动方式12wget https://alibaba.github.io/arthas/arthas-boot.jarjava -jar arthas-boot.jar 基础命令 pwd  查看路径 （arthas命令中没有 ls，可以通过pwd看到路径后，通过linux查看路">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="arthas使用">
 <meta property="og:url" content="http://yoursite.com/2020/04/11/interview/Arthas使用/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="arthas 官方教程https://alibaba.github.io/arthas/quick-start.html 启动方式12wget https://alibaba.github.io/arthas/arthas-boot.jarjava -jar arthas-boot.jar">
+<meta property="og:description" content="arthas 官方教程https://alibaba.github.io/arthas/quick-start.html 启动方式12wget https://alibaba.github.io/arthas/arthas-boot.jarjava -jar arthas-boot.jar 基础命令 pwd  查看路径 （arthas命令中没有 ls，可以通过pwd看到路径后，通过linux查看路">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-24T15:26:59.307Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200624162639157.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200624165223733.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200624193235914.png">
+<meta property="og:updated_time" content="2020-07-01T02:45:50.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="arthas使用">
-<meta name="twitter:description" content="arthas 官方教程https://alibaba.github.io/arthas/quick-start.html 启动方式12wget https://alibaba.github.io/arthas/arthas-boot.jarjava -jar arthas-boot.jar">
+<meta name="twitter:description" content="arthas 官方教程https://alibaba.github.io/arthas/quick-start.html 启动方式12wget https://alibaba.github.io/arthas/arthas-boot.jarjava -jar arthas-boot.jar 基础命令 pwd  查看路径 （arthas命令中没有 ls，可以通过pwd看到路径后，通过linux查看路">
+<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200624162639157.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -329,6 +333,74 @@
       
         <span itemprop="articleBody"><h4 id="arthas-官方教程"><a href="#arthas-官方教程" class="headerlink" title="arthas 官方教程"></a>arthas 官方教程</h4><p><a href="https://alibaba.github.io/arthas/quick-start.html" target="_blank" rel="noopener">https://alibaba.github.io/arthas/quick-start.html</a></p>
 <h4 id="启动方式"><a href="#启动方式" class="headerlink" title="启动方式"></a>启动方式</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://alibaba.github.io/arthas/arthas-boot.jar</span><br><span class="line">java -jar arthas-boot.jar</span><br></pre></td></tr></table></figure>
+<h4 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h4><ul>
+<li>pwd  查看路径 （arthas命令中没有 ls，可以通过pwd看到路径后，通过linux查看路径）</li>
+<li><p>cat    查看文件内容</p>
+</li>
+<li><p>grep      </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysprop | grep java  -n   #-n 显示行号</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>cls   清除屏幕</li>
+<li>reset  重置类的增强，但是在arthas服务器关闭的时候，会自动重置所有的类</li>
+<li>session  查看单签的session</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200624162639157.png" alt="image-20200624162639157" style="zoom:50%;"></p>
+<ul>
+<li>quit   退出当前的arthas的session</li>
+<li>stop  将整个arthas服务关闭，退出全部session</li>
+</ul>
+<ul>
+<li>keymap   查看arthas快捷键</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200624165223733.png" alt="image-20200624165223733"></p>
+<ul>
+<li>dashboard使用</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200624193235914.png" alt="image-20200624193235914"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>参数说明</p>
+<ul>
+<li>ID: Java级别的线程ID，注意这个ID不能跟jstack中的nativeID一一对应</li>
+<li>NAME: 线程名</li>
+<li>GROUP: 线程组名</li>
+<li>PRIORITY: 线程优先级, 1~10之间的数字，越大表示优先级越高</li>
+<li>STATE: 线程的状态</li>
+<li>CPU%: 线程消耗的cpu占比，采样100ms，将所有线程在这100ms内的cpu使用量求和，再算出每个线程的cpu使用占比。</li>
+<li>TIME: 线程运行总时间，数据格式为<code>分：秒</code></li>
+<li>INTERRUPTED: 线程当前的中断位状态</li>
+<li><p>DAEMON: 是否是daemon线程</p>
+</li>
+<li><p>Thread</p>
+</li>
+</ul>
+<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>id</em></td>
+<td>线程id</td>
+</tr>
+<tr>
+<td>[n:]</td>
+<td>指定最忙的前N个线程并打印堆栈</td>
+</tr>
+<tr>
+<td>[b]</td>
+<td>找出当前阻塞其他线程的线程</td>
+</tr>
+<tr>
+<td>[i <code></code>]</td>
+<td>指定cpu占比统计的采样间隔，单位为毫秒</td>
+</tr>
+</tbody>
+</table>
 </span>
       
     </div>
@@ -345,6 +417,8 @@
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/01/高并发服务限流/" rel="prev">高并发服务限流</a>
             
           </div>
 
@@ -556,7 +630,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">165</span>
+              <span class="site-state-item-count">171</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -616,7 +690,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#arthas-官方教程"><span class="nav-number">1.</span> <span class="nav-text">arthas 官方教程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动方式"><span class="nav-number">2.</span> <span class="nav-text">启动方式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#arthas-官方教程"><span class="nav-number">1.</span> <span class="nav-text">arthas 官方教程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动方式"><span class="nav-number">2.</span> <span class="nav-text">启动方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基础命令"><span class="nav-number">3.</span> <span class="nav-text">基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#参数说明"><span class="nav-number">3.1.</span> <span class="nav-text">参数说明</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

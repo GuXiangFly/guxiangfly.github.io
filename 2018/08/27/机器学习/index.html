@@ -56,7 +56,13 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190223234828.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190224010321.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190224010611.png">
-<meta property="og:updated_time" content="2019-12-01T10:12:05.973Z">
+<meta property="og:image" content="https://i.loli.net/2020/04/17/FoSBqOTA4E9tgf7.png">
+<meta property="og:image" content="https://i.loli.net/2020/04/17/CbOM1IxWHJLFUyG.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200528205902569.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200528211015273.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200529093531413.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200602094743991.png">
+<meta property="og:updated_time" content="2020-06-03T12:44:11.986Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习">
 <meta name="twitter:description" content="机器学习的算法分类一般来说 可以分为两大类  监督学习 （预测）（监督学习可以分为三类）    分类 K-近邻算法，贝叶斯分类，决策树与随机森林，逻辑回归，神经网络 回归 线性回归、 岭回归 标注 隐马尔科夫模型123分类：训练目标值是离散型   类似将一个文章进行分类，这个文章是 科技的还是体育的 这是个     离散的值回归：训练目标值是连续的    类似 预测股票的涨跌  预测某个人对某件物">
@@ -387,6 +393,137 @@
 <p><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190224010321.png" alt></p>
 <h3 id="协同过滤-itemCF"><a href="#协同过滤-itemCF" class="headerlink" title="协同过滤 itemCF"></a>协同过滤 itemCF</h3><p><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190224010611.png" alt></p>
 <h3 id="ALS-算法（Alternative-Least-Squares）"><a href="#ALS-算法（Alternative-Least-Squares）" class="headerlink" title="ALS 算法（Alternative Least Squares）"></a>ALS 算法（Alternative Least Squares）</h3><p>spark mllib 里面 没有对 UserCF 和  ItemCF 进行实现<br>只对 ALS 算法进行了实现 ALS 是对 UserCF 和 ItemCF 的一些综合实现<br>我们把打分理解成相似度，那么<br><strong>“打分矩阵A(m*n)”</strong>   就可以由<br><strong>“用户喜好特征矩阵U(m*k)”</strong>  和<br><strong>“产品特征矩阵V(n*k)”</strong>    的乘积 来近似了<br>。这种方法被称为概率矩阵分解算法(probabilistic matrix factorization，PMF)<br>。ALS算法是PMF在数值计算方面的应用。</p>
+<h2 id="TensorFlow-基础学习"><a href="#TensorFlow-基础学习" class="headerlink" title="TensorFlow 基础学习"></a>TensorFlow 基础学习</h2><ul>
+<li><p>创建一张图包含了一组op和tensor</p>
+<ul>
+<li><p>op： 只要使用TensorFlow的API定义的函数都是op</p>
+<ul>
+<li>下面的程序中 <code>tf.constant</code> ,<code>tf.add</code> ,<code>tf.Variable</code> ，<code>tf.get_default_graph</code>这些都是op</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span></span><br><span class="line"></span><br><span class="line">a = tf.constant(<span class="number">5.0</span>)</span><br><span class="line">b = tf.constant(<span class="number">6.0</span>)</span><br><span class="line">data2 = tf.Variable(<span class="number">10</span>, name=<span class="string">'var'</span>)</span><br><span class="line">sum1 = tf.add(a, b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一张图，相当于给程序分配一段内存</span></span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph) <span class="keyword">as</span> sess:</span><br><span class="line">    print(sess.run(sum1))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>张量Tensor</p>
+<ul>
+<li>5.0 ，6.0  这些常量是张量</li>
+</ul>
+</li>
+<li><p>变量</p>
+<ul>
+<li><code>10, name=&#39;var&#39;</code> 这个就是变量</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>graph </p>
+<ul>
+<li>定义一张图，相当于给程序<strong>分配一段内存</strong></li>
+</ul>
+</li>
+<li><p>Session （会话）</p>
+<ul>
+<li><p>tf.Session()<br>运行TensorFlow操作图的类，使用默认注册的图（可以指定运行图）</p>
+</li>
+<li><p>会话资源</p>
+<ul>
+<li>会话可能拥有很多资源，如 tf.Variable，tf.QueueBase和tf.ReaderBase，会话结束后需要进行资源释放</li>
+</ul>
+</li>
+<li><p>sess = tf.Session()    </p>
+<ul>
+<li><p>sess.run(…)      run是启动这个图，可以run多次</p>
+</li>
+<li><p>sess.close() </p>
+<ul>
+<li>使用上下文管理器  运行完代码块后，会自己调用sess.close()<br>with tf.Session() as sess: <pre><code>sess.run(...)
+</code></pre></li>
+</ul>
+</li>
+<li><p>使用config=tf.ConfigProto(log_device_placement=True) 可以打印出在哪个CPU运行的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph = tf.get_default_graph()</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph, config=tf.ConfigProto(log_device_placement=<span class="literal">True</span>)) <span class="keyword">as</span> sess:</span><br><span class="line">    <span class="comment">#print(sess.run(sum1))</span></span><br><span class="line">    <span class="keyword">print</span>（sum1.eval()）</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>- 交互式：tf.InteractiveSession()
+</code></pre><h5 id="重载运算符运行"><a href="#重载运算符运行" class="headerlink" title="重载运算符运行"></a>重载运算符运行</h5><ul>
+<li><code>sum2 = a + c</code> 由于a 是张量， 执行程序的时候  c也会转为张量， +操作会转为tf.add(….)</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a = tf.constant(<span class="number">5.0</span>)</span><br><span class="line">b = tf.constant(<span class="number">6.0</span>)</span><br><span class="line">sum1 = tf.add(a, b)</span><br><span class="line">c = <span class="number">10.0</span></span><br><span class="line"></span><br><span class="line">sum2 = a + c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一张图，相当于给程序分配一段内存</span></span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph, config=tf.ConfigProto(log_device_placement=<span class="literal">True</span>)) <span class="keyword">as</span> sess:</span><br><span class="line">    print(sess.run(sum1))</span><br><span class="line">    print(sess.run(sum2))</span><br><span class="line">    print(sess.run([a, b, sum1, sum2]))</span><br></pre></td></tr></table></figure>
+<h5 id="placeholder-占位符"><a href="#placeholder-占位符" class="headerlink" title="placeholder 占位符"></a>placeholder 占位符</h5><ul>
+<li>意义：在程序执行的时候,不确定输入的是什么，提前“占个坑”</li>
+<li>语法：placeholder提供占位符，run时候通过feed_dict指定参数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'TF_CPP_MIN_LOG_LEVEL'</span>] = <span class="string">'2'</span></span><br><span class="line"><span class="comment"># 这个代表给的数据必须是两行三列的</span></span><br><span class="line">tf.placeholder(tf.float32, [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="comment"># 这个代表给的数据可以是不固定行数，三列的</span></span><br><span class="line">plt = tf.placeholder(tf.float32, [<span class="literal">None</span>, <span class="number">3</span>])</span><br><span class="line"><span class="comment"># 定义一张图，相当于给程序分配一段内存</span></span><br><span class="line">graph = tf.get_default_graph()</span><br><span class="line"><span class="keyword">with</span> tf.Session(graph=graph, config=tf.ConfigProto(log_device_placement=<span class="literal">True</span>)) <span class="keyword">as</span> sess:</span><br><span class="line">    print(sess.run(plt, feed_dict=&#123;plt: [</span><br><span class="line">        [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">2</span>, <span class="number">66</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">78</span>, <span class="number">3</span>],</span><br><span class="line">    ]&#125;))</span><br></pre></td></tr></table></figure>
+<h5 id="张量"><a href="#张量" class="headerlink" title="张量"></a>张量</h5><ul>
+<li>1、张量的阶和数据类型<ul>
+<li>tensor 是对 numpy的 ndarray 进行了封装</li>
+</ul>
+</li>
+<li>2、张量操作</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># tensorflow:打印出来的形状表示</span></span><br><span class="line"><span class="comment"># 0维：()   1维:(5)  2维：(5,6)   3维：(2,3,4)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 形状的概念</span></span><br><span class="line"><span class="comment"># 静态形状和动态性状</span></span><br><span class="line"><span class="comment"># 对于静态形状来说，一旦张量形状固定了，不能再次设置静态形状, 不能夸维度修改 1D-&gt;1D 2D-&gt;2D</span></span><br><span class="line"><span class="comment"># 动态形状可以去创建一个新的张量,改变时候一定要注意元素数量要匹配  1D-&gt;2D  1-&gt;3D</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"> plt = tf.placeholder(tf.float32, [<span class="literal">None</span>, <span class="number">2</span>])</span><br><span class="line"> print(plt)</span><br><span class="line"> plt.set_shape([<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>])</span><br><span class="line"> print(plt)</span><br><span class="line"> <span class="comment"># plt.set_shape([2, 3]) # 不能再次修改</span></span><br><span class="line"> plt_reshape = tf.reshape(plt, [<span class="number">3</span>, <span class="number">3</span>])</span><br><span class="line"> print(plt_reshape)</span><br><span class="line"> <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br></pre></td></tr></table></figure>
+<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><ul>
+<li><p>变量op</p>
+<ul>
+<li><p>1、变量op能够持久化保存，普通张量op是不行的</p>
+</li>
+<li><p>2、当定义一个变量op的时候，一定要在会话当中去运行初始化</p>
+<ul>
+<li><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(init_op)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>3、name参数：在tensorboard使用的时候显示名字，可以让相同op名字的进行区分</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="TensorBoard"><a href="#TensorBoard" class="headerlink" title="TensorBoard"></a>TensorBoard</h4><ul>
+<li><p><strong>显示TensorBoard</strong></p>
+<p>数据序列化-events文件</p>
+<p>TensorBoard 通过读取 TensorFlow 的事件文件来运行。TensorFlow 的事件文件包括了你会在 TensorFlow 运行中涉及到的主要数据。事件文件的生成通过在程序中指定tf.summary.FileWriter存储的目录,以及要运行的图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.summary.FileWriter(<span class="string">'/tmp/summary/test/'</span>, graph=default_graph)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>启动TensorBoard</strong></p>
+<p>要运行TensorBoard，请使用以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=&quot;path/to/log-directory&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="TensorBoard-基础查看"><a href="#TensorBoard-基础查看" class="headerlink" title="TensorBoard 基础查看"></a>TensorBoard 基础查看</h5><p><img src="https://i.loli.net/2020/04/17/FoSBqOTA4E9tgf7.png" alt></p>
+<p>variable通过 random_normal 进行初始化，并且生成的是2x3的矩阵</p>
+<p><img src="https://i.loli.net/2020/04/17/CbOM1IxWHJLFUyG.png" alt></p>
+<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><p>神经网络 用于模拟这个过程：</p>
+<ol>
+<li>人接触到水杯，收集到温度  （轴突末梢）</li>
+<li>温度在神经元中传递 （轴突）</li>
+<li>心中有个默认的感觉，高于哪个温度就放下，低于哪个温度就可以喝</li>
+</ol>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200528205902569.png" alt="image-20200528205902569" style="zoom:50%;"></p>
+<h4 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h4><p>感知机用于解决分类问题。</p>
+<p>有n个输入的数据，通过权重与各数据之间的计算和， 比较激活函数的输出结果，得出结论。</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200528211015273.png" alt="image-20200528211015273" style="zoom:50%;"></p>
+<h4 id="神经网络的特点"><a href="#神经网络的特点" class="headerlink" title="神经网络的特点"></a>神经网络的特点</h4><p>输入向量的维度和输入神经元的个数相同<br>每个连接都有个权值<br>同一层神经元之间没有连接<br>由输入层，隐层，输出层组成<br>第N层与第N-1层的所有神经元连接，也叫全连接（隐层中的最后一层和输出层的连接叫做全连接层，隐层中的最后一层的神经元个数和输出层的结果个数一致）</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200529093531413.png" alt="image-20200529093531413" style="zoom:50%;"></p>
+<ul>
+<li><p>正向传播：输入经过一层一层计算得出输出。</p>
+</li>
+<li><p>反向传播：从损失计算开始，梯度下降更新权重。</p>
+</li>
+</ul>
+<p>假设有个图片是 28x28的图片，内容是数字1，我们想识别数字。</p>
+<p>那么就是 28x28=784个元素输入进入 每个神经元，由于这个模型只有一层，又由于输出层类别有0~9 这么10种，所以全连接层就是10个神经元。</p>
+<p>784对10个神经元每个神经元都进行计算，就得出了10个结果，对十个结果都进行softmax，得到概率值。 得到概率值后进行 交叉熵损失计算。  交叉熵损失计算公式如图，</p>
+<p>$$<br>softmax(<em>x</em>)<em>i</em>=∑<em>j</em>exp(<em>x**j</em>)exp(<em>x**i</em>)<br>$$<br><em>H**y</em>′(<em>y</em>)=−∑<em>i<strong>y</strong>i</em>′<em>l<strong>o</strong>g</em>(<em>y**i</em>)</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>H</mi><mrow><msup><mi>y</mi><mrow><mi mathvariant="normal">′</mi></mrow></msup></mrow></msub><mo>(</mo><mi>y</mi><mo>)</mo><mrow><mo>=</mo></mrow><mo>−</mo><msub><mo>∑</mo><mi>i</mi></msub><msubsup><mi>y</mi><mi>i</mi><mrow><mi mathvariant="normal">′</mi></mrow></msubsup><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo fence="true">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">H_{y’}(y){=}-\sum_iy’_ilog\left(y_i\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:1.0519020000000001em;vertical-align:-0.30001em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.08125em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist"><span style="top:-0.286em;margin-right:0.07142857142857144em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span><span class="reset-scriptstyle scriptscriptstyle cramped mtight"><span class="mord scriptscriptstyle cramped mtight"><span class="mord mathrm mtight">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span></span></span></span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mord textstyle uncramped"><span class="mrel">=</span></span><span class="mbin">−</span><span class="mop"><span class="mop op-symbol small-op" style="top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist"><span style="top:0.30001em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathit mtight">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span></span></span></span></span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist"><span style="top:0.258664em;margin-left:-0.03588em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathit mtight">i</span></span></span><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span><span class="reset-textstyle scriptstyle uncramped mtight"><span class="mord scriptstyle uncramped mtight"><span class="mord mathrm mtight">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span></span></span></span></span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">o</span><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="minner textstyle uncramped"><span class="mopen style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord mathit mtight">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;"></span></span></span></span></span></span><span class="mclose style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span></span></span></span></p>
+
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200602094743991.png" alt="image-20200602094743991"></p>
+<p>假设我们是1，</p>
 </span>
       
     </div>
@@ -404,7 +541,7 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/27/Scala Study note/" rel="prev">Scala study Note</a>
+              <a href="/2018/08/27/Hive详细笔记/" rel="prev">Hive 学习笔记</a>
             
           </div>
 
@@ -616,7 +753,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">165</span>
+              <span class="site-state-item-count">171</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -676,7 +813,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器学习的算法分类"><span class="nav-number">1.</span> <span class="nav-text">机器学习的算法分类</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#K-近邻算法-kNN，k-Nearest-Neighbor"><span class="nav-number"></span> <span class="nav-text">K-近邻算法(kNN，k-Nearest Neighbor)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#朴素贝叶斯"><span class="nav-number"></span> <span class="nav-text">朴素贝叶斯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归"><span class="nav-number"></span> <span class="nav-text">线性回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协同过滤"><span class="nav-number"></span> <span class="nav-text">协同过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#推荐数据的准备"><span class="nav-number">1.</span> <span class="nav-text">推荐数据的准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协同过滤-UserCF"><span class="nav-number">2.</span> <span class="nav-text">协同过滤 UserCF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协同过滤-itemCF"><span class="nav-number">3.</span> <span class="nav-text">协同过滤 itemCF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALS-算法（Alternative-Least-Squares）"><span class="nav-number">4.</span> <span class="nav-text">ALS 算法（Alternative Least Squares）</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器学习的算法分类"><span class="nav-number">1.</span> <span class="nav-text">机器学习的算法分类</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#K-近邻算法-kNN，k-Nearest-Neighbor"><span class="nav-number"></span> <span class="nav-text">K-近邻算法(kNN，k-Nearest Neighbor)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#朴素贝叶斯"><span class="nav-number"></span> <span class="nav-text">朴素贝叶斯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归"><span class="nav-number"></span> <span class="nav-text">线性回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协同过滤"><span class="nav-number"></span> <span class="nav-text">协同过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#推荐数据的准备"><span class="nav-number">1.</span> <span class="nav-text">推荐数据的准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协同过滤-UserCF"><span class="nav-number">2.</span> <span class="nav-text">协同过滤 UserCF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协同过滤-itemCF"><span class="nav-number">3.</span> <span class="nav-text">协同过滤 itemCF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALS-算法（Alternative-Least-Squares）"><span class="nav-number">4.</span> <span class="nav-text">ALS 算法（Alternative Least Squares）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow-基础学习"><span class="nav-number"></span> <span class="nav-text">TensorFlow 基础学习</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#重载运算符运行"><span class="nav-number">0.0.1.</span> <span class="nav-text">重载运算符运行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#placeholder-占位符"><span class="nav-number">0.0.2.</span> <span class="nav-text">placeholder 占位符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#张量"><span class="nav-number">0.0.3.</span> <span class="nav-text">张量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#变量"><span class="nav-number">0.0.4.</span> <span class="nav-text">变量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TensorBoard"><span class="nav-number">0.1.</span> <span class="nav-text">TensorBoard</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TensorBoard-基础查看"><span class="nav-number">0.1.1.</span> <span class="nav-text">TensorBoard 基础查看</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络"><span class="nav-number"></span> <span class="nav-text">神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#感知机"><span class="nav-number">0.1.</span> <span class="nav-text">感知机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#神经网络的特点"><span class="nav-number">0.2.</span> <span class="nav-text">神经网络的特点</span></a></li></ol></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -3376,6 +3376,383 @@
           
           
             
+              <a class="post-title-link" href="/2020/09/10/装机必备/" itemprop="url">
+                未命名
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2020-09-10T10:49:58+08:00" content="2020-09-10">
+            2020-09-10
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            VIM配置
+.vimrc
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2020/09/10/装机必备/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2020/07/25/interview/CPU占用过高/" itemprop="url">
+                未命名
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2020-07-25T22:54:58+08:00" content="2020-07-25">
+            2020-07-25
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            CPU占用过高怎么排查
+top 找出CPU占用过高的进程 PID
+
+1ps -mp 6902 -o THREAD,tid,time
+
+
+通过ps -mp 进程ID  -o THREAD,tid,time命令查看进程id
+
+
+            
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2020/07/25/interview/CPU占用过高/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2020/07/24/算法总结/" itemprop="url">
+                未命名
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2020-07-24T19:40:49+08:00" content="2020-07-24">
+            2020-07-24
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            动态规划P 322 
+给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+来源：力扣（LeetCode）链接：https://leetcode-cn.com/problems/coin-
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2020/07/24/算法总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2020/07/13/Presto框架学习/" itemprop="url">
+                未命名
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2020-07-13T16:49:15+08:00" content="2020-07-13">
+            2020-07-13
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            Presto  是一个开源的分布式SQL查询引擎，数据量支持GB 到 PB字节，主要用来处理 秒级查询的场景
+Presto的概念图
+
+Presto 本身是不存储数据的，它通过 Hive 的 Metastore来对接Hive。
+
+Presto 本身可以对接不同的数据源如 Hive，redis，Kafk
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2020/07/13/Presto框架学习/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2020/06/01/高并发服务限流/" itemprop="url">
+                高并发服务限流
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2020-06-01T13:22:54+08:00" content="2020-06-01">
+            2020-06-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            高并发服务限流
+服务降级
+在高并发服务下，防止用户一直等待，使用服务降级方式（直接返回一个友好提示给客户端，调用fallback）
+
+
+服务熔断
+熔断机制目的是wield保护服务，在高并发情况下，如果达到一定的极限（可以自己设置阈值）如果超出了阈值，直接拒绝访问或者使用服务降级。
+
+
+服务隔离
+雪崩
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2020/06/01/高并发服务限流/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2020/04/11/interview/Arthas使用/" itemprop="url">
                 arthas使用
               </a>
@@ -3411,8 +3788,8 @@
             
             arthas 官方教程https://alibaba.github.io/arthas/quick-start.html
 启动方式12wget https://alibaba.github.io/arthas/arthas-boot.jarjava -jar arthas-boot.jar
-
-            
+基础命令
+            ...
           </span>
           <div class="post-more-link text-center">
             <a class="btn" href="/2020/04/11/interview/Arthas使用/#more" rel="contents">
@@ -3624,9 +4001,22 @@ InnoDB采取的方式是 : 将数据划分为若干个页, 以
           <span itemprop="articleBody">
             
             Druid介绍这个  Druid 是 Apache Druid  它与 Alibaba 的 Druid连接池毫无关系
-Druid 相对于kylin的优势在于，既可以做实时计算，又可以做批量离线计算。而kylin无法支持实时计算
 
-Druid的数据结构与Druid架构相辅相成的是其基于DataSour
+Druid 是一个 rOLAP的查询引擎
+
+ROLAP、MOLAP、HOLAP
+
+
+名称
+描述
+细节数据存储位置
+聚合后的数据存储位置
+优化方式
+
+
+
+
+ROLAP(Relatio
             ...
           </span>
           <div class="post-more-link text-center">
@@ -3725,377 +4115,11 @@ OLAP 的一些基础概念事实表和维度表事实表(Fact Table)事实表（
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2019/10/02/分布式事务/" itemprop="url">
-                分布式事务
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2019-10-02T20:09:04+08:00" content="2019-10-02">
-            2019-10-02
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            分布式事务假设情况 支付和配送也不在同一个系统中支付成功的逻辑如下
-1234支付成功结果通知&#123;    将用户的订单状态改为支付成功    远程调用接口添加配送服务&#125;
-假设是添加了@transaction这种事务回调方式我们发生如下步骤  
-
-将用户订单状态改为支付成功succes
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2019/10/02/分布式事务/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2019/09/05/nutch学习/" itemprop="url">
-                nutch 学习
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2019-09-05T23:00:04+08:00" content="2019-09-05">
-            2019-09-05
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            首先我们需要对 nutch-site.xml 的添加 agent1234&lt;property&gt; &lt;name&gt;http.agent.name&lt;/name&gt; &lt;value&gt;blah&lt;/value&gt;&lt;/property&gt;
-下面是nutc
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2019/09/05/nutch学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2019/08/11/kubernetes快速入门/" itemprop="url">
-                kubernetes快速入门
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2019-08-11T13:09:04+08:00" content="2019-08-11">
-            2019-08-11
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            k8s 启动命令script12345678910111213141516systemctl start etcdsystemctl start dockersystemctl start kube-apiserversystemctl start kube-controller-managersy
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2019/08/11/kubernetes快速入门/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2019/07/27/深度学习/" itemprop="url">
-                深度学习
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2019-07-27T20:09:04+08:00" content="2019-07-27">
-            2019-07-27
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            Numpy基础TensorFlow 基础学习
-创建一张图包含了一组op和tensor
-
-op： 只要使用TensorFlow的API定义的函数都是op
-
-下面的程序中 tf.constant ,tf.add ,tf.Variable ，tf.get_default_graph这些都是op
-
-1234
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2019/07/27/深度学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2019/07/11/Kafka学习笔记/" itemprop="url">
-                Kafka学习笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2019-07-11T13:09:04+08:00" content="2019-07-11">
-            2019-07-11
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            Kafka的基础概念kafka工作流程
-kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的.
-kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]
-
-.log文件存储的是kafka队列
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2019/07/11/Kafka学习笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
   </nav>
 
  </div>
@@ -4129,7 +4153,7 @@ kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">165</span>
+              <span class="site-state-item-count">171</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

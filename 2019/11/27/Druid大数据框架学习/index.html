@@ -36,21 +36,21 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="Druid介绍这个  Druid 是 Apache Druid  它与 Alibaba 的 Druid连接池毫无关系 Druid 相对于kylin的优势在于，既可以做实时计算，又可以做批量离线计算。而kylin无法支持实时计算  Druid的数据结构与Druid架构相辅相成的是其基于DataSource与Segment的数据结构，它们共同成就了 Druid的高性能优势。 DataSource结构若">
+<meta name="description" content="Druid介绍这个  Druid 是 Apache Druid  它与 Alibaba 的 Druid连接池毫无关系  Druid 是一个 rOLAP的查询引擎  ROLAP、MOLAP、HOLAP   名称 描述 细节数据存储位置 聚合后的数据存储位置 优化方式     ROLAP(Relational OLAP) 基于关系数据库的OLAP实现 关系型数据库 关系型数据库 通过内存优化查询">
 <meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Druid大数据框架学习">
 <meta property="og:url" content="http://yoursite.com/2019/11/27/Druid大数据框架学习/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="Druid介绍这个  Druid 是 Apache Druid  它与 Alibaba 的 Druid连接池毫无关系 Druid 相对于kylin的优势在于，既可以做实时计算，又可以做批量离线计算。而kylin无法支持实时计算  Druid的数据结构与Druid架构相辅相成的是其基于DataSource与Segment的数据结构，它们共同成就了 Druid的高性能优势。 DataSource结构若">
+<meta property="og:description" content="Druid介绍这个  Druid 是 Apache Druid  它与 Alibaba 的 Druid连接池毫无关系  Druid 是一个 rOLAP的查询引擎  ROLAP、MOLAP、HOLAP   名称 描述 细节数据存储位置 聚合后的数据存储位置 优化方式     ROLAP(Relational OLAP) 基于关系数据库的OLAP实现 关系型数据库 关系型数据库 通过内存优化查询">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/12/10/Y5Pt8fjrygK6Tmk.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/10/TwDyRWqikPuEgAv.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/10/IzPDE1pBwhOyMdY.png">
-<meta property="og:updated_time" content="2019-12-10T06:51:40.889Z">
+<meta property="og:updated_time" content="2020-07-13T15:54:46.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Druid大数据框架学习">
-<meta name="twitter:description" content="Druid介绍这个  Druid 是 Apache Druid  它与 Alibaba 的 Druid连接池毫无关系 Druid 相对于kylin的优势在于，既可以做实时计算，又可以做批量离线计算。而kylin无法支持实时计算  Druid的数据结构与Druid架构相辅相成的是其基于DataSource与Segment的数据结构，它们共同成就了 Druid的高性能优势。 DataSource结构若">
+<meta name="twitter:description" content="Druid介绍这个  Druid 是 Apache Druid  它与 Alibaba 的 Druid连接池毫无关系  Druid 是一个 rOLAP的查询引擎  ROLAP、MOLAP、HOLAP   名称 描述 细节数据存储位置 聚合后的数据存储位置 优化方式     ROLAP(Relational OLAP) 基于关系数据库的OLAP实现 关系型数据库 关系型数据库 通过内存优化查询">
 <meta name="twitter:image" content="https://i.loli.net/2019/12/10/Y5Pt8fjrygK6Tmk.png">
 
 
@@ -332,6 +332,43 @@
 
       
         <span itemprop="articleBody"><h2 id="Druid介绍"><a href="#Druid介绍" class="headerlink" title="Druid介绍"></a>Druid介绍</h2><p>这个  Druid 是 Apache Druid  它与 Alibaba 的 Druid连接池毫无关系</p>
+<blockquote>
+<p>Druid 是一个 rOLAP的查询引擎</p>
+</blockquote>
+<h4 id="ROLAP、MOLAP、HOLAP"><a href="#ROLAP、MOLAP、HOLAP" class="headerlink" title="ROLAP、MOLAP、HOLAP"></a>ROLAP、MOLAP、HOLAP</h4><table>
+<thead>
+<tr>
+<th><strong>名称</strong></th>
+<th><strong>描述</strong></th>
+<th><strong>细节数据存储位置</strong></th>
+<th><strong>聚合后的数据存储位置</strong></th>
+<th>优化方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ROLAP(Relational OLAP)</td>
+<td>基于关系数据库的OLAP实现</td>
+<td>关系型数据库</td>
+<td>关系型数据库</td>
+<td>通过内存优化查询</td>
+</tr>
+<tr>
+<td>MOLAP(Multidimensional OLAP)</td>
+<td>基于多维数据组织的OLAP实现</td>
+<td>数据立方体</td>
+<td>数据立方体</td>
+<td>通过预计算优化查询</td>
+</tr>
+<tr>
+<td>HOLAP(Hybrid OLAP)</td>
+<td>基于混合数据组织的OLAP实现</td>
+<td>关系型数据库</td>
+<td>数据立方体</td>
+<td>通过预计算和内存优化查询</td>
+</tr>
+</tbody>
+</table>
 <p>Druid 相对于kylin的优势在于，既可以做实时计算，又可以做批量离线计算。而kylin无法支持实时计算</p>
 <p><img src="https://i.loli.net/2019/12/10/Y5Pt8fjrygK6Tmk.png" alt></p>
 <h2 id="Druid的数据结构"><a href="#Druid的数据结构" class="headerlink" title="Druid的数据结构"></a>Druid的数据结构</h2><p>与Druid架构相辅相成的是其基于<strong>DataSource</strong>与<strong>Segment</strong>的数据结构，它们共同成就了 Druid的高性能优势。</p>
@@ -351,7 +388,8 @@
 <p>​        这种设计为 Druid带来一个显而易见的优点：按时间范围查询数据时，仅需要访问对应时间段内的这些 Segment数据块，而不需要进行全表数据范围查询，这使效率得到了极大的提高。</p>
 <p><img src="https://i.loli.net/2019/12/10/IzPDE1pBwhOyMdY.png" alt></p>
 <p>​        通过 Segment将数据按时间范围存储，同时，在 Segment中也面向列进行数据压缩存储，这便是所谓的数据纵向切割。而且在 Segment中使用了 Bitmap等技术对数据的访问进行了优化。</p>
-<h3 id="Druid的安装"><a href="#Druid的安装" class="headerlink" title="Druid的安装"></a>Druid的安装</h3></span>
+<h3 id="Druid的安装"><a href="#Druid的安装" class="headerlink" title="Druid的安装"></a>Druid的安装</h3><h4 id="LSM-tree"><a href="#LSM-tree" class="headerlink" title="LSM tree"></a>LSM tree</h4><p>Ddd</p>
+</span>
       
     </div>
 
@@ -580,7 +618,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">165</span>
+              <span class="site-state-item-count">171</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -640,7 +678,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Druid介绍"><span class="nav-number">1.</span> <span class="nav-text">Druid介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Druid的数据结构"><span class="nav-number">2.</span> <span class="nav-text">Druid的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DataSource结构"><span class="nav-number">2.1.</span> <span class="nav-text">DataSource结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Segment结构"><span class="nav-number">2.2.</span> <span class="nav-text">Segment结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Druid的安装"><span class="nav-number">2.3.</span> <span class="nav-text">Druid的安装</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Druid介绍"><span class="nav-number">1.</span> <span class="nav-text">Druid介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ROLAP、MOLAP、HOLAP"><span class="nav-number">1.0.1.</span> <span class="nav-text">ROLAP、MOLAP、HOLAP</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Druid的数据结构"><span class="nav-number">2.</span> <span class="nav-text">Druid的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DataSource结构"><span class="nav-number">2.1.</span> <span class="nav-text">DataSource结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Segment结构"><span class="nav-number">2.2.</span> <span class="nav-text">Segment结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Druid的安装"><span class="nav-number">2.3.</span> <span class="nav-text">Druid的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LSM-tree"><span class="nav-number">2.3.1.</span> <span class="nav-text">LSM tree</span></a></li></ol></li></ol></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
