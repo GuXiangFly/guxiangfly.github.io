@@ -3376,8 +3376,8 @@
           
           
             
-              <a class="post-title-link" href="/2018/11/01/interview/CPU占用过高/" itemprop="url">
-                CPU占用过高怎么排查
+              <a class="post-title-link" href="/2018/11/01/操作系统/" itemprop="url">
+                操作系统
               </a>
             
           
@@ -3409,25 +3409,19 @@
         
           <span itemprop="articleBody">
             
-            CPU占用过高怎么排查
-top 找出CPU占用过高的进程 PID
+            操作系统内存管理
 
-使用 top -c 命令   然后按P
--c 在 command列显示完整的命令
-按P 对CPU占用率进行排序
+1.内存空间的扩充覆盖技术​    - 
 
+交换技术交换技术核心思想：
 
+内存空间紧张时，系统将内存中某些进程暂时换出外存，把外村中某些已经具备运行条件的进程换入内存（进程在内存和磁盘间动态调度）
 
-
-
-第二步：top  -Hp  41469     查看pid 内的具体线程
-
-
-使用 printf “%x\n”
+交换技术在内存空间紧张的时候，内存被换出的进程会进入挂起状态（挂起态，suspe
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/11/01/interview/CPU占用过高/#more" rel="contents">
+            <a class="btn" href="/2018/11/01/操作系统/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3533,8 +3527,8 @@ HLog 先在本地写  写完H
           
           
             
-              <a class="post-title-link" href="/2018/08/27/机器学习/" itemprop="url">
-                未命名
+              <a class="post-title-link" href="/2018/08/27/Hive详细笔记/" itemprop="url">
+                Hive 学习笔记
               </a>
             
           
@@ -3566,17 +3560,14 @@ HLog 先在本地写  写完H
         
           <span itemprop="articleBody">
             
-            机器学习的算法分类一般来说 可以分为两大类
-
-监督学习 （预测）（监督学习可以分为三类）  
-
-分类 K-近邻算法，贝叶斯分类，决策树与随机森林，逻辑回归，神经网络
-回归 线性回归、 岭回归
-标注 隐马尔科夫模型123分类：训练目标值是离散型   类似将一个文章进行分类，这个文章是 科技的还是体育的
+            HDFS 适合于 一次写入 多次读取
+数据是存储在 RegionServer中 
+RegionServer内部有一个  HLog    有一个叫做 WAL 的技术（write  ahead  log  WAL） namenode  是丢了就丢了 但是数据库中不能这么干
+HLog 先在本地写  写完H
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/08/27/机器学习/#more" rel="contents">
+            <a class="btn" href="/2018/08/27/Hive详细笔记/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3752,8 +3743,8 @@ HLog 先在本地写  写完H
           
           
             
-              <a class="post-title-link" href="/2018/08/27/Hive详细笔记/" itemprop="url">
-                Hive 学习笔记
+              <a class="post-title-link" href="/2018/08/27/机器学习/" itemprop="url">
+                未命名
               </a>
             
           
@@ -3785,14 +3776,17 @@ HLog 先在本地写  写完H
         
           <span itemprop="articleBody">
             
-            HDFS 适合于 一次写入 多次读取
-数据是存储在 RegionServer中 
-RegionServer内部有一个  HLog    有一个叫做 WAL 的技术（write  ahead  log  WAL） namenode  是丢了就丢了 但是数据库中不能这么干
-HLog 先在本地写  写完H
+            机器学习的算法分类一般来说 可以分为两大类
+
+监督学习 （预测）（监督学习可以分为三类）  
+
+分类 K-近邻算法，贝叶斯分类，决策树与随机森林，逻辑回归，神经网络
+回归 线性回归、 岭回归
+标注 隐马尔科夫模型123分类：训练目标值是离散型   类似将一个文章进行分类，这个文章是 科技的还是体育的
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/08/27/Hive详细笔记/#more" rel="contents">
+            <a class="btn" href="/2018/08/27/机器学习/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
