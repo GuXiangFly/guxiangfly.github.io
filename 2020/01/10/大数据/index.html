@@ -53,7 +53,15 @@
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214154800096.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214155219286.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214155801016.png">
-<meta property="og:updated_time" content="2020-12-14T08:46:03.242Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214213830453.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214214420645.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214215555048.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214215743414.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214220207607.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214220521104.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214220723201.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214222748099.png">
+<meta property="og:updated_time" content="2020-12-14T14:44:41.356Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据">
 <meta name="twitter:description" content="深入浅出Google File System我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？在硬盘上一个我们存储元数据，以及各个block的文件偏移量  1 block = 4096Byte   2.如何保存一个大文件 3.如何保存一个超大文件 缺点就是每个   缺点： chunkServer的所有数据变更需要通知master，master的压力会变大 4.如何减少 master的数据和">
@@ -366,6 +374,27 @@
 <h4 id="8-如何应对热点"><a href="#8-如何应对热点" class="headerlink" title="8. 如何应对热点"></a>8. 如何应对热点</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214155219286.png" alt="image-20201214155219286" style="zoom:50%;"></p>
 <p>如果我们发现当前某个chunk03 的副本被访问非常频繁，那么我们可以复制这个chunk03 让他放到多个 chunkserver上，将流量平分。</p>
 <h4 id="9-如何读文件"><a href="#9-如何读文件" class="headerlink" title="9.如何读文件"></a>9.如何读文件</h4><h4 id="10-如何写文件"><a href="#10-如何写文件" class="headerlink" title="10.如何写文件"></a>10.如何写文件</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214155801016.png" alt="image-20201214155801016" style="zoom:50%;"></p>
+<h1 id="深入浅出-bigtable"><a href="#深入浅出-bigtable" class="headerlink" title="深入浅出 bigtable"></a>深入浅出 bigtable</h1><p>如果想保存一个超大表，一般我们将 超大表分为小表，再将小表分为小小表。</p>
+<ul>
+<li>A table =  a list of  tablets （小表）</li>
+<li>A tablet = a list of  SSTables （小小表）</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214213830453.png" alt="image-20201214213830453"></p>
+<h4 id="如何写数据"><a href="#如何写数据" class="headerlink" title="如何写数据"></a>如何写数据</h4><p>任务：添加&lt;b,yeah&gt;  先将 &lt;b,yeah&gt;添加到内存中去，并且是顺序写入memTable，memTable大于64M ，于是就落盘成为一个SSTable</p>
+<p>A tablet = a list of  SSTables  + memTable + log</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214214420645.png" alt="image-20201214214420645" style="zoom:50%;"></p>
+<h4 id="如何读数据"><a href="#如何读数据" class="headerlink" title="如何读数据"></a>如何读数据</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214215555048.png" alt="image-20201214215555048" style="zoom:50%;"></p>
+<p>我们要读取一个数据，由于之前的策略，SSTable内部是有序的，SSTable之间是无序的。</p>
+<p>于是我们可以对 SSTable 添加一个索引，预先加入内存。并且通估一个bloomfilter 在读 SSTable0之前先看看bloomfilter 内部没有没有想要的数据b.</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214215743414.png" alt="image-20201214215743414" style="zoom:50%;"></p>
+<h4 id="SSTable-和-chunk的完美结合"><a href="#SSTable-和-chunk的完美结合" class="headerlink" title="SSTable 和 chunk的完美结合"></a>SSTable 和 chunk的完美结合</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214220207607.png" alt="image-20201214220207607"></p>
+<h4 id="表的逻辑视图"><a href="#表的逻辑视图" class="headerlink" title="表的逻辑视图"></a>表的逻辑视图</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214220521104.png" alt="image-20201214220521104"></p>
+<p>这个逻辑视图如何映射为我们的物理视图 sstable呢？</p>
+<p>将一个列族 </p>
+<p>将</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214220723201.png" alt="image-20201214220723201"></p>
+<h1 id="深入浅出-MapReduce"><a href="#深入浅出-MapReduce" class="headerlink" title="深入浅出 MapReduce"></a>深入浅出 MapReduce</h1><p>Map reduce</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214222748099.png" alt="image-20201214222748099"></p>
 </span>
       
     </div>
@@ -655,7 +684,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#深入浅出Google-File-System"><span class="nav-number">1.</span> <span class="nav-text">深入浅出Google File System</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-如何保存一个大文件"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2.如何保存一个大文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-如何保存一个超大文件"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3.如何保存一个超大文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-如何减少-master的数据和流量"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4.如何减少 master的数据和流量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-如何发现数据损坏"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5.如何发现数据损坏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-减少ChunkServer-挂掉带来的损失"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6.减少ChunkServer 挂掉带来的损失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-如何恢复损坏的chunk"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">7.如何恢复损坏的chunk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-如何应对热点"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">8. 如何应对热点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-如何读文件"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">9.如何读文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-如何写文件"><span class="nav-number">1.0.0.10.</span> <span class="nav-text">10.如何写文件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#深入浅出Google-File-System"><span class="nav-number">1.</span> <span class="nav-text">深入浅出Google File System</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-如何保存一个大文件"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2.如何保存一个大文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-如何保存一个超大文件"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3.如何保存一个超大文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-如何减少-master的数据和流量"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4.如何减少 master的数据和流量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-如何发现数据损坏"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5.如何发现数据损坏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-减少ChunkServer-挂掉带来的损失"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6.减少ChunkServer 挂掉带来的损失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-如何恢复损坏的chunk"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">7.如何恢复损坏的chunk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-如何应对热点"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">8. 如何应对热点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-如何读文件"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">9.如何读文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-如何写文件"><span class="nav-number">1.0.0.10.</span> <span class="nav-text">10.如何写文件</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#深入浅出-bigtable"><span class="nav-number">2.</span> <span class="nav-text">深入浅出 bigtable</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何写数据"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">如何写数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何读数据"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">如何读数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSTable-和-chunk的完美结合"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">SSTable 和 chunk的完美结合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表的逻辑视图"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">表的逻辑视图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#深入浅出-MapReduce"><span class="nav-number">3.</span> <span class="nav-text">深入浅出 MapReduce</span></a></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

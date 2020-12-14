@@ -49,7 +49,7 @@
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200927191957310.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201207221959145.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201210201333070.png">
-<meta property="og:updated_time" content="2020-12-10T13:05:04.454Z">
+<meta property="og:updated_time" content="2020-12-14T11:56:30.124Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis面试">
 <meta name="twitter:description" content="Redis 数据结构 string hash set list   zset （排序的set）  string类型1234567891011- 单值操作    set key value    DD- 分布式锁    SETNX（set if not exsit）的原理：只有在 key为空的时候  才会设置value成功，若键 key 已经存在， 则 SETNX 命令不做任何动作。    SETN">
@@ -358,8 +358,8 @@
 <p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200927191957310.png" alt="image-20200927191957310" style="zoom:43%;"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/getUserById"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">getUserById</span><span class="params">(Integer id)</span></span>&#123;</span><br><span class="line">    <span class="comment">//1.查询缓存中是否有数据,如果有数据就返回数据。</span></span><br><span class="line">    User user = cacheHelper.get(String.valueOf(id));</span><br><span class="line">    <span class="keyword">if</span> (user!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//2.缓存中没有数据，就去db中查询</span></span><br><span class="line">    User userInDdById = getUserInDdById(id);</span><br><span class="line">    <span class="keyword">if</span> (userInDdById!=<span class="keyword">null</span>)&#123;</span><br><span class="line">       <span class="comment">//3.查询到数据并且存入DB，并且设置过期时间</span></span><br><span class="line">        cacheHelper.setUserToCache(String.valueOf(id), user,<span class="number">30</span>);</span><br><span class="line">        <span class="keyword">return</span> userInDdById;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>缓存穿透<ul>
-<li>描述：  缓存中没有，数据库中也没有<ul>
+<li>缓存穿透  <ul>
+<li>描述：  缓存中没有，数据库中也没有 （既然穿透了，那么肯定是两层墙都被打穿了，缓存没有，mysql也没有）<ul>
 <li>类似上述代码，如果 id查询为 111，但是数据库里面没有 id为111的，那么就产生了缓存穿透</li>
 </ul>
 </li>
@@ -370,8 +370,8 @@
 </li>
 </ul>
 </li>
-<li>缓存击穿<ul>
-<li>描述： 缓存中没有，但是数据库中有。   （假设所有子弹都打在墙上同一个点，那么这堵墙很可能被击穿）<ul>
+<li>缓存击穿 <ul>
+<li>描述： 缓存中没有，但是数据库中有。   （击穿，是只击穿一层墙， 那么就是缓存墙被击穿了，另一层墙mysql层没有被击穿）<ul>
 <li>热点数据</li>
 <li>假设刚上新一个商品（热点数据）， 突然有10000个请求同时访问此产品， 第1个请求还没往redis缓存中存储进去， 第2到第10000个请求已经打到机器， 这样也会导致数据库宕机</li>
 </ul>
@@ -454,7 +454,7 @@
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/02/interview/音标学习/" rel="next">英标学习</a>
+              <a href="/2018/01/02/Netty总结 /" rel="next">Netty学习</a>
             
           </div>
         </div>

@@ -3376,8 +3376,8 @@
           
           
             
-              <a class="post-title-link" href="/2018/01/02/interview/分布式锁/" itemprop="url">
-                分布式锁面试
+              <a class="post-title-link" href="/2018/01/02/interview/音标学习/" itemprop="url">
+                英标学习
               </a>
             
           
@@ -3409,17 +3409,11 @@
         
           <span itemprop="articleBody">
             
-            分布式锁的实现思路
-1）获取锁 ，进行业务操作
-2）库存不足 释放锁
-3）异常，释放锁
-4）执行成功，释放锁
-
-使用zookeeper的临时节点Java zookeeper分布式锁实现1234567891011121314151617181920212223242526272829303132333
+            列出字母音标123456789101112a[ei:]b[bi:]  c[si:]d[di:]e[i:]f[ef]g[dʒ]h[ei:tʃ]i[ai]j[dʒei:]k[kei:]l[el]m[em]n[en]o[əu]p[pi:]q[kju:]r[a:]s[es]t[ti:]u[ju:]v[vi:
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/01/02/interview/分布式锁/#more" rel="contents">
+            <a class="btn" href="/2018/01/02/interview/音标学习/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3745,7 +3739,78 @@ write a g
           
           
             
-              <a class="post-title-link" href="/2017/11/01/interview/ZooKeeper使用总结/" itemprop="url">
+              <a class="post-title-link" href="/2017/11/01/Numpy学习/" itemprop="url">
+                Numpy学习
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
+            2017-11-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            ndarray 多维数组(N Dimension Array)NumPy数组是一个多维的数组对象（矩阵），称为ndarray，具有矢量算术运算能力和复杂的广播能力，并具有执行速度快和节省空间的特点。注意：ndarray的下标从0开始，且数组里的所有元素必须是相同类型ndarray拥有的属性
+ndim
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/01/Numpy学习/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2017/11/01/ZooKeeper使用总结/" itemprop="url">
                 Zookeeper使用教程
               </a>
             
@@ -3783,7 +3848,7 @@ write a g
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/interview/ZooKeeper使用总结/#more" rel="contents">
+            <a class="btn" href="/2017/11/01/ZooKeeper使用总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3816,8 +3881,8 @@ write a g
           
           
             
-              <a class="post-title-link" href="/2017/11/01/Maven依赖冲突/" itemprop="url">
-                Maven依赖冲突
+              <a class="post-title-link" href="/2017/11/01/MongoDB常用命令/" itemprop="url">
+                MongoDB常用命令.md
               </a>
             
           
@@ -3849,13 +3914,13 @@ write a g
         
           <span itemprop="articleBody">
             
-            解决方法具体我参考了这个博客
-https://blog.csdn.net/justry_deng/article/details/98665086
-
-            
+            MongoDB常用命令开启服务器：1mongod -f mongod.cfg
+开启链接:1mongo localhost:27017  (默认是 localhost:27017 可以不加)
+说明MongoDB命令是区分大小写的，使用的命名规则是驼峰命名法。对于database和collection无
+            ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/Maven依赖冲突/#more" rel="contents">
+            <a class="btn" href="/2017/11/01/MongoDB常用命令/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3958,8 +4023,8 @@ https://blog.csdn.net/justry_deng/article/details/98665086
           
           
             
-              <a class="post-title-link" href="/2017/11/01/LSM-Tree以及运用/" itemprop="url">
-                LSM-Tree的运用
+              <a class="post-title-link" href="/2017/11/01/Maven依赖冲突/" itemprop="url">
+                Maven依赖冲突
               </a>
             
           
@@ -3991,86 +4056,13 @@ https://blog.csdn.net/justry_deng/article/details/98665086
         
           <span itemprop="articleBody">
             
-            ======
-LSM 树是什么Log Structured-Merge Tree  日志合并树
-LSM 的简易模型LSM 的简易树状结构分为两棵树  C0  和 C1
-C0 比较小，全部存储于内存之中，  C1则存储于磁盘之上。
-一个数据来了，我们先将数据存入C0这个内存的树上， C0大小达到阈值后
-            ...
+            解决方法具体我参考了这个博客
+https://blog.csdn.net/justry_deng/article/details/98665086
+
+            
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/LSM-Tree以及运用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2017/11/01/Numpy学习/" itemprop="url">
-                Numpy学习
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
-            2017-11-01
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            ndarray 多维数组(N Dimension Array)NumPy数组是一个多维的数组对象（矩阵），称为ndarray，具有矢量算术运算能力和复杂的广播能力，并具有执行速度快和节省空间的特点。注意：ndarray的下标从0开始，且数组里的所有元素必须是相同类型ndarray拥有的属性
-ndim
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/Numpy学习/#more" rel="contents">
+            <a class="btn" href="/2017/11/01/Maven依赖冲突/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

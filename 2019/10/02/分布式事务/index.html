@@ -44,15 +44,16 @@
 <meta property="og:site_name" content="guxiangfly的博客">
 <meta property="og:description" content="分布式事务假设情况 支付和配送也不在同一个系统中支付成功的逻辑如下 1234支付成功结果通知&amp;#123;    将用户的订单状态改为支付成功    远程调用接口添加配送服务&amp;#125; 假设是添加了@transaction这种事务回调方式我们发生如下步骤    将用户订单状态改为支付成功success 但是 并没有commit 远程回调接口添加配送服务成功success 在订单服务中 已经comm">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214190726335.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/04/8KxRqoJkuYZizOm.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/04/SyFRI2H8PfhQ9uv.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200929163035233.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200929163512788.png">
-<meta property="og:updated_time" content="2020-12-12T10:12:50.019Z">
+<meta property="og:updated_time" content="2020-12-14T11:08:18.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式事务">
 <meta name="twitter:description" content="分布式事务假设情况 支付和配送也不在同一个系统中支付成功的逻辑如下 1234支付成功结果通知&amp;#123;    将用户的订单状态改为支付成功    远程调用接口添加配送服务&amp;#125; 假设是添加了@transaction这种事务回调方式我们发生如下步骤    将用户订单状态改为支付成功success 但是 并没有commit 远程回调接口添加配送服务成功success 在订单服务中 已经comm">
-<meta name="twitter:image" content="https://i.loli.net/2019/12/04/8KxRqoJkuYZizOm.png">
+<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214190726335.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -346,7 +347,13 @@
 <h3 id="分布式事务-1"><a href="#分布式事务-1" class="headerlink" title="分布式事务"></a>分布式事务</h3><ol>
 <li>多个系统协同来完成一个事务</li>
 </ol>
-<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><ul>
+<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><p>如下图，是商品信息管理的执行流程： </p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214190726335.png" alt="image-20201214190726335" style="zoom:33%;"></p>
+<p>整体执行流程如下： </p>
+<p>1、商品服务请求主数据库写入商品信息（添加商品、修改商品、删除商品） </p>
+<p>2、主数据库向商品服务响应写入成功。 </p>
+<p>3、商品服务请求从数据库读取商品信息。 </p>
+<ul>
 <li>C： consistency 强一致性  同一时候 系统的数据都是一致的   注意: 强一致性和最终一致性不一样</li>
 <li>A： available   可用性</li>
 <li>P： partition tolerance  分区容错性</li>
@@ -404,7 +411,7 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/11/03/云计算/" rel="prev">云计算概念</a>
+              <a href="/2019/11/03/Kylin学习/" rel="prev"></a>
             
           </div>
 
