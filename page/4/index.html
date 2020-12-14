@@ -3447,6 +3447,83 @@
           
           
             
+              <a class="post-title-link" href="/2018/03/27/interview/AQS面试/" itemprop="url">
+                AQS面试
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-03-27T20:09:04+08:00" content="2018-03-27">
+            2018-03-27
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            ReentrantLock加锁和释放锁的底层原理
+
+AQS 主要是用来实现 锁的，类似 reentrantLock 就是内部使用的AQS
+AQS 内部主要有三块东西
+
+state 变量：   atomicInteger
+state = 0 代表没被加锁  
+state = 1 代表被加锁了，加锁后会
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/03/27/interview/AQS面试/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2018/03/27/interview/线程专题/" itemprop="url">
                 线程专题
               </a>
@@ -3531,7 +3608,7 @@ Terminated（被终止）
           
           
             
-              <a class="post-title-link" href="/2018/03/27/interview/AQS面试/" itemprop="url">
+              <a class="post-title-link" href="/2018/03/27/线程专题/" itemprop="url">
                 线程专题
               </a>
             
@@ -3565,24 +3642,27 @@ Terminated（被终止）
           <span itemprop="articleBody">
             
             线程专题笔记
-线程的状态转换 这是一个线程状态图
- JAVA 核心卷版本
+##线程的状态转换
+ 这是一个线程状态图
+线程有  
+
+ready to run 
+Running
+Dead
+sleeping
+waiting
+Blocked
+JAVA 核心卷版本
 
 New（新创建）
 Runnable（可运行）
 Blocked（被阻塞）
 Waiting（等待）
-Timed waiting（计时等待） 
-Terminated（被终止）
-
-这 6 个状态
-
-初始状态 （new 状态）
-1实现
+Tim
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/03/27/interview/AQS面试/#more" rel="contents">
+            <a class="btn" href="/2018/03/27/线程专题/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3664,76 +3744,6 @@ Terminated（被终止）
           </span>
           <div class="post-more-link text-center">
             <a class="btn" href="/2018/03/11/springboot源码学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/02/27/ConcurrentHashMap  and  HashMap/" itemprop="url">
-                ConcurrentHashMap and hashmap
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-02-27T20:09:04+08:00" content="2018-02-27">
-            2018-02-27
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            阻塞： 是使用 synchronized  或者  lock实现的非阻塞： 是使用内存操作 CAS 实现的  有点类似 自旋锁自旋锁： CAS 会根据数据的偏移量来决定是否更新一个数据， 如果数据一样，那么就更新数据，如果不一样那就不更新数据。HashMap 和 hashtable的区别  Hash
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/02/27/ConcurrentHashMap  and  HashMap/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3912,8 +3922,8 @@ Terminated（被终止）
           
           
             
-              <a class="post-title-link" href="/2018/02/27/SwaggerUI使用/" itemprop="url">
-                Swagger-ui 使用笔记
+              <a class="post-title-link" href="/2018/02/27/排序专题/" itemprop="url">
+                排序专题
               </a>
             
           
@@ -3945,11 +3955,12 @@ Terminated（被终止）
         
           <span itemprop="articleBody">
             
-            Swagger-ui 简介首先 Swagger-ui  并不依赖于 springMVC 这一套 使用 jersey JSR 也可以使用 swagger-uiSwagger 是一款目前世界最流行的API管理工具。但目前Swagger已经形成一个生态圈，能够管理API的整个生命周期，从设计、文档到  测
+            冒泡排序  O（n*n）选择排序思路：先从n个元素中 选出最小的一个 放在最前面再从 后面 n-1个元素中选出最小的  放在第二个
+插入排序思路：先固定 n个元素中 第一个元素然后不叫第二个元素  是否比第一个大  如果比第一个小 那就插入第一个前面 如果比第一个大 那就插入在他右边之后 第三个
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/02/27/SwaggerUI使用/#more" rel="contents">
+            <a class="btn" href="/2018/02/27/排序专题/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3982,8 +3993,8 @@ Terminated（被终止）
           
           
             
-              <a class="post-title-link" href="/2018/02/27/interview/数据库专题/" itemprop="url">
-                数据库专题
+              <a class="post-title-link" href="/2018/02/27/ConcurrentHashMap  and  HashMap/" itemprop="url">
+                ConcurrentHashMap and hashmap
               </a>
             
           
@@ -4015,15 +4026,11 @@ Terminated（被终止）
         
           <span itemprop="articleBody">
             
-            数据库专题
-mysql一般分为4层   链接层 服务层 引擎层 存储层
-存储引擎innodb 支持外键， ACID 全部事务
-myISAM 适合于大量数据读 而少量数据写的操作  (myISAM是性能优先，大量数据查询分析，适合myISAM)
-innoDB 适合有较多更新操作的情况    （inno
+            阻塞： 是使用 synchronized  或者  lock实现的非阻塞： 是使用内存操作 CAS 实现的  有点类似 自旋锁自旋锁： CAS 会根据数据的偏移量来决定是否更新一个数据， 如果数据一样，那么就更新数据，如果不一样那就不更新数据。HashMap 和 hashtable的区别  Hash
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/02/27/interview/数据库专题/#more" rel="contents">
+            <a class="btn" href="/2018/02/27/ConcurrentHashMap  and  HashMap/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -4153,7 +4160,7 @@ innoDB 适合有较多更新操作的情况    （inno
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -4167,7 +4174,7 @@ innoDB 适合有较多更新操作的情况    （inno
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

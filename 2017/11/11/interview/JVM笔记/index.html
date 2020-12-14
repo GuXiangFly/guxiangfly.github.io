@@ -44,15 +44,20 @@
 <meta property="og:site_name" content="guxiangfly的博客">
 <meta property="og:description" content="JVM类加载引导类加载器（bootstrapclassloader）-它用来加载Java的核心库(JAVAHOME/jre/lib/rt.jar,üsun.boot.class.path路径下的内容）是用原生代码来实现的，并不继承自java」ang.ClassLoadero加载扩展类和应用程序类加载器。荆旨定他们的父类加载器。 扩展类加载器（extensionsclassloader）-用来加载J">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212194527279.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518010403696.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212195325459.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518111255286.png">
 <meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534694453&di=a372c6fc205d8da43a39e6cb5dfd6f9d&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.kuqin.com%2Fupimg%2Fallimg%2F160518%2F20521a109-0.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201213003257956.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026012129.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026011620.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026011844.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/11/vbguOsk4XEyFZRw.png">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6406935-3a7df2dd218d71db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6406935-5a569a6f1833174a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212234316719.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201213012452190.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181112030202.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/25/wATbBS7NkChXzty.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/25/RyritlsPGdKLJ9I.png">
@@ -70,11 +75,11 @@
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200519165347342.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200519165452640.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200519165518802.png">
-<meta property="og:updated_time" content="2020-05-20T06:36:27.604Z">
+<meta property="og:updated_time" content="2020-12-12T17:39:23.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM笔记">
 <meta name="twitter:description" content="JVM类加载引导类加载器（bootstrapclassloader）-它用来加载Java的核心库(JAVAHOME/jre/lib/rt.jar,üsun.boot.class.path路径下的内容）是用原生代码来实现的，并不继承自java」ang.ClassLoadero加载扩展类和应用程序类加载器。荆旨定他们的父类加载器。 扩展类加载器（extensionsclassloader）-用来加载J">
-<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518010403696.png">
+<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212194527279.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -359,11 +364,14 @@
 <h3 id="应用程序类加载器（applicationclassloader）"><a href="#应用程序类加载器（applicationclassloader）" class="headerlink" title="应用程序类加载器（applicationclassloader）"></a>应用程序类加载器（applicationclassloader）</h3><p>它根据Java应用的类路径（classpath，java.class.path路<br>一般来说，Java应用的类都是由它来完成加载的。asun.misc.Launcher$AppClassLoader实壬见</p>
 <h3 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h3><p>-开发人员可以通过继承java.lang.ClassLoader类的方式<br>实现自己的类加载器，以满足一些特殊的需求。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo02</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(ClassLoader.getSystemClassLoader());</span><br><span class="line">        System.out.println(ClassLoader.getSystemClassLoader().getParent());</span><br><span class="line">        System.out.println(ClassLoader.getSystemClassLoader().getParent().getParent());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">结果如下</span><br><span class="line">sun.misc.Launcher$AppClassLoader@<span class="number">18</span>b4aac2</span><br><span class="line">sun.misc.Launcher$ExtClassLoader@<span class="number">65</span>b54208</span><br><span class="line"><span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">由于最最上层是 bootstrapclassloader 是原生C/C++实现的java 获取不到</span><br><span class="line">Ext 就是 扩展类加载器（extensionsclassloader）可以获取到</span><br></pre></td></tr></table></figure>
-<h3 id="字节码加载流程"><a href="#字节码加载流程" class="headerlink" title="字节码加载流程"></a>字节码加载流程</h3><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518010403696.png" alt="image-20200518010403696"></p>
+<h3 id="字节码加载流程"><a href="#字节码加载流程" class="headerlink" title="字节码加载流程"></a>字节码加载流程</h3><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212194527279.png" alt="image-20201212194527279"></p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200518010403696.png" alt="image-20200518010403696"></p>
 <ul>
 <li>类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载（Loading）、验证（Verification）、准备(Preparation)、解析(Resolution)、初始化(Initialization)、使用(Using)和卸载(Unloading)7个阶段。其中准备、验证、解析3个部分统称为连接（Linking）</li>
 <li>加载、验证、准备、初始化和卸载这5个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。以下陈述的内容都已HotSpot为基准。</li>
 </ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212195325459.png" alt="image-20201212195325459"></p>
+<p>对于一段代码，走如上的流程图，先看程序有没有相应的class对象，如果没有就先加载，有就不加载，然后链接，后初始化，然后执行main方法</p>
 <hr>
 <h5 id="初始化时机"><a href="#初始化时机" class="headerlink" title="初始化时机"></a>初始化时机</h5><p>虚拟机规范中明确规定<strong>只有五种情况必须立即进行‘初始化’（加载，验证，准备）需要在初始化之前</strong></p>
 <ol>
@@ -407,6 +415,7 @@
 <li>fina|（一旦初始化完成，其他线程就可见） </li>
 </ul>
 <h2 id="内存图"><a href="#内存图" class="headerlink" title="内存图"></a>内存图</h2><p><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1534694453&amp;di=a372c6fc205d8da43a39e6cb5dfd6f9d&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fimg.kuqin.com%2Fupimg%2Fallimg%2F160518%2F20521a109-0.png" alt="JVM 内存图"></p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201213003257956.png" alt="image-20201213003257956"></p>
 <h3 id="JDK-1-6-和-1-7-1-8-有所区别"><a href="#JDK-1-6-和-1-7-1-8-有所区别" class="headerlink" title="JDK 1.6 和 1.7 1.8 有所区别"></a>JDK 1.6 和 1.7 1.8 有所区别</h3><p><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026012129.png" alt><br><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026011620.png" alt></p>
 <p>线程安全的本质<br>看图 所以有 内存屏障<br><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/img20181026011844.png" alt></p>
 <ul>
@@ -476,23 +485,30 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str= new String(&quot;abc&quot;)</span><br><span class="line">SoftReference&lt;String&gt; softRef = new SoftReference&lt;String&gt;(str)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>有哪些可以作为 GC root</p>
+<p>有哪些可以作为 GC root  （GCroot）</p>
 <ul>
 <li><strong>GC root</strong><ul>
 <li><strong>由系统类加载器(system class loader)加载的对象</strong> （不带有自定义类加载器），这些类是不能够被回收的，他们可以以静态字段的方式保存持有其它对象。我们需要注意的一点就是，通过用户自定义的类加载器加载的类，除非相应的java.lang.Class实例以其它的某种（或多种）方式成为roots，否则它们并不是roots。</li>
-<li>栈中引用的对象</li>
-<li>方法区中静态成员或者常量引用的对象（全局对象） （引出JDK1.7之后JVM常量池不存在方法区，1.8后没有了方法区）</li>
+<li>虚拟机栈中引用的对象<ul>
+<li>比如各个线程被调用的方法中使用的参数，局部变量</li>
+</ul>
+</li>
+<li>方法区中静态成员或者常量引用的对象（全局对象） （引出JDK1.7之后JVM常量池不存在方法区，1.8后没有了方法区） （方法区中常量的）</li>
 <li>JNI方法栈中引用对象</li>
 <li><strong>活的Thread</strong></li>
+<li>被synchronized 持有的对象</li>
 </ul>
 </li>
 </ul>
+<blockquote>
+<p>小技巧：由于root采用栈的方式存放变量和指针，所以如果一个指针，他保存了堆内存里面的对象，但是自己又不存放在堆内存里面，那么它就是个root</p>
+</blockquote>
 <h4 id="Minor-GC-，-Major-GC-与-Full-GC的区别"><a href="#Minor-GC-，-Major-GC-与-Full-GC的区别" class="headerlink" title="Minor GC ， Major GC  与 Full GC的区别"></a>Minor GC ， Major GC  与 Full GC的区别</h4><blockquote>
 <p>JVM 在进行垃圾回收的时候，并非每次都对三个内存区域（新生代，老年代，方法区）区域一起回收的</p>
 <p>针对Hotspot VM的实现，它的GC按照回收区域分为两大类，一种是 Partial GC （ 部分收集），一种是 Full GC整堆收集</p>
 <ul>
 <li>部分收集，不完整的收集整个Java堆的垃圾收集。其中又分为：<ul>
-<li>新生代收集（Minor GC/ Young GC）： 只是 新生代（eden，s0，s1）的垃圾收集</li>
+<li>新生代收集（Minor GC/ Young GC）： 只是 新生代（eden，s0，s1）的垃圾收集，eden满了才会触发 Minor GC </li>
 <li>老年代（Major GC/ Old GC）：只是老年代<ul>
 <li>目前只有 CMS GC 会单独进行老年代收集，只有CMS会进行 Major GC</li>
 <li>注意，很多时候 Major GC 和 Full GC 会被搞混。具体分辨是老年代回收还是整堆回收</li>
@@ -510,6 +526,60 @@
 <li>调用System.gc()</li>
 <li>CMS GC 出现了promotion failed</li>
 </ul>
+<h3 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h3><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212234316719.png" alt="image-20201212234316719"></p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201213012452190.png" alt="image-20201213012452190" style="zoom: 67%;"></p>
+<ul>
+<li>双亲委派的优势<ul>
+<li>避免类的重复加载</li>
+<li>保护程序的安全，防止核心的API被随意篡改</li>
+</ul>
+</li>
+<li>双亲委派的劣势<ul>
+<li>当应用类访问系统类自然是没有问题的，但是系统类访问应用类会出现问题。</li>
+<li>Tomcat 中类加载机制就和双亲委派模型有些区别。</li>
+</ul>
+</li>
+</ul>
+<h3 id="打破双亲委派模型"><a href="#打破双亲委派模型" class="headerlink" title="打破双亲委派模型"></a>打破双亲委派模型</h3><p>在像一些Tomcat的源码中，WebappClassLoader会打破双亲委派机制。这里我们也来简单模拟一下。</p>
+<p>打破双亲委派机制则不仅要继承ClassLoader类，还要重写loadClass和findClass方法，如下例子：</p>
+<ul>
+<li>重新定义一个继承ClassLoader的TestClassLoaderN类，这个类与前面的TestClassLoader类很相似，但它除了重写findClass方法外还重写了loadClass方法，默认的loadClass方法是实现了双亲委派机制的逻辑，即会先让父类加载器加载，当无法加载时才由自己加载。这里为了破坏双亲委派机制必须重写loadClass方法，即这里先尝试交由System类加载器加载，加载失败才会由自己加载。它并没有优先交给父类加载器，这就打破了双亲委派机制。</li>
+</ul>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><ul>
+<li>守护线程： 如果虚拟机中只有守护线程了，那么虚拟机就可以退出了</li>
+<li>普通线程： 普通线程结束后，jvm才会退出</li>
+</ul>
+<h5 id="常见的守护线程"><a href="#常见的守护线程" class="headerlink" title="常见的守护线程"></a>常见的守护线程</h5><ul>
+<li><p>虚拟机线程：这种线程执行“stop the world” 的垃圾收集，线程栈收集，偏向锁撤销等。</p>
+</li>
+<li><p>周期任务线程：这种线程是时间周期事件的体现，比如中断。</p>
+</li>
+</ul>
+<h3 id="创建一个对象的步骤"><a href="#创建一个对象的步骤" class="headerlink" title="创建一个对象的步骤"></a>创建一个对象的步骤</h3><ol>
+<li><p>判断对象对应的类是否被加载、链接、初始化过</p>
+<blockquote>
+<p>虚拟机遇到条new指令，现在metaspace中。判断类的元信息是否存在。如果没有。通过双亲委派模式使用classloader进行加载，如果没有找到就会抛出classnotfoundexception。找到了就进行类加载</p>
+</blockquote>
+</li>
+<li><p>为对象分配内存。</p>
+<ol>
+<li>如果内存规整– 使用指针碰撞</li>
+<li>如果内存不规整– 虚拟机需要维护一个列表</li>
+<li>内存是否规整，取决于垃圾收集器</li>
+</ol>
+</li>
+<li><p>处理并发安全问题</p>
+</li>
+<li><p>初始化分配到的空间</p>
+<ol>
+<li>给属性进行默认初始化， integer 为null ， int 为0</li>
+</ol>
+</li>
+<li><p>设置对象的对象头</p>
+</li>
+<li><p>执行init方法</p>
+</li>
+</ol>
 <h2 id="JVM参数调优"><a href="#JVM参数调优" class="headerlink" title="JVM参数调优"></a>JVM参数调优</h2><ul>
 <li>-Xmn<ul>
 <li>设置新生代大小</li>
@@ -676,7 +746,7 @@
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/11/JVM笔记/" rel="next">JVM笔记</a>
+              <a href="/2017/11/02/算法总结/" rel="next">操作系统</a>
             
           </div>
         </div>
@@ -882,7 +952,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -896,7 +966,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -942,7 +1012,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM类加载"><span class="nav-number">1.</span> <span class="nav-text">JVM类加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引导类加载器（bootstrapclassloader）"><span class="nav-number">1.1.</span> <span class="nav-text">引导类加载器（bootstrapclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展类加载器（extensionsclassloader）"><span class="nav-number">1.2.</span> <span class="nav-text">扩展类加载器（extensionsclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用程序类加载器（applicationclassloader）"><span class="nav-number">1.3.</span> <span class="nav-text">应用程序类加载器（applicationclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义类加载器"><span class="nav-number">1.4.</span> <span class="nav-text">自定义类加载器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字节码加载流程"><span class="nav-number">1.5.</span> <span class="nav-text">字节码加载流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化时机"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">初始化时机</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引入一个面试题"><span class="nav-number">1.5.1.</span> <span class="nav-text">引入一个面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一个SingleTonTest如下-singleTonTest在上"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">一个SingleTonTest如下(singleTonTest在上)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#结果"><span class="nav-number">1.5.1.1.1.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一个SingleTonTest如下-singleTonTest在下"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">一个SingleTonTest如下 (singleTonTest在下)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#结果-1"><span class="nav-number">1.5.1.2.1.</span> <span class="nav-text">结果</span></a></li></ol></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#java的堆栈区别"><span class="nav-number">2.</span> <span class="nav-text">java的堆栈区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java堆"><span class="nav-number">2.1.</span> <span class="nav-text">Java堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java栈"><span class="nav-number">2.2.</span> <span class="nav-text">Java栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可见性"><span class="nav-number">2.3.</span> <span class="nav-text">可见性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存图"><span class="nav-number">3.</span> <span class="nav-text">内存图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK-1-6-和-1-7-1-8-有所区别"><span class="nav-number">3.1.</span> <span class="nav-text">JDK 1.6 和 1.7 1.8 有所区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-参数调优"><span class="nav-number">4.</span> <span class="nav-text">JVM 参数调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC算法"><span class="nav-number">5.</span> <span class="nav-text">GC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数法"><span class="nav-number">5.1.</span> <span class="nav-text">引用计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记清除算法"><span class="nav-number">5.2.</span> <span class="nav-text">标记清除算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记压缩算法"><span class="nav-number">5.3.</span> <span class="nav-text">标记压缩算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制算法"><span class="nav-number">5.4.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">5.5.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的类型"><span class="nav-number">5.6.</span> <span class="nav-text">对象的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强引用和弱引用"><span class="nav-number">5.7.</span> <span class="nav-text">强引用和弱引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Minor-GC-，-Major-GC-与-Full-GC的区别"><span class="nav-number">5.7.1.</span> <span class="nav-text">Minor GC ， Major GC  与 Full GC的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#触发Full-GC的条件"><span class="nav-number">5.8.</span> <span class="nav-text">触发Full GC的条件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM参数调优"><span class="nav-number">6.</span> <span class="nav-text">JVM参数调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debug时候的参数"><span class="nav-number">7.</span> <span class="nav-text">debug时候的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存分配策略有如下"><span class="nav-number">8.</span> <span class="nav-text">内存分配策略有如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存屏障问题"><span class="nav-number">9.</span> <span class="nav-text">内存屏障问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final-域-重排序"><span class="nav-number">10.</span> <span class="nav-text">final 域 重排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存泄漏"><span class="nav-number"></span> <span class="nav-text">内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS-算法"><span class="nav-number">1.</span> <span class="nav-text">CAS 算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMS-并发标记清除算法-Concurrent-Mark-Sweep"><span class="nav-number">2.</span> <span class="nav-text">CMS 并发标记清除算法 Concurrent Mark Sweep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发与并行的区别"><span class="nav-number">3.</span> <span class="nav-text">并发与并行的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集器"><span class="nav-number">4.</span> <span class="nav-text">垃圾收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMM-笔记"><span class="nav-number">5.</span> <span class="nav-text">JMM 笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZGC"><span class="nav-number">6.</span> <span class="nav-text">ZGC</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类加载策略"><span class="nav-number"></span> <span class="nav-text">类加载策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不被初始化的例子"><span class="nav-number">0.1.</span> <span class="nav-text">不被初始化的例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-排查问题方法"><span class="nav-number">1.</span> <span class="nav-text">JVM 排查问题方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OutOfMemoryError排查与解决实战"><span class="nav-number">1.1.</span> <span class="nav-text">OutOfMemoryError排查与解决实战</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heap-Dump-分析"><span class="nav-number">2.</span> <span class="nav-text">Heap Dump 分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eclipse-MAT-分析的步骤"><span class="nav-number">3.</span> <span class="nav-text">eclipse MAT 分析的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式1-（通过直接的分析）"><span class="nav-number">3.1.</span> <span class="nav-text">方式1 （通过直接的分析）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过直方图看线程栈"><span class="nav-number">3.2.</span> <span class="nav-text">通过直方图看线程栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAT使用的注意点"><span class="nav-number">3.3.</span> <span class="nav-text">MAT使用的注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#通过MAT查看-GCRoot："><span class="nav-number">3.3.0.1.</span> <span class="nav-text">通过MAT查看 GCRoot：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用jprofile进行内存分析"><span class="nav-number">3.4.</span> <span class="nav-text">使用jprofile进行内存分析</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#jprofile打开后如下"><span class="nav-number">3.4.0.0.1.</span> <span class="nav-text">jprofile打开后如下</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#双加最大的对象-char-选中-incoming-references-（来源引用，-这个incoming-reference可以帮助分析来源）"><span class="nav-number">3.4.0.0.2.</span> <span class="nav-text">双加最大的对象 char[] 选中 incoming references  （来源引用， 这个incoming reference可以帮助分析来源）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#进入这个页面后点击-show-paths-to-GC-root-选择-single-Root"><span class="nav-number">3.4.0.0.3.</span> <span class="nav-text">进入这个页面后点击 show paths to GC root 选择 single Root</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#下图代表这个char-来自于-控制台-PrintStream"><span class="nav-number">3.4.0.0.4.</span> <span class="nav-text">下图代表这个char 来自于 控制台 PrintStream</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM类加载"><span class="nav-number">1.</span> <span class="nav-text">JVM类加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引导类加载器（bootstrapclassloader）"><span class="nav-number">1.1.</span> <span class="nav-text">引导类加载器（bootstrapclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展类加载器（extensionsclassloader）"><span class="nav-number">1.2.</span> <span class="nav-text">扩展类加载器（extensionsclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用程序类加载器（applicationclassloader）"><span class="nav-number">1.3.</span> <span class="nav-text">应用程序类加载器（applicationclassloader）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义类加载器"><span class="nav-number">1.4.</span> <span class="nav-text">自定义类加载器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字节码加载流程"><span class="nav-number">1.5.</span> <span class="nav-text">字节码加载流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化时机"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">初始化时机</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引入一个面试题"><span class="nav-number">1.5.1.</span> <span class="nav-text">引入一个面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一个SingleTonTest如下-singleTonTest在上"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">一个SingleTonTest如下(singleTonTest在上)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#结果"><span class="nav-number">1.5.1.1.1.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一个SingleTonTest如下-singleTonTest在下"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">一个SingleTonTest如下 (singleTonTest在下)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#结果-1"><span class="nav-number">1.5.1.2.1.</span> <span class="nav-text">结果</span></a></li></ol></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#java的堆栈区别"><span class="nav-number">2.</span> <span class="nav-text">java的堆栈区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java堆"><span class="nav-number">2.1.</span> <span class="nav-text">Java堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java栈"><span class="nav-number">2.2.</span> <span class="nav-text">Java栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可见性"><span class="nav-number">2.3.</span> <span class="nav-text">可见性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存图"><span class="nav-number">3.</span> <span class="nav-text">内存图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK-1-6-和-1-7-1-8-有所区别"><span class="nav-number">3.1.</span> <span class="nav-text">JDK 1.6 和 1.7 1.8 有所区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-参数调优"><span class="nav-number">4.</span> <span class="nav-text">JVM 参数调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC算法"><span class="nav-number">5.</span> <span class="nav-text">GC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数法"><span class="nav-number">5.1.</span> <span class="nav-text">引用计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记清除算法"><span class="nav-number">5.2.</span> <span class="nav-text">标记清除算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记压缩算法"><span class="nav-number">5.3.</span> <span class="nav-text">标记压缩算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制算法"><span class="nav-number">5.4.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">5.5.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的类型"><span class="nav-number">5.6.</span> <span class="nav-text">对象的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强引用和弱引用"><span class="nav-number">5.7.</span> <span class="nav-text">强引用和弱引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Minor-GC-，-Major-GC-与-Full-GC的区别"><span class="nav-number">5.7.1.</span> <span class="nav-text">Minor GC ， Major GC  与 Full GC的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#触发Full-GC的条件"><span class="nav-number">5.8.</span> <span class="nav-text">触发Full GC的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双亲委派机制"><span class="nav-number">5.9.</span> <span class="nav-text">双亲委派机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打破双亲委派模型"><span class="nav-number">5.10.</span> <span class="nav-text">打破双亲委派模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程"><span class="nav-number">5.11.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#常见的守护线程"><span class="nav-number">5.11.0.1.</span> <span class="nav-text">常见的守护线程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个对象的步骤"><span class="nav-number">5.12.</span> <span class="nav-text">创建一个对象的步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM参数调优"><span class="nav-number">6.</span> <span class="nav-text">JVM参数调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debug时候的参数"><span class="nav-number">7.</span> <span class="nav-text">debug时候的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存分配策略有如下"><span class="nav-number">8.</span> <span class="nav-text">内存分配策略有如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存屏障问题"><span class="nav-number">9.</span> <span class="nav-text">内存屏障问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final-域-重排序"><span class="nav-number">10.</span> <span class="nav-text">final 域 重排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存泄漏"><span class="nav-number"></span> <span class="nav-text">内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS-算法"><span class="nav-number">1.</span> <span class="nav-text">CAS 算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMS-并发标记清除算法-Concurrent-Mark-Sweep"><span class="nav-number">2.</span> <span class="nav-text">CMS 并发标记清除算法 Concurrent Mark Sweep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发与并行的区别"><span class="nav-number">3.</span> <span class="nav-text">并发与并行的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集器"><span class="nav-number">4.</span> <span class="nav-text">垃圾收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMM-笔记"><span class="nav-number">5.</span> <span class="nav-text">JMM 笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZGC"><span class="nav-number">6.</span> <span class="nav-text">ZGC</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类加载策略"><span class="nav-number"></span> <span class="nav-text">类加载策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不被初始化的例子"><span class="nav-number">0.1.</span> <span class="nav-text">不被初始化的例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-排查问题方法"><span class="nav-number">1.</span> <span class="nav-text">JVM 排查问题方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OutOfMemoryError排查与解决实战"><span class="nav-number">1.1.</span> <span class="nav-text">OutOfMemoryError排查与解决实战</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Heap-Dump-分析"><span class="nav-number">2.</span> <span class="nav-text">Heap Dump 分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eclipse-MAT-分析的步骤"><span class="nav-number">3.</span> <span class="nav-text">eclipse MAT 分析的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式1-（通过直接的分析）"><span class="nav-number">3.1.</span> <span class="nav-text">方式1 （通过直接的分析）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过直方图看线程栈"><span class="nav-number">3.2.</span> <span class="nav-text">通过直方图看线程栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAT使用的注意点"><span class="nav-number">3.3.</span> <span class="nav-text">MAT使用的注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#通过MAT查看-GCRoot："><span class="nav-number">3.3.0.1.</span> <span class="nav-text">通过MAT查看 GCRoot：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用jprofile进行内存分析"><span class="nav-number">3.4.</span> <span class="nav-text">使用jprofile进行内存分析</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#jprofile打开后如下"><span class="nav-number">3.4.0.0.1.</span> <span class="nav-text">jprofile打开后如下</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#双加最大的对象-char-选中-incoming-references-（来源引用，-这个incoming-reference可以帮助分析来源）"><span class="nav-number">3.4.0.0.2.</span> <span class="nav-text">双加最大的对象 char[] 选中 incoming references  （来源引用， 这个incoming reference可以帮助分析来源）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#进入这个页面后点击-show-paths-to-GC-root-选择-single-Root"><span class="nav-number">3.4.0.0.3.</span> <span class="nav-text">进入这个页面后点击 show paths to GC root 选择 single Root</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#下图代表这个char-来自于-控制台-PrintStream"><span class="nav-number">3.4.0.0.4.</span> <span class="nav-text">下图代表这个char 来自于 控制台 PrintStream</span></a></li></ol></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

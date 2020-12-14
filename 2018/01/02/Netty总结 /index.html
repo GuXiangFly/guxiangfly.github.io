@@ -49,7 +49,11 @@
 <meta property="og:image" content="https://i.loli.net/2020/01/21/q9DSgVLWf7Zax5U.png">
 <meta property="og:image" content="https://i.loli.net/2020/01/27/ZzB5MqXa6InNtTL.png">
 <meta property="og:image" content="https://i.loli.net/2020/01/21/q9DSgVLWf7Zax5U.png">
-<meta property="og:updated_time" content="2020-05-18T15:30:41.894Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201012143439322.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201210015748570.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201210011920654.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201210012206343.png">
+<meta property="og:updated_time" content="2020-12-09T17:58:35.299Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Netty学习">
 <meta name="twitter:description" content="Netty 学习IO模型BIO （block IO   同步并阻塞） BIO缺点  这种服务端的模型为一个连接一个线程， 对客户端而言没有压力，但是对服务端压力比较大 缺点 如果这个连接不做任何事情，会浪费资源 如果读取没有返回 会阻塞       NIO 同步非阻塞 同步非阻塞，服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有I/">
@@ -429,6 +433,56 @@
 <li>这个ServerSocketChannel 会给他创建一个相应的 SocketChannel</li>
 </ol>
 <p><img src="https://i.loli.net/2020/01/21/q9DSgVLWf7Zax5U.png"></p>
+<p>Selector 开发</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201012143439322.png" alt="image-20201012143439322"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.当客户端连接时，会通过ServerSocketChannel 得到 SocketChannel</span><br><span class="line">2.Selector 进行监听  select 方法, 返回有事件发生的通道的个数.</span><br><span class="line">3.将socketChannel注册到Selector上, register(Selector sel, int ops), 一个selector上可以注册多个SocketChannel</span><br><span class="line">4.注册后返回一个 SelectionKey, 会和该Selector 关联(集合)</span><br><span class="line">5.进一步得到各个 SelectionKey (有事件发生)</span><br><span class="line">6.在通过 SelectionKey  反向获取 SocketChannel , 方法 channel()</span><br><span class="line">7.可以通过  得到的 channel  , 完成业务处理</span><br><span class="line">代码撑腰</span><br></pre></td></tr></table></figure>
+<h2 id="Reactor-模型理解"><a href="#Reactor-模型理解" class="headerlink" title="Reactor 模型理解"></a>Reactor 模型理解</h2><p>考虑一个问题：</p>
+<blockquote>
+<p>当有10000个client要连接一个server，并且同时client也会不定时的发请求给server端，server端收到请求后需要及时进行返回，那么我们应该怎么做？</p>
+</blockquote>
+<ul>
+<li><p>方案1</p>
+<ul>
+<li>使用一个线程来监听，每一个新的client发起连接的时候，建立并且new一个线程来处理新的连接，处理完成后返回。</li>
+<li><strong>缺点</strong>：当client数量非常多的时候，服务端线程过多，server端可能会产生性能问题。</li>
+</ul>
+</li>
+<li><p>方案2</p>
+<ul>
+<li>当一个新的client发起连接的时候，建立连接并且使用线程池来处理该连接。</li>
+<li><strong>缺点</strong>：1. 服务端处理能力受限于线程池中的线程数，client太多，线程池无法提供足够线程。<pre><code>2. 当client连接较少的时候，也有资源的浪费
+</code></pre></li>
+</ul>
+</li>
+<li><p>方案3</p>
+<ul>
+<li>通过多路复用技术，我那么将 client和客户端的连接，存放在一个queue或者数组中，</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201210015748570.png" alt="image-20201210015748570"></p>
+</li>
+</ul>
+<h4 id="传统阻塞I-O服务模型"><a href="#传统阻塞I-O服务模型" class="headerlink" title="传统阻塞I/O服务模型"></a>传统阻塞I/O服务模型</h4><ul>
+<li><p>工作原理图</p>
+<blockquote>
+<p>黄色的框表示对象， 蓝色的框表示线程<br>白色的框表示方法(API)</p>
+</blockquote>
+</li>
+<li><p>模型特点</p>
+<blockquote>
+<p>采用阻塞IO模式获取输入的数据<br>每个连接都需要独立的线程完成数据的输入，业务处理,数据返回</p>
+</blockquote>
+</li>
+<li><p>问题分析</p>
+<blockquote>
+<p>当并发数很大，就会创建大量的线程，占用很大系统资源<br>连接创建后，如果当前线程暂时没有数据可读，该线程会阻塞在read 操作，造成线程资源浪费</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201210011920654.png" alt="image-20201210011920654" style="zoom:67%;"></p>
+<h4 id="Reactor-模式"><a href="#Reactor-模式" class="headerlink" title="Reactor 模式"></a>Reactor 模式</h4><h5 id="I-O-复用结合线程池，就是-Reactor-模式基本设计思想"><a href="#I-O-复用结合线程池，就是-Reactor-模式基本设计思想" class="headerlink" title="I/O 复用结合线程池，就是 Reactor 模式基本设计思想"></a>I/O 复用结合线程池，就是 Reactor 模式基本设计思想</h5><ul>
+<li>Reactor模式明显的特点，就是将请求当成一个event事件，这个事件发给一个 事件分派器，事件分派器监听到事件后通过这个分派器分发给某个线程（或进程，进行处理）</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201210012206343.png" alt="image-20201210012206343" style="zoom: 50%;"></p>
 </span>
       
     </div>
@@ -446,13 +500,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/02/interview/Redis面试/" rel="prev">Redis面试</a>
+              <a href="/2018/01/02/interview/Spring笔记/" rel="prev">Spring笔记</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/02/interview/Spring笔记/" rel="next">Spring笔记</a>
+              <a href="/2018/01/02/interview/分布式锁/" rel="next">分布式锁面试</a>
             
           </div>
         </div>
@@ -658,7 +712,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -672,7 +726,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -718,7 +772,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty-学习"><span class="nav-number">1.</span> <span class="nav-text">Netty 学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO模型"><span class="nav-number">2.</span> <span class="nav-text">IO模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BIO-（block-IO-同步并阻塞）"><span class="nav-number">2.0.1.</span> <span class="nav-text">BIO （block IO   同步并阻塞）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-同步非阻塞"><span class="nav-number">2.0.2.</span> <span class="nav-text">NIO 同步非阻塞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AIO-NIO-2-异步非阻塞"><span class="nav-number">2.0.3.</span> <span class="nav-text">AIO(NIO.2) 异步非阻塞</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO-详解"><span class="nav-number">3.</span> <span class="nav-text">NIO 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-核心三个组件"><span class="nav-number">3.0.1.</span> <span class="nav-text">NIO 核心三个组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-的-Selector-、-Channel-和-Buffer-的关系"><span class="nav-number">3.0.2.</span> <span class="nav-text">NIO 的 Selector 、 Channel 和 Buffer 的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-的-buffer"><span class="nav-number">3.0.3.</span> <span class="nav-text">NIO 的 buffer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO中的通道-Channel"><span class="nav-number">3.0.4.</span> <span class="nav-text">NIO中的通道 Channel</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty-学习"><span class="nav-number">1.</span> <span class="nav-text">Netty 学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO模型"><span class="nav-number">2.</span> <span class="nav-text">IO模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BIO-（block-IO-同步并阻塞）"><span class="nav-number">2.0.1.</span> <span class="nav-text">BIO （block IO   同步并阻塞）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-同步非阻塞"><span class="nav-number">2.0.2.</span> <span class="nav-text">NIO 同步非阻塞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AIO-NIO-2-异步非阻塞"><span class="nav-number">2.0.3.</span> <span class="nav-text">AIO(NIO.2) 异步非阻塞</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO-详解"><span class="nav-number">3.</span> <span class="nav-text">NIO 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-核心三个组件"><span class="nav-number">3.0.1.</span> <span class="nav-text">NIO 核心三个组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-的-Selector-、-Channel-和-Buffer-的关系"><span class="nav-number">3.0.2.</span> <span class="nav-text">NIO 的 Selector 、 Channel 和 Buffer 的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO-的-buffer"><span class="nav-number">3.0.3.</span> <span class="nav-text">NIO 的 buffer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO中的通道-Channel"><span class="nav-number">3.0.4.</span> <span class="nav-text">NIO中的通道 Channel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reactor-模型理解"><span class="nav-number">4.</span> <span class="nav-text">Reactor 模型理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#传统阻塞I-O服务模型"><span class="nav-number">4.0.1.</span> <span class="nav-text">传统阻塞I/O服务模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reactor-模式"><span class="nav-number">4.0.2.</span> <span class="nav-text">Reactor 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#I-O-复用结合线程池，就是-Reactor-模式基本设计思想"><span class="nav-number">4.0.2.1.</span> <span class="nav-text">I/O 复用结合线程池，就是 Reactor 模式基本设计思想</span></a></li></ol></li></ol></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -27,7 +27,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,guxiangfly">
+  <meta name="keywords" content="大数据,">
 
 
 
@@ -36,17 +36,24 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="VIM配置 .vimrc 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798">
+<meta name="description" content="数仓分层  表命名   ODS层命名为ods_表名     DWD层命名为dwd_dim/fact_表名   DWS层命名为dws_表名   DWT层命名为dwt_表名   ADS层命名为ads_表名   临时表命名为xxx_tmp   用户行为表，以log为后缀。   深入浅出Google File System我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？在硬盘上一个我们存储元数据">
+<meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="guxiangfly的博客">
-<meta property="og:url" content="http://yoursite.com/2020/09/10/装机必备/index.html">
+<meta property="og:title" content="数据仓库">
+<meta property="og:url" content="http://yoursite.com/2020/12/01/数据仓库/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="VIM配置 .vimrc 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798">
+<meta property="og:description" content="数仓分层  表命名   ODS层命名为ods_表名     DWD层命名为dwd_dim/fact_表名   DWS层命名为dws_表名   DWT层命名为dwt_表名   ADS层命名为ads_表名   临时表命名为xxx_tmp   用户行为表，以log为后缀。   深入浅出Google File System我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？在硬盘上一个我们存储元数据">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-10T02:51:11.832Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212154528576.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212171648877.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150454966.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150711727.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150812993.png">
+<meta property="og:updated_time" content="2020-12-14T07:08:38.737Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="guxiangfly的博客">
-<meta name="twitter:description" content="VIM配置 .vimrc 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798">
+<meta name="twitter:title" content="数据仓库">
+<meta name="twitter:description" content="数仓分层  表命名   ODS层命名为ods_表名     DWD层命名为dwd_dim/fact_表名   DWS层命名为dws_表名   DWT层命名为dwt_表名   ADS层命名为ads_表名   临时表命名为xxx_tmp   用户行为表，以log为后缀。   深入浅出Google File System我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？在硬盘上一个我们存储元数据">
+<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212154528576.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -56,7 +63,7 @@
   };
 </script>
 
-  <title>  | guxiangfly的博客 </title>
+  <title> 数据仓库 | guxiangfly的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -298,7 +305,7 @@
           
           
             
-              
+              数据仓库
             
           
         </h1>
@@ -307,8 +314,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2020-09-10T10:49:58+08:00" content="2020-09-10">
-            2020-09-10
+          <time itemprop="dateCreated" datetime="2020-12-01T13:22:54+08:00" content="2020-12-01">
+            2020-12-01
           </time>
         </span>
 
@@ -326,16 +333,46 @@
       
 
       
-        <span itemprop="articleBody"><h4 id="VIM配置"><a href="#VIM配置" class="headerlink" title="VIM配置"></a>VIM配置</h4><ul>
-<li><p>.vimrc</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">" 显示行号</span></span><br><span class="line"><span class="string">set number</span></span><br><span class="line"><span class="string">"</span> 显示标尺</span><br><span class="line"><span class="built_in">set</span> ruler</span><br><span class="line"><span class="string">" 历史纪录</span></span><br><span class="line"><span class="string">set history=1000</span></span><br><span class="line"><span class="string">"</span> 输入的命令显示出来，看的清楚些</span><br><span class="line"><span class="built_in">set</span> showcmd</span><br><span class="line"><span class="string">" 状态行显示的内容</span></span><br><span class="line"><span class="string">set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %&#123;strftime(\"%d/%m/%y\ -\ %H:%M\")&#125;</span></span><br><span class="line"><span class="string">"</span> 启动显示状态行1，总是显示状态行2</span><br><span class="line"><span class="built_in">set</span> laststatus=2</span><br><span class="line"><span class="string">" 语法高亮显示</span></span><br><span class="line"><span class="string">syntax on</span></span><br><span class="line"><span class="string">set fileencodings=utf-8,gb2312,gbk,cp936,latin-1</span></span><br><span class="line"><span class="string">set fileencoding=utf-8</span></span><br><span class="line"><span class="string">set termencoding=utf-8</span></span><br><span class="line"><span class="string">set fileformat=unix</span></span><br><span class="line"><span class="string">set encoding=utf-8</span></span><br><span class="line"><span class="string">"</span> 配色方案</span><br><span class="line">colorscheme desert</span><br><span class="line"><span class="string">" 指定配色方案是256色</span></span><br><span class="line"><span class="string">set t_Co=256</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set wildmenu</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> 去掉有关vi一致性模式，避免以前版本的一些bug和局限，解决backspace不能使用的问题</span><br><span class="line"><span class="built_in">set</span> nocompatible</span><br><span class="line"><span class="built_in">set</span> backspace=indent,eol,start</span><br><span class="line"><span class="built_in">set</span> backspace=2</span><br><span class="line"></span><br><span class="line"><span class="string">" 启用自动对齐功能，把上一行的对齐格式应用到下一行</span></span><br><span class="line"><span class="string">set autoindent</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> 依据上面的格式，智能的选择对齐方式，对于类似C语言编写很有用处</span><br><span class="line"><span class="built_in">set</span> smartindent</span><br><span class="line"></span><br><span class="line"><span class="string">" vim禁用自动备份</span></span><br><span class="line"><span class="string">set nobackup</span></span><br><span class="line"><span class="string">set nowritebackup</span></span><br><span class="line"><span class="string">set noswapfile</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> 用空格代替tab</span><br><span class="line"><span class="built_in">set</span> expandtab</span><br><span class="line"></span><br><span class="line"><span class="string">" 设置显示制表符的空格字符个数,改进tab缩进值，默认为8，现改为4</span></span><br><span class="line"><span class="string">set tabstop=4</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> 统一缩进为4，方便在开启了et后使用退格(backspace)键，每次退格将删除X个空格</span><br><span class="line"><span class="built_in">set</span> softtabstop=4</span><br><span class="line"></span><br><span class="line"><span class="string">" 设定自动缩进为4个字符，程序中自动缩进所使用的空白长度</span></span><br><span class="line"><span class="string">set shiftwidth=4</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> 设置帮助文件为中文(需要安装vimcdoc文档)</span><br><span class="line"><span class="built_in">set</span> helplang=cn</span><br><span class="line"></span><br><span class="line"><span class="string">" 显示匹配的括号</span></span><br><span class="line"><span class="string">set showmatch</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> 文件缩进及tab个数</span><br><span class="line">au FileType html,python,vim,javascript setl shiftwidth=4</span><br><span class="line">au FileType html,python,vim,javascript setl tabstop=4</span><br><span class="line">au FileType java,php setl shiftwidth=4</span><br><span class="line">au FileType java,php setl tabstop=4</span><br><span class="line"><span class="string">" 高亮搜索的字符串</span></span><br><span class="line"><span class="string">set hlsearch</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> 检测文件的类型</span><br><span class="line">filetype on</span><br><span class="line">filetype plugin on</span><br><span class="line">filetype indent on</span><br><span class="line"></span><br><span class="line"><span class="string">" C风格缩进</span></span><br><span class="line"><span class="string">set cindent</span></span><br><span class="line"><span class="string">set completeopt=longest,menu</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> 功能设置</span><br><span class="line"></span><br><span class="line"><span class="string">" 去掉输入错误提示声音</span></span><br><span class="line"><span class="string">set noeb</span></span><br><span class="line"><span class="string">"</span> 自动保存</span><br><span class="line"><span class="built_in">set</span> autowrite</span><br><span class="line"><span class="string">" 突出显示当前行 </span></span><br><span class="line"><span class="string">set cursorline</span></span><br><span class="line"><span class="string">"</span> 突出显示当前列</span><br><span class="line"><span class="built_in">set</span> cursorcolumn</span><br><span class="line"><span class="string">"设置光标样式为竖线vertical bar</span></span><br><span class="line"><span class="string">"</span> Change cursor shape between insert and normal mode <span class="keyword">in</span> iTerm2.app</span><br><span class="line"><span class="string">"if <span class="variable">$TERM_PROGRAM</span> =~ "</span>iTerm<span class="string">"</span></span><br><span class="line"><span class="string">let &amp;t_SI = "</span>\&lt;Esc&gt;]50;CursorShape=1\x7<span class="string">" "</span> Vertical bar <span class="keyword">in</span> insert mode</span><br><span class="line"><span class="built_in">let</span> &amp;t_EI = <span class="string">"\&lt;Esc&gt;]50;CursorShape=0\x7"</span> <span class="string">" Block in normal mode</span></span><br><span class="line"><span class="string">"</span>endif</span><br><span class="line"><span class="string">" 共享剪贴板</span></span><br><span class="line"><span class="string">set clipboard+=unnamed</span></span><br><span class="line"><span class="string">"</span> 文件被改动时自动载入</span><br><span class="line"><span class="built_in">set</span> autoread</span><br><span class="line"><span class="string">" 顶部底部保持3行距离</span></span><br><span class="line"><span class="string">set scrolloff=3</span></span><br></pre></td></tr></table></figure>
+        <span itemprop="articleBody"><h1 id="数仓分层"><a href="#数仓分层" class="headerlink" title="数仓分层"></a>数仓分层</h1><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212154528576.png" alt="image-20201212154528576"></p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212171648877.png" alt="image-20201212171648877"></p>
+<p><strong>表命名</strong> </p>
+<ul>
+<li><p>ODS层命名为ods_表名   </p>
+</li>
+<li><p>DWD层命名为dwd_dim/fact_表名 </p>
+</li>
+<li><p>DWS层命名为dws_表名 </p>
+</li>
+<li><p>DWT层命名为dwt_表名 </p>
+</li>
+<li><p>ADS层命名为ads_表名 </p>
+</li>
+<li><p>临时表命名为xxx_tmp </p>
+</li>
+<li><p>用户行为表，以log为后缀。</p>
 </li>
 </ul>
+<h1 id="深入浅出Google-File-System"><a href="#深入浅出Google-File-System" class="headerlink" title="深入浅出Google File System"></a>深入浅出Google File System</h1><h4 id="我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？"><a href="#我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？" class="headerlink" title="我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？"></a>我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？</h4><p>在硬盘上一个我们存储元数据，以及各个block的文件偏移量</p>
+<ul>
+<li>1 block = 1024Byte</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150454966.png" alt="image-20201214150454966" style="zoom:67%;"></p>
+<h4 id="如何保存一个大文件"><a href="#如何保存一个大文件" class="headerlink" title="如何保存一个大文件"></a>如何保存一个大文件</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150711727.png" alt="image-20201214150711727"></p>
+<h4 id="如何保存一个超大文件"><a href="#如何保存一个超大文件" class="headerlink" title="如何保存一个超大文件"></a>如何保存一个超大文件</h4><ul>
+<li>缺点就是每个</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150812993.png" alt="image-20201214150812993"></p>
 </span>
       
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag">#大数据</a>
+          
+        </div>
       
 
       
@@ -346,7 +383,7 @@
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/07/25/interview/CPU占用过高/" rel="next"></a>
+              <a href="/2020/12/01/大数据/" rel="next">大数据</a>
             
           </div>
         </div>
@@ -552,7 +589,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -566,7 +603,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -612,7 +649,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#VIM配置"><span class="nav-number">1.</span> <span class="nav-text">VIM配置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数仓分层"><span class="nav-number">1.</span> <span class="nav-text">数仓分层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#深入浅出Google-File-System"><span class="nav-number">2.</span> <span class="nav-text">深入浅出Google File System</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何保存一个大文件"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">如何保存一个大文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何保存一个超大文件"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">如何保存一个超大文件</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

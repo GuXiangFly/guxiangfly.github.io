@@ -27,7 +27,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,guxiangfly">
+  <meta name="keywords" content="大数据,">
 
 
 
@@ -36,19 +36,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="Presto  是一个开源的分布式SQL查询引擎，数据量支持GB 到 PB字节，主要用来处理 秒级查询的场景 Presto的概念图  Presto 本身是不存储数据的，它通过 Hive 的 Metastore来对接Hive。  Presto 本身可以对接不同的数据源如 Hive，redis，Kafka ， 一个Catalog可以对接一个数据源，Presto可以配置多个catalog。  Prest">
+<meta name="description" content="概念IaaS： intrastructure-as-a-service（基础设施即服务）  提供CPU， 内存，网络- 类似 在阿里云的虚拟机服务器  PaaS：platform-as-a-service（平台即服务）  类似提供一个 mysql数据库服务器 类似新浪云之前提供一个Tomcat让用户自己上传jar  SaaS：  software-as-a-service （软件即服务）  用户无">
+<meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="guxiangfly的博客">
-<meta property="og:url" content="http://yoursite.com/2020/07/13/Presto框架学习/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/11/03/云计算/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="Presto  是一个开源的分布式SQL查询引擎，数据量支持GB 到 PB字节，主要用来处理 秒级查询的场景 Presto的概念图  Presto 本身是不存储数据的，它通过 Hive 的 Metastore来对接Hive。  Presto 本身可以对接不同的数据源如 Hive，redis，Kafka ， 一个Catalog可以对接一个数据源，Presto可以配置多个catalog。  Prest">
+<meta property="og:description" content="概念IaaS： intrastructure-as-a-service（基础设施即服务）  提供CPU， 内存，网络- 类似 在阿里云的虚拟机服务器  PaaS：platform-as-a-service（平台即服务）  类似提供一个 mysql数据库服务器 类似新浪云之前提供一个Tomcat让用户自己上传jar  SaaS：  software-as-a-service （软件即服务）  用户无">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200713165501201.png">
-<meta property="og:updated_time" content="2020-07-13T15:52:16.299Z">
+<meta property="og:updated_time" content="2020-12-01T02:43:05.014Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="guxiangfly的博客">
-<meta name="twitter:description" content="Presto  是一个开源的分布式SQL查询引擎，数据量支持GB 到 PB字节，主要用来处理 秒级查询的场景 Presto的概念图  Presto 本身是不存储数据的，它通过 Hive 的 Metastore来对接Hive。  Presto 本身可以对接不同的数据源如 Hive，redis，Kafka ， 一个Catalog可以对接一个数据源，Presto可以配置多个catalog。  Prest">
-<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200713165501201.png">
+<meta name="twitter:description" content="概念IaaS： intrastructure-as-a-service（基础设施即服务）  提供CPU， 内存，网络- 类似 在阿里云的虚拟机服务器  PaaS：platform-as-a-service（平台即服务）  类似提供一个 mysql数据库服务器 类似新浪云之前提供一个Tomcat让用户自己上传jar  SaaS：  software-as-a-service （软件即服务）  用户无">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -309,8 +308,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2020-07-13T16:49:15+08:00" content="2020-07-13">
-            2020-07-13
+          <time itemprop="dateCreated" datetime="2019-11-03T13:22:54+08:00" content="2019-11-03">
+            2019-11-03
           </time>
         </span>
 
@@ -328,35 +327,49 @@
       
 
       
-        <span itemprop="articleBody"><p>Presto  是一个开源的分布式SQL查询引擎，数据量支持GB 到 PB字节，主要用来处理 秒级查询的场景</p>
-<h4 id="Presto的概念图"><a href="#Presto的概念图" class="headerlink" title="Presto的概念图"></a>Presto的概念图</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200713165501201.png" alt="image-20200713165501201"></p>
+        <span itemprop="articleBody"><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>IaaS： intrastructure-as-a-service（基础设施即服务）</p>
 <ul>
-<li><p>Presto 本身是不存储数据的，它通过 Hive 的 Metastore来对接Hive。</p>
-</li>
-<li><p>Presto 本身可以对接不同的数据源如 Hive，redis，Kafka ， 一个Catalog可以对接一个数据源，Presto可以配置多个catalog。</p>
-</li>
-<li><p>Presto 的一个scheme类似是一个Mysql中的DB， DB中有多个表。</p>
-</li>
-<li></li>
+<li>提供CPU， 内存，网络- 类似 在阿里云的虚拟机服务器</li>
 </ul>
+<p>PaaS：platform-as-a-service（平台即服务）</p>
+<ul>
+<li>类似提供一个 mysql数据库服务器</li>
+<li>类似新浪云之前提供一个Tomcat让用户自己上传jar</li>
+</ul>
+<p>SaaS：  software-as-a-service （软件即服务）</p>
+<ul>
+<li><p>用户无需编写代码了</p>
+</li>
+<li><p>类似阿里提供了 钉钉 给企业自己用，企业就不用自己开发OA了</p>
+</li>
+<li><p>类似 百度网盘也是</p>
+</li>
+</ul>
+<p>FasS： Function-as-a-Service（函数即服务）</p>
 </span>
       
     </div>
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag">#大数据</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/07/24/算法总结/" rel="prev"></a>
+              <a href="/2019/11/03/Kylin学习/" rel="prev"></a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/06/01/高并发服务限流/" rel="next">高并发服务限流</a>
+              <a href="/2019/10/02/分布式事务/" rel="next">分布式事务</a>
             
           </div>
         </div>
@@ -562,7 +575,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -576,7 +589,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -622,7 +635,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Presto的概念图"><span class="nav-number">1.</span> <span class="nav-text">Presto的概念图</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -3376,77 +3376,6 @@
           
           
             
-              <a class="post-title-link" href="/2017/11/01/LSM-Tree以及运用/" itemprop="url">
-                LSM-Tree的运用
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
-            2017-11-01
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            ======
-
-            
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/LSM-Tree以及运用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
               <a class="post-title-link" href="/2017/11/01/MyBatisGenerator 配置/" itemprop="url">
                 MyBatis Generator配置
               </a>
@@ -3485,6 +3414,151 @@
           </span>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/11/01/MyBatisGenerator 配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2017/11/01/LSM-Tree以及运用/" itemprop="url">
+                LSM-Tree的运用
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
+            2017-11-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            ======
+LSM 树是什么Log Structured-Merge Tree  日志合并树
+LSM 的简易模型LSM 的简易树状结构分为两棵树  C0  和 C1
+C0 比较小，全部存储于内存之中，  C1则存储于磁盘之上。
+一个数据来了，我们先将数据存入C0这个内存的树上， C0大小达到阈值后
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/01/LSM-Tree以及运用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2017/11/01/interview/ZooKeeper使用总结/" itemprop="url">
+                Zookeeper使用教程
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
+            2017-11-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            Zookeeper使用教程开启服务器：12345bin/zkServer.sh start如果遇见 already running as process 去 zoo.cfg配置的 data目录 删除zookeeper_server.pid 文件./zkServer status 可以查看状态
+使用z
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/01/interview/ZooKeeper使用总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3589,7 +3663,7 @@ ES有两个端口 一个是 Transport 的端口 9300一个是  RESTful 形式的
           
           
             
-              <a class="post-title-link" href="/2017/10/05/Presto学习/" itemprop="url">
+              <a class="post-title-link" href="/2017/10/05/Presto框架学习/" itemprop="url">
                 Presto学习
               </a>
             
@@ -3622,84 +3696,16 @@ ES有两个端口 一个是 Transport 的端口 9300一个是  RESTful 形式的
         
           <span itemprop="articleBody">
             
-            Presto 架构图
-Presto的优缺点在计算 count 或者 avg这类运算的时候， 是一边计算，一边清理内存，所以对内存的使用率较高
+            Presto  是一个开源的分布式SQL查询引擎，数据量支持GB 到 PB字节，主要用来处理 秒级查询的场景
+Presto的概念图
 
-            
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/10/05/Presto学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
+Presto 本身是不存储数据的，它通过 Hive 的 Metastore来对接Hive。
 
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2017/10/05/Docker Machine的配置/" itemprop="url">
-                Docker Machine的配置
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2017-10-05T23:00:04+08:00" content="2017-10-05">
-            2017-10-05
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            创建myvm4这个docker-machine创建myvm3 这个虚拟机用来装很多中间件的，内存尽量大，这里写的是3Ghttps://8kcum6rp.mirror.aliyuncs.com这个是阿里云加速器的地址，每个人去注册一个，获取加速器地址。码云QA里面有方法的
-docker-machine
+Presto 本身可以对接不同的数据源如 Hive，redis，Kafk
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/10/05/Docker Machine的配置/#more" rel="contents">
+            <a class="btn" href="/2017/10/05/Presto框架学习/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3772,6 +3778,77 @@ docker-machine
           </span>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/10/05/Oracle部署以及使用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2017/10/05/Docker Machine的配置/" itemprop="url">
+                Docker Machine的配置
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-10-05T23:00:04+08:00" content="2017-10-05">
+            2017-10-05
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            创建myvm4这个docker-machine创建myvm3 这个虚拟机用来装很多中间件的，内存尽量大，这里写的是3Ghttps://8kcum6rp.mirror.aliyuncs.com这个是阿里云加速器的地址，每个人去注册一个，获取加速器地址。码云QA里面有方法的
+docker-machine
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/10/05/Docker Machine的配置/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -4010,76 +4087,6 @@ webpack   模块加载器， 一切东西
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2017/09/13/thymeleaf用法/" itemprop="url">
-                thymeleaf用法
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2017-09-13T22:00:04+08:00" content="2017-09-13">
-            2017-09-13
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            thymeleaf配置默认情况下 thymeleaf 需要实现 严谨的html格式 否则会报错，我们可以通过以下配置实现较为轻松的html格式123456789101112131415	&lt;properties&gt;		&lt;thymeleaf.version&gt;3.0.3.RELEAS
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/09/13/thymeleaf用法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -4118,7 +4125,7 @@ webpack   模块加载器， 一切东西
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -4132,7 +4139,7 @@ webpack   模块加载器， 一切东西
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

@@ -48,7 +48,9 @@
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200719231739044.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200719233055618.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20200719233302954.png">
-<meta property="og:updated_time" content="2020-07-19T15:49:32.697Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201201002355544.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201201002850829.png">
+<meta property="og:updated_time" content="2020-12-14T02:40:22.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="操作系统">
 <meta name="twitter:description" content="操作系统内存管理  1.内存空间的扩充覆盖技术​    -   交换技术交换技术核心思想：  内存空间紧张时，系统将内存中某些进程暂时换出外存，把外村中某些已经具备运行条件的进程换入内存（进程在内存和磁盘间动态调度）  交换技术在内存空间紧张的时候，内存被换出的进程会进入挂起状态（挂起态，suspend） 挂起态可以分为 就绪挂起，阻塞挂起 两种状态 2.内存连续分配管理 分区大小相等：用于利用一">
@@ -343,13 +345,30 @@
 <p>交换技术在内存空间紧张的时候，内存被换出的进程会进入挂起状态（挂起态，suspend）</p>
 <p>挂起态可以分为 就绪挂起，阻塞挂起 两种状态</p>
 <h3 id="2-内存连续分配管理"><a href="#2-内存连续分配管理" class="headerlink" title="2.内存连续分配管理"></a>2.内存连续分配管理</h3><ul>
-<li><p>分区大小相等：用于利用一台计算机去控制多个相同对象的场合。</p>
-</li>
-<li><p>分区大小不等：划分为含有多个较小的分区、适量的中等分区及少量的大分区。</p>
-</li>
-<li><p>动态分区分配</p>
-</li>
+<li>分区大小相等：用于利用一台计算机去控制多个相同对象的场合。</li>
+<li>分区大小不等：划分为含有多个较小的分区、适量的中等分区及少量的大分区。</li>
+<li>动态分区分配</li>
 </ul>
+<p>用户态和内核态</p>
+<h2 id="用户态和内核态"><a href="#用户态和内核态" class="headerlink" title="用户态和内核态"></a>用户态和内核态</h2><p>在计算机系统中，通常运行两类程序：系统内核程序和应用程序。</p>
+<ul>
+<li>正在执行内核程序，说明此时是操作系统正在控制CPU。</li>
+<li>正在执行应用程序，说明此时是应用程序正在控制CPU。</li>
+</ul>
+<p>这个系统所做的，就是将操作系统</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201201002355544.png" alt="image-20201201002355544"></p>
+<p>核心态和用户态的切换，本质上就是操作系统与普通应用程序对CPU控制权的切换。</p>
+<p>使用较高级别的特权指令 类似IO读取写入操作/ 内存删除操作  这些操作，就需要通过操作系统执行，因此普通应用程序想进行这些操作必要将。</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201201002850829.png" alt="image-20201201002850829"></p>
+<p>系统</p>
+<p>用户态切换，本质是应用程序和操作系统对CPU控制权的一个交接/切换</p>
+<p>什么情况下会进行系统切换：</p>
+<ul>
+<li>用户态程序调用操作系统的服务</li>
+<li>发生了一次中断，比如说IO读取完成了，会向CPU发出一个中断信号，由于中断处理需要操作系统完成，这时候也会发生程序从用户态切换</li>
+<li>程序内发生异常</li>
+</ul>
+<h2 id="select-pull-epull-的区别"><a href="#select-pull-epull-的区别" class="headerlink" title="select   pull  epull 的区别"></a>select   pull  epull 的区别</h2><p>- </p>
 </span>
       
     </div>
@@ -369,7 +388,7 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/11/27/Gradle教程/" rel="prev">Gradle学习</a>
+              <a href="/2018/11/01/interview/CPU占用过高/" rel="prev">CPU占用过高怎么排查</a>
             
           </div>
 
@@ -581,7 +600,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -595,7 +614,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -641,7 +660,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统"><span class="nav-number">1.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">1.1.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-内存空间的扩充"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.内存空间的扩充</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#覆盖技术"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">覆盖技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交换技术"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">交换技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-内存连续分配管理"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.内存连续分配管理</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统"><span class="nav-number">1.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">1.1.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-内存空间的扩充"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.内存空间的扩充</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#覆盖技术"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">覆盖技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交换技术"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">交换技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-内存连续分配管理"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.内存连续分配管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户态和内核态"><span class="nav-number">1.2.</span> <span class="nav-text">用户态和内核态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select-pull-epull-的区别"><span class="nav-number">1.3.</span> <span class="nav-text">select   pull  epull 的区别</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

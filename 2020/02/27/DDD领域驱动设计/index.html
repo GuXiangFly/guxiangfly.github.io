@@ -27,7 +27,7 @@
 
 
 
-  <meta name="keywords" content="大数据,">
+  <meta name="keywords" content="编程思想,">
 
 
 
@@ -36,20 +36,21 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="Presto 架构图 Presto的优缺点在计算 count 或者 avg这类运算的时候， 是一边计算，一边清理内存，所以对内存的使用率较高">
-<meta name="keywords" content="大数据">
+<meta name="description" content="编程思想  POP OOP  POP（面向过程编程） 是一种线性思维  比方说造个简陋的小房子，我们先建造门，再造窗户，再造屋顶，再加床，加窗帘等    （这种线性思维可以实现）  OOP （面向对象编程）  比如说建个大厦，我们先画个草图搭建一个架构，  电梯是一个对象，卫生间/大厅/客厅/客房/会议室    卧室下有不同型号的客房 都是一个个房间对象.. 将架构搭建完成后，再去填充对象，做装修">
+<meta name="keywords" content="编程思想">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Presto学习">
-<meta property="og:url" content="http://yoursite.com/2017/10/05/Presto学习/index.html">
+<meta property="og:title" content="DDD领域驱动设计">
+<meta property="og:url" content="http://yoursite.com/2020/02/27/DDD领域驱动设计/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="Presto 架构图 Presto的优缺点在计算 count 或者 avg这类运算的时候， 是一边计算，一边清理内存，所以对内存的使用率较高">
+<meta property="og:description" content="编程思想  POP OOP  POP（面向过程编程） 是一种线性思维  比方说造个简陋的小房子，我们先建造门，再造窗户，再造屋顶，再加床，加窗帘等    （这种线性思维可以实现）  OOP （面向对象编程）  比如说建个大厦，我们先画个草图搭建一个架构，  电梯是一个对象，卫生间/大厅/客厅/客房/会议室    卧室下有不同型号的客房 都是一个个房间对象.. 将架构搭建完成后，再去填充对象，做装修">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2019/12/02/wVkW4ENXlc8UMi7.png">
-<meta property="og:updated_time" content="2019-12-04T07:33:12.178Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201123201613516.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201123205429335.png">
+<meta property="og:updated_time" content="2020-11-23T13:28:11.154Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Presto学习">
-<meta name="twitter:description" content="Presto 架构图 Presto的优缺点在计算 count 或者 avg这类运算的时候， 是一边计算，一边清理内存，所以对内存的使用率较高">
-<meta name="twitter:image" content="https://i.loli.net/2019/12/02/wVkW4ENXlc8UMi7.png">
+<meta name="twitter:title" content="DDD领域驱动设计">
+<meta name="twitter:description" content="编程思想  POP OOP  POP（面向过程编程） 是一种线性思维  比方说造个简陋的小房子，我们先建造门，再造窗户，再造屋顶，再加床，加窗帘等    （这种线性思维可以实现）  OOP （面向对象编程）  比如说建个大厦，我们先画个草图搭建一个架构，  电梯是一个对象，卫生间/大厅/客厅/客房/会议室    卧室下有不同型号的客房 都是一个个房间对象.. 将架构搭建完成后，再去填充对象，做装修">
+<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201123201613516.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -59,7 +60,7 @@
   };
 </script>
 
-  <title> Presto学习 | guxiangfly的博客 </title>
+  <title> DDD领域驱动设计 | guxiangfly的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -301,7 +302,7 @@
           
           
             
-              Presto学习
+              DDD领域驱动设计
             
           
         </h1>
@@ -310,8 +311,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2017-10-05T23:00:04+08:00" content="2017-10-05">
-            2017-10-05
+          <time itemprop="dateCreated" datetime="2020-02-27T20:09:04+08:00" content="2020-02-27">
+            2020-02-27
           </time>
         </span>
 
@@ -329,8 +330,77 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="Presto-架构图"><a href="#Presto-架构图" class="headerlink" title="Presto 架构图"></a>Presto 架构图</h2><p><img src="https://i.loli.net/2019/12/02/wVkW4ENXlc8UMi7.png" alt></p>
-<h2 id="Presto的优缺点"><a href="#Presto的优缺点" class="headerlink" title="Presto的优缺点"></a>Presto的优缺点</h2><p>在计算 count 或者 avg这类运算的时候， 是一边计算，一边清理内存，所以对内存的使用率较高</p>
+        <span itemprop="articleBody"><p>编程思想</p>
+<ul>
+<li>POP</li>
+<li>OOP</li>
+</ul>
+<p>POP（面向过程编程） 是一种线性思维</p>
+<blockquote>
+<p>比方说造个简陋的小房子，我们先建造门，再造窗户，再造屋顶，再加床，加窗帘等    （这种线性思维可以实现）</p>
+</blockquote>
+<p>OOP （面向对象编程）</p>
+<blockquote>
+<p>比如说建个大厦，我们先画个草图搭建一个架构，  电梯是一个对象，卫生间/大厅/客厅/客房/会议室    卧室下有不同型号的客房 都是一个个房间对象.. 将架构搭建完成后，再去填充对象，做装修等 才能更加高效。</p>
+<p>如果从建造第一层开始就先把第一层的房间, 客厅, 装修等弄好后再去建第二层，就不合适。</p>
+</blockquote>
+<p>系统基于领域驱动开发的</p>
+<blockquote>
+<p>比如说一个电商分有下面几层</p>
+<ul>
+<li>支付<ul>
+<li>支付对账（领域内的子域）</li>
+<li>支付风控（领域内的子域）</li>
+</ul>
+</li>
+<li>订单<ul>
+<li>订单搜索</li>
+<li>订单管理</li>
+</ul>
+</li>
+<li>商品</li>
+<li>仓储</li>
+</ul>
+</blockquote>
+<h2 id="DDD的落地"><a href="#DDD的落地" class="headerlink" title="DDD的落地"></a>DDD的落地</h2><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201123201613516.png" alt="image-20201123201613516"></p>
+<ul>
+<li>User interface  是用户界面<ul>
+<li>界面展示</li>
+</ul>
+</li>
+<li>Application  Layer 应用服务层 （主要完成对 Domain的调用）<ul>
+<li>请求转发</li>
+<li>跨领域问题 这里不包含任何领域的逻辑</li>
+</ul>
+</li>
+<li>Domain Layer  核心-领域层<ul>
+<li>体系架构基于领域驱动的（领域一旦确认了，就会驱动代码的设计）</li>
+<li>内容含有  数据/业务</li>
+</ul>
+</li>
+<li>infrastructure Layer  基础层   Common-Utility 这些<ul>
+<li>数据操作</li>
+<li>数据存储</li>
+<li>常用帮助类</li>
+<li>数据验证</li>
+</ul>
+</li>
+</ul>
+<p>领域划分：</p>
+<ul>
+<li>约束领域<ul>
+<li>聚合根 aggregateRoot ， 领域根，将领域有一个边界</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201123205429335.png" alt="image-20201123205429335" style="zoom: 50%;"></p>
+<ul>
+<li><ul>
+<li>实体里不仅包含属性，还包括关系，  类似我们一个用户</li>
+</ul>
+</li>
+</ul>
 </span>
       
     </div>
@@ -339,7 +409,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/大数据/" rel="tag">#大数据</a>
+            <a href="/tags/编程思想/" rel="tag">#编程思想</a>
           
         </div>
       
@@ -348,13 +418,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/10/27/ElasticSearch技术/" rel="prev">ElasticSearch技术</a>
+              <a href="/2020/04/11/interview/Arthas使用/" rel="prev">arthas使用</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/05/Docker Machine的配置/" rel="next">Docker Machine的配置</a>
+              <a href="/2019/12/24/MySQL深入理解/" rel="next">MySQL深入理解</a>
             
           </div>
         </div>
@@ -560,7 +630,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -574,7 +644,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -620,7 +690,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Presto-架构图"><span class="nav-number">1.</span> <span class="nav-text">Presto 架构图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presto的优缺点"><span class="nav-number">2.</span> <span class="nav-text">Presto的优缺点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DDD的落地"><span class="nav-number">1.</span> <span class="nav-text">DDD的落地</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

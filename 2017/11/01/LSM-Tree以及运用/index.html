@@ -36,18 +36,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="======">
+<meta name="description" content="====== LSM 树是什么Log Structured-Merge Tree  日志合并树 LSM 的简易模型LSM 的简易树状结构分为两棵树  C0  和 C1 C0 比较小，全部存储于内存之中，  C1则存储于磁盘之上。 一个数据来了，我们先将数据存入C0这个内存的树上， C0大小达到阈值后，会刷写入 C1硬盘。 第一次">
 <meta name="keywords" content="java,MongoDB">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LSM-Tree的运用">
 <meta property="og:url" content="http://yoursite.com/2017/11/01/LSM-Tree以及运用/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="======">
+<meta property="og:description" content="====== LSM 树是什么Log Structured-Merge Tree  日志合并树 LSM 的简易模型LSM 的简易树状结构分为两棵树  C0  和 C1 C0 比较小，全部存储于内存之中，  C1则存储于磁盘之上。 一个数据来了，我们先将数据存入C0这个内存的树上， C0大小达到阈值后，会刷写入 C1硬盘。 第一次">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-06-18T07:41:42.883Z">
+<meta property="og:updated_time" content="2020-12-13T16:38:12.482Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LSM-Tree的运用">
-<meta name="twitter:description" content="======">
+<meta name="twitter:description" content="====== LSM 树是什么Log Structured-Merge Tree  日志合并树 LSM 的简易模型LSM 的简易树状结构分为两棵树  C0  和 C1 C0 比较小，全部存储于内存之中，  C1则存储于磁盘之上。 一个数据来了，我们先将数据存入C0这个内存的树上， C0大小达到阈值后，会刷写入 C1硬盘。 第一次">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -328,6 +328,11 @@
 
       
         <span itemprop="articleBody"><p>======</p>
+<h1 id="LSM-树是什么"><a href="#LSM-树是什么" class="headerlink" title="LSM 树是什么"></a>LSM 树是什么</h1><p>Log Structured-Merge Tree  日志合并树</p>
+<h2 id="LSM-的简易模型"><a href="#LSM-的简易模型" class="headerlink" title="LSM 的简易模型"></a>LSM 的简易模型</h2><p>LSM 的简易树状结构分为两棵树  C0  和 C1</p>
+<p>C0 比较小，全部存储于内存之中，  C1则存储于磁盘之上。</p>
+<p>一个数据来了，我们先将数据存入C0这个内存的树上， C0大小达到阈值后，会刷写入 C1硬盘。</p>
+<p>第一次</p>
 </span>
       
     </div>
@@ -347,13 +352,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/01/Numpy学习/" rel="prev">Numpy学习</a>
+              <a href="/2017/11/01/MyBatisGenerator 配置/" rel="prev">MyBatis Generator配置</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/01/MyBatisGenerator 配置/" rel="next">MyBatis Generator配置</a>
+              <a href="/2017/11/01/interview/ZooKeeper使用总结/" rel="next">Zookeeper使用教程</a>
             
           </div>
         </div>
@@ -559,7 +564,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">171</span>
+              <span class="site-state-item-count">172</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -573,7 +578,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -619,7 +624,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LSM-树是什么"><span class="nav-number">1.</span> <span class="nav-text">LSM 树是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LSM-的简易模型"><span class="nav-number">1.1.</span> <span class="nav-text">LSM 的简易模型</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
