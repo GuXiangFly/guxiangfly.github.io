@@ -3376,90 +3376,6 @@
           
           
             
-              <a class="post-title-link" href="/2018/11/01/interview/CPU占用过高/" itemprop="url">
-                CPU占用过高怎么排查
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-11-01T13:22:54+08:00" content="2018-11-01">
-            2018-11-01
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            CPU占用过高怎么排查
-top 找出CPU占用过高的进程 PID
-
-使用 top -c 命令   然后按P
--c 在 command列显示完整的命令
-按P 对CPU占用率进行排序
-
-
-
-
-
-第二步：top  -Hp  41469     查看pid 内的具体线程
-
-
-使用 printf “%x\n”
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/11/01/interview/CPU占用过高/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
               <a class="post-title-link" href="/2018/11/01/操作系统/" itemprop="url">
                 操作系统
               </a>
@@ -3611,6 +3527,79 @@ HLog 先在本地写  写完H
           
           
             
+              <a class="post-title-link" href="/2018/08/27/Hive详细笔记/" itemprop="url">
+                Hive 学习笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-08-27T20:09:04+08:00" content="2018-08-27">
+            2018-08-27
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            HDFS 适合于 一次写入 多次读取
+数据是存储在 RegionServer中 
+RegionServer内部有一个  HLog    有一个叫做 WAL 的技术（write  ahead  log  WAL） namenode  是丢了就丢了 但是数据库中不能这么干
+HLog 先在本地写  写完H
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/08/27/Hive详细笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2018/08/27/机器学习/" itemprop="url">
                 未命名
               </a>
@@ -3655,76 +3644,6 @@ HLog 先在本地写  写完H
           </span>
           <div class="post-more-link text-center">
             <a class="btn" href="/2018/08/27/机器学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/08/27/Scala Study note/" itemprop="url">
-                Scala study Note
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-08-27T20:09:04+08:00" content="2018-08-27">
-            2018-08-27
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            打印的方法123456789101112131415161718object printDemo &#123;  def main(args: Array[String]): Unit = &#123;    var str1: String = "hello"    var str2: Strin
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/08/27/Scala Study note/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3830,8 +3749,8 @@ HLog 先在本地写  写完H
           
           
             
-              <a class="post-title-link" href="/2018/08/27/Hive详细笔记/" itemprop="url">
-                Hive 学习笔记
+              <a class="post-title-link" href="/2018/08/27/Scala Study note/" itemprop="url">
+                Scala study Note
               </a>
             
           
@@ -3863,14 +3782,100 @@ HLog 先在本地写  写完H
         
           <span itemprop="articleBody">
             
-            HDFS 适合于 一次写入 多次读取
-数据是存储在 RegionServer中 
-RegionServer内部有一个  HLog    有一个叫做 WAL 的技术（write  ahead  log  WAL） namenode  是丢了就丢了 但是数据库中不能这么干
-HLog 先在本地写  写完H
+            打印的方法123456789101112131415161718object printDemo &#123;  def main(args: Array[String]): Unit = &#123;    var str1: String = "hello"    var str2: Strin
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/08/27/Hive详细笔记/#more" rel="contents">
+            <a class="btn" href="/2018/08/27/Scala Study note/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/08/01/数据仓库/" itemprop="url">
+                数据仓库
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-08-01T13:22:54+08:00" content="2018-08-01">
+            2018-08-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            数仓分层
+
+表命名 
+
+ODS层命名为ods_表名   
+
+DWD层命名为dwd_dim/fact_表名 
+
+DWS层命名为dws_表名 
+
+DWT层命名为dwt_表名 
+
+ADS层命名为ads_表名 
+
+临时表命名为xxx_tmp 
+
+用户行为表，以log为后缀。
+
+
+深入浅出Google Fil
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/08/01/数据仓库/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -4158,7 +4163,7 @@ promise 语法123456789101
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-count">70</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

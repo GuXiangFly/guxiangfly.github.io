@@ -3745,76 +3745,6 @@ write a g
           
           
             
-              <a class="post-title-link" href="/2017/11/01/MyBatisGenerator 配置/" itemprop="url">
-                MyBatis Generator配置
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
-            2017-11-01
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            MyBatis Generator 是什么MyBatis Generator是一个可以用来生成Mybatis dao,entity,Mapper文件的一个工具,在项目的过程中可以省去很多重复的工作,我们只要在MyBatis Generator的配置文件中配置好要生成的表名与包名，然后运行一条命令就会
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/MyBatisGenerator 配置/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
               <a class="post-title-link" href="/2017/11/01/interview/ZooKeeper使用总结/" itemprop="url">
                 Zookeeper使用教程
               </a>
@@ -3886,8 +3816,8 @@ write a g
           
           
             
-              <a class="post-title-link" href="/2017/11/01/ZooKeeper使用总结/" itemprop="url">
-                Zookeeper使用教程
+              <a class="post-title-link" href="/2017/11/01/Maven依赖冲突/" itemprop="url">
+                Maven依赖冲突
               </a>
             
           
@@ -3919,12 +3849,13 @@ write a g
         
           <span itemprop="articleBody">
             
-            Zookeeper使用教程开启服务器：12345bin/zkServer.sh start如果遇见 already running as process 去 zoo.cfg配置的 data目录 删除zookeeper_server.pid 文件./zkServer status 可以查看状态
-使用z
-            ...
+            解决方法具体我参考了这个博客
+https://blog.csdn.net/justry_deng/article/details/98665086
+
+            
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/ZooKeeper使用总结/#more" rel="contents">
+            <a class="btn" href="/2017/11/01/Maven依赖冲突/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3957,8 +3888,8 @@ write a g
           
           
             
-              <a class="post-title-link" href="/2017/11/01/MongoDB常用命令/" itemprop="url">
-                MongoDB常用命令.md
+              <a class="post-title-link" href="/2017/11/01/MyBatisGenerator 配置/" itemprop="url">
+                MyBatis Generator配置
               </a>
             
           
@@ -3990,13 +3921,85 @@ write a g
         
           <span itemprop="articleBody">
             
-            MongoDB常用命令开启服务器：1mongod -f mongod.cfg
-开启链接:1mongo localhost:27017  (默认是 localhost:27017 可以不加)
-说明MongoDB命令是区分大小写的，使用的命名规则是驼峰命名法。对于database和collection无
+            MyBatis Generator 是什么MyBatis Generator是一个可以用来生成Mybatis dao,entity,Mapper文件的一个工具,在项目的过程中可以省去很多重复的工作,我们只要在MyBatis Generator的配置文件中配置好要生成的表名与包名，然后运行一条命令就会
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/MongoDB常用命令/#more" rel="contents">
+            <a class="btn" href="/2017/11/01/MyBatisGenerator 配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2017/11/01/LSM-Tree以及运用/" itemprop="url">
+                LSM-Tree的运用
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
+            2017-11-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            ======
+LSM 树是什么Log Structured-Merge Tree  日志合并树
+LSM 的简易模型LSM 的简易树状结构分为两棵树  C0  和 C1
+C0 比较小，全部存储于内存之中，  C1则存储于磁盘之上。
+一个数据来了，我们先将数据存入C0这个内存的树上， C0大小达到阈值后
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/01/LSM-Tree以及运用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -4141,7 +4144,7 @@ ndim
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-count">70</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
