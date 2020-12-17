@@ -61,7 +61,7 @@
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214220521104.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214220723201.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214222748099.png">
-<meta property="og:updated_time" content="2020-12-14T14:44:41.356Z">
+<meta property="og:updated_time" content="2020-12-16T03:32:21.503Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据">
 <meta name="twitter:description" content="深入浅出Google File System我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？在硬盘上一个我们存储元数据，以及各个block的文件偏移量  1 block = 4096Byte   2.如何保存一个大文件 3.如何保存一个超大文件 缺点就是每个   缺点： chunkServer的所有数据变更需要通知master，master的压力会变大 4.如何减少 master的数据和">
@@ -373,7 +373,7 @@
 <p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214154800096.png" alt="image-20201214154800096" style="zoom:50%;"></p>
 <h4 id="8-如何应对热点"><a href="#8-如何应对热点" class="headerlink" title="8. 如何应对热点"></a>8. 如何应对热点</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214155219286.png" alt="image-20201214155219286" style="zoom:50%;"></p>
 <p>如果我们发现当前某个chunk03 的副本被访问非常频繁，那么我们可以复制这个chunk03 让他放到多个 chunkserver上，将流量平分。</p>
-<h4 id="9-如何读文件"><a href="#9-如何读文件" class="headerlink" title="9.如何读文件"></a>9.如何读文件</h4><h4 id="10-如何写文件"><a href="#10-如何写文件" class="headerlink" title="10.如何写文件"></a>10.如何写文件</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214155801016.png" alt="image-20201214155801016" style="zoom:50%;"></p>
+<h4 id="9-如何读文件"><a href="#9-如何读文件" class="headerlink" title="9.如何读文件"></a>9.如何读文件</h4><h4 id="10-如何写文件"><a href="#10-如何写文件" class="headerlink" title="10.如何写文件"></a>10.如何写文件</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214155801016.png" alt="image-20201214155801016" style="zoom:50%;">  </p>
 <h1 id="深入浅出-bigtable"><a href="#深入浅出-bigtable" class="headerlink" title="深入浅出 bigtable"></a>深入浅出 bigtable</h1><p>如果想保存一个超大表，一般我们将 超大表分为小表，再将小表分为小小表。</p>
 <ul>
 <li>A table =  a list of  tablets （小表）</li>
@@ -624,7 +624,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">172</span>
+              <span class="site-state-item-count">173</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

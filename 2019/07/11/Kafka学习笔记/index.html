@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/12/10/6RB9HxuMOhsdbz2.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/10/C7k2pbK1OJfWYAI.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201121162444033.png">
-<meta property="og:updated_time" content="2020-11-21T08:37:57.030Z">
+<meta property="og:updated_time" content="2020-12-15T11:50:28.599Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka学习笔记">
 <meta name="twitter:description" content="Kafka的基础概念kafka工作流程 kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的.   kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]  .log文件存储的是kafka队列里面的数据 .index 记录的是kafka的某个consumer的   .log 和 .ind">
@@ -438,6 +438,51 @@
 <li>kafka先将要发送的消息进行缓存（在kafka 0.10后的一个动作）</li>
 <li>有一个sender线程会将 recordaccumulator的缓存数据封装为一个个16k的batch，然后进行发送。 （如果消息一直达不到16k，那么100ms后就会进行发送）</li>
 </ol>
+<h3 id="Kafka的面试题"><a href="#Kafka的面试题" class="headerlink" title="Kafka的面试题"></a>Kafka的面试题</h3><p>1.Kafka 中的 ISR(InSyncRepli)、OSR(OutSyncRepli)、AR(AllRepli)代表什么？</p>
+<p>2.Kafka 中的 HW、LEO 等分别代表什么？</p>
+<blockquote>
+<p>HW： high water mark， 消费者可见的最大的offset。一般是所有的副本取最小的LEO</p>
+</blockquote>
+<p>3.Kafka 中是怎么体现消息顺序性的？</p>
+<blockquote>
+<p>分区内是有序的</p>
+</blockquote>
+<p>4.Kafka 中的分区器、序列化器、拦截器是否了解？它们之间的处理顺序是什么？</p>
+<blockquote>
+</blockquote>
+<p>5.Kafka 生产者客户端的整体结构是什么样子的？使用了几个线程来处理？分别是什么？</p>
+<p>6.“消费组中的消费者个数如果超过 topic 的分区，那么就会有消费者消费不到数据”这句</p>
+<p>话是否正确？</p>
+<p>7.消费者提交消费位移时提交的是当前消费到的最新消息的 offset 还是 offset+1？</p>
+<p>8.有哪些情形会造成重复消费？</p>
+<p>9.那些情景会造成消息漏消费？</p>
+<p>10.当你使用 kafka-topics.sh 创建（删除）了一个 topic 之后，Kafka 背后会执行什么逻辑？</p>
+<p>​    1）会在 zookeeper 中的/brokers/topics 节点下创建一个新的 topic 节点，如：/brokers/topics/first</p>
+<p>​    2）触发 Controller 的监听程序</p>
+<p>​    3）kafka Controller 负责 topic 的创建工作，并更新 metadata cache</p>
+<p>11.topic 的分区数可不可以增加？如果可以怎么增加？如果不可以，那又是为什么？</p>
+<p>12.topic 的分区数可不可以减少？如果可以怎么减少？如果不可以，那又是为什么？</p>
+<p>13.Kafka 有内部的 topic 吗？如果有是什么？有什么所用？</p>
+<p>14.Kafka 分区分配的概念？</p>
+<p>15.简述 Kafka 的日志目录结构？</p>
+<blockquote>
+<p>Index  和  segment</p>
+</blockquote>
+<p>16.如果我指定了一个 offset，Kafka Controller 怎么查找到对应的消息？</p>
+<p>17.聊一聊 Kafka Controller 的作用？</p>
+<blockquote>
+<ol>
+<li>controller </li>
+<li>Leader </li>
+</ol>
+</blockquote>
+<p>18.Kafka 中有那些地方需要选举？这些地方的选举策略又有哪些？</p>
+<p>19.失效副本是指什么？有那些应对措施？</p>
+<p>20.Kafka 的哪些设计让它有如此高的性能？</p>
+<blockquote>
+<p>kafka 是分布式的</p>
+<p>顺序写磁盘的，使用LSM tree</p>
+</blockquote>
 </span>
       
     </div>
@@ -667,7 +712,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">172</span>
+              <span class="site-state-item-count">173</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -727,7 +772,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka的基础概念"><span class="nav-number">1.</span> <span class="nav-text">Kafka的基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kafka工作流程"><span class="nav-number">1.1.</span> <span class="nav-text">kafka工作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka的文件存储"><span class="nav-number">1.1.1.</span> <span class="nav-text">kafka的文件存储</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#kafka分区的原因"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">kafka分区的原因</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISR-的概念"><span class="nav-number">2.</span> <span class="nav-text">ISR 的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要修改的kafka-server-properties"><span class="nav-number">3.</span> <span class="nav-text">需要修改的kafka server.properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka创建-topic的流程"><span class="nav-number">4.</span> <span class="nav-text">Kafka创建 topic的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka常用命令"><span class="nav-number">5.</span> <span class="nav-text">Kafka常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka-相关内容创建"><span class="nav-number">5.0.1.</span> <span class="nav-text">kafka 相关内容创建</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-分区数只能增加不能减少"><span class="nav-number">6.</span> <span class="nav-text">Kafka 分区数只能增加不能减少</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISR-的概念-1"><span class="nav-number">7.</span> <span class="nav-text">ISR 的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka-monitor"><span class="nav-number">8.</span> <span class="nav-text">kafka monitor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka-manager-使用"><span class="nav-number">9.</span> <span class="nav-text">kafka manager 使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#面试题专区"><span class="nav-number"></span> <span class="nav-text">面试题专区</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka生产者写数据流程"><span class="nav-number">1.</span> <span class="nav-text">Kafka生产者写数据流程</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka的基础概念"><span class="nav-number">1.</span> <span class="nav-text">Kafka的基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kafka工作流程"><span class="nav-number">1.1.</span> <span class="nav-text">kafka工作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka的文件存储"><span class="nav-number">1.1.1.</span> <span class="nav-text">kafka的文件存储</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#kafka分区的原因"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">kafka分区的原因</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISR-的概念"><span class="nav-number">2.</span> <span class="nav-text">ISR 的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要修改的kafka-server-properties"><span class="nav-number">3.</span> <span class="nav-text">需要修改的kafka server.properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka创建-topic的流程"><span class="nav-number">4.</span> <span class="nav-text">Kafka创建 topic的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka常用命令"><span class="nav-number">5.</span> <span class="nav-text">Kafka常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka-相关内容创建"><span class="nav-number">5.0.1.</span> <span class="nav-text">kafka 相关内容创建</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka-分区数只能增加不能减少"><span class="nav-number">6.</span> <span class="nav-text">Kafka 分区数只能增加不能减少</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ISR-的概念-1"><span class="nav-number">7.</span> <span class="nav-text">ISR 的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka-monitor"><span class="nav-number">8.</span> <span class="nav-text">kafka monitor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka-manager-使用"><span class="nav-number">9.</span> <span class="nav-text">kafka manager 使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#面试题专区"><span class="nav-number"></span> <span class="nav-text">面试题专区</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafka生产者写数据流程"><span class="nav-number">1.</span> <span class="nav-text">Kafka生产者写数据流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka的面试题"><span class="nav-number">1.1.</span> <span class="nav-text">Kafka的面试题</span></a></li></ol></li></ol></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
