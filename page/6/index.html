@@ -3376,8 +3376,8 @@
           
           
             
-              <a class="post-title-link" href="/2018/01/02/interview/Spring笔记/" itemprop="url">
-                Spring笔记
+              <a class="post-title-link" href="/2018/01/02/interview/分布式锁/" itemprop="url">
+                分布式锁面试
               </a>
             
           
@@ -3409,29 +3409,17 @@
         
           <span itemprop="articleBody">
             
-            Spring 的生命周期
-实例Spring容器
+            分布式锁的实现思路
+1）获取锁 ，进行业务操作
+2）库存不足 释放锁
+3）异常，释放锁
+4）执行成功，释放锁
 
-扫描类  
- 1通过 scan()
-
-解析这个扫描类
-
-实例 BeanDefinition
-
-所有的 BeanDefinition 存入 beanDefinitionMap
-
-调用bean工厂后置处理器
-
-验证
-
-推断构造方法
-
-通过反射  new 
+使用zookeeper的临时节点Java zookeeper分布式锁实现1234567891011121314151617181920212223242526272829303132333
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/01/02/interview/Spring笔记/#more" rel="contents">
+            <a class="btn" href="/2018/01/02/interview/分布式锁/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3757,6 +3745,76 @@ write a g
           
           
             
+              <a class="post-title-link" href="/2017/11/01/MyBatisGenerator 配置/" itemprop="url">
+                MyBatis Generator配置
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
+            2017-11-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            MyBatis Generator 是什么MyBatis Generator是一个可以用来生成Mybatis dao,entity,Mapper文件的一个工具,在项目的过程中可以省去很多重复的工作,我们只要在MyBatis Generator的配置文件中配置好要生成的表名与包名，然后运行一条命令就会
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/01/MyBatisGenerator 配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2017/11/01/ZooKeeper使用总结/" itemprop="url">
                 Zookeeper使用教程
               </a>
@@ -3900,8 +3958,8 @@ https://blog.csdn.net/justry_deng/article/details/98665086
           
           
             
-              <a class="post-title-link" href="/2017/11/01/LSM-Tree以及运用/" itemprop="url">
-                LSM-Tree的运用
+              <a class="post-title-link" href="/2017/11/01/interview/ZooKeeper使用总结/" itemprop="url">
+                Zookeeper使用教程
               </a>
             
           
@@ -3933,85 +3991,12 @@ https://blog.csdn.net/justry_deng/article/details/98665086
         
           <span itemprop="articleBody">
             
-            ======
-LSM 树是什么Log Structured-Merge Tree  日志合并树
-LSM 的简易模型LSM 的简易树状结构分为两棵树  C0  和 C1
-C0 比较小，全部存储于内存之中，  C1则存储于磁盘之上。
-一个数据来了，我们先将数据存入C0这个内存的树上， C0大小达到阈值后
+            Zookeeper使用教程开启服务器：12345bin/zkServer.sh start如果遇见 already running as process 去 zoo.cfg配置的 data目录 删除zookeeper_server.pid 文件./zkServer status 可以查看状态
+使用z
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/LSM-Tree以及运用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2017/11/01/MyBatisGenerator 配置/" itemprop="url">
-                MyBatis Generator配置
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2017-11-01T13:22:54+08:00" content="2017-11-01">
-            2017-11-01
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            MyBatis Generator 是什么MyBatis Generator是一个可以用来生成Mybatis dao,entity,Mapper文件的一个工具,在项目的过程中可以省去很多重复的工作,我们只要在MyBatis Generator的配置文件中配置好要生成的表名与包名，然后运行一条命令就会
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/11/01/MyBatisGenerator 配置/#more" rel="contents">
+            <a class="btn" href="/2017/11/01/interview/ZooKeeper使用总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
