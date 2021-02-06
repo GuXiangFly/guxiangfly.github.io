@@ -36,23 +36,27 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="数仓分层  表命名   ODS层命名为ods_表名     DWD层命名为dwd_dim/fact_表名   DWS层命名为dws_表名   DWT层命名为dwt_表名   ADS层命名为ads_表名   临时表命名为xxx_tmp   用户行为表，以log为后缀。   深入浅出Google File System我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？在硬盘上一个我们存储元数据">
+<meta name="description" content="数仓分层  什么是事实  “事实”这 个术语表示的是业务事件的度量值（可统计次数、个数、金额等），例如，2020 年 5 月 21 日，宋宋老师在京东发了 250 块钱买了一瓶海狗人参丸。维度表：时间、用户、商品、商家。 事实表：250 块钱、一瓶   表命名   ODS层命名为ods_表名     保持数据原貌  创建支持LZO压缩的表:  为了减少存储空间  100g =&amp;gt; 10g 左右">
 <meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据仓库">
 <meta property="og:url" content="http://yoursite.com/2018/08/01/数据仓库/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="数仓分层  表命名   ODS层命名为ods_表名     DWD层命名为dwd_dim/fact_表名   DWS层命名为dws_表名   DWT层命名为dwt_表名   ADS层命名为ads_表名   临时表命名为xxx_tmp   用户行为表，以log为后缀。   深入浅出Google File System我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？在硬盘上一个我们存储元数据">
+<meta property="og:description" content="数仓分层  什么是事实  “事实”这 个术语表示的是业务事件的度量值（可统计次数、个数、金额等），例如，2020 年 5 月 21 日，宋宋老师在京东发了 250 块钱买了一瓶海狗人参丸。维度表：时间、用户、商品、商家。 事实表：250 块钱、一瓶   表命名   ODS层命名为ods_表名     保持数据原貌  创建支持LZO压缩的表:  为了减少存储空间  100g =&amp;gt; 10g 左右">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212154528576.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212171648877.png">
-<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150454966.png">
-<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150711727.png">
-<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150812993.png">
-<meta property="og:updated_time" content="2020-12-14T08:49:44.677Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222152355863.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222153152226.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222154757531.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210112144954433.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210112144520989.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210112145410540.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210112145606282.png">
+<meta property="og:updated_time" content="2021-01-23T07:18:23.032Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据仓库">
-<meta name="twitter:description" content="数仓分层  表命名   ODS层命名为ods_表名     DWD层命名为dwd_dim/fact_表名   DWS层命名为dws_表名   DWT层命名为dwt_表名   ADS层命名为ads_表名   临时表命名为xxx_tmp   用户行为表，以log为后缀。   深入浅出Google File System我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？在硬盘上一个我们存储元数据">
+<meta name="twitter:description" content="数仓分层  什么是事实  “事实”这 个术语表示的是业务事件的度量值（可统计次数、个数、金额等），例如，2020 年 5 月 21 日，宋宋老师在京东发了 250 块钱买了一瓶海狗人参丸。维度表：时间、用户、商品、商家。 事实表：250 块钱、一瓶   表命名   ODS层命名为ods_表名     保持数据原貌  创建支持LZO压缩的表:  为了减少存储空间  100g =&amp;gt; 10g 左右">
 <meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212154528576.png">
 
 
@@ -335,33 +339,102 @@
       
         <span itemprop="articleBody"><h1 id="数仓分层"><a href="#数仓分层" class="headerlink" title="数仓分层"></a>数仓分层</h1><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212154528576.png" alt="image-20201212154528576"></p>
 <p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201212171648877.png" alt="image-20201212171648877"></p>
+<p>什么是事实</p>
+<blockquote>
+<p>“事实”这 个术语表示的是业务事件的<strong>度量值（可统计次数、个数、金额等）</strong>，例如，2020 年 5 月 21 日，宋宋老师在京东发了 250 块钱买了一瓶海狗人参丸。维度表：时间、用户、商品、商家。 事实表：250 块钱、一瓶 </p>
+</blockquote>
 <p><strong>表命名</strong> </p>
 <ul>
 <li><p>ODS层命名为ods_表名   </p>
+<ul>
+<li><p>保持数据原貌</p>
+<blockquote>
+<p>创建支持LZO压缩的表:  为了减少存储空间  100g =&gt; 10g 左右</p>
+<p>创建分区表：为了防止全表扫描（导数据：全量，新增，新增和变化）</p>
+<p>保持数据原貌，不做任何修改。</p>
+</blockquote>
+</li>
+</ul>
 </li>
 <li><p>DWD层命名为dwd_dim/fact_表名 </p>
+<ul>
+<li>对ODS层数据进行清洗</li>
+</ul>
 </li>
 <li><p>DWS层命名为dws_表名 </p>
+<ul>
+<li>按天进行轻度汇总</li>
+</ul>
 </li>
 <li><p>DWT层命名为dwt_表名 </p>
+<ul>
+<li>Java</li>
+</ul>
 </li>
 <li><p>ADS层命名为ads_表名 </p>
+<ul>
+<li></li>
+</ul>
 </li>
 <li><p>临时表命名为xxx_tmp </p>
 </li>
 <li><p>用户行为表，以log为后缀。</p>
 </li>
 </ul>
-<h1 id="深入浅出Google-File-System"><a href="#深入浅出Google-File-System" class="headerlink" title="深入浅出Google File System"></a>深入浅出Google File System</h1><h4 id="我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？"><a href="#我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？" class="headerlink" title="我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？"></a>我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？</h4><p>在硬盘上一个我们存储元数据，以及各个block的文件偏移量</p>
+<h4 id="ODS层逻辑"><a href="#ODS层逻辑" class="headerlink" title="ODS层逻辑"></a>ODS层逻辑</h4><p>保持数据原貌</p>
+<blockquote>
+<p>创建支持LZO压缩的表:  为了减少存储空间  100g =&gt; 10g 左右</p>
+<p>创建分区表：为了防止全表扫描（导数据：全量，新增，新增和变化）</p>
+<p>保持数据原貌，不做任何修改。</p>
+</blockquote>
+<h4 id="DWD层逻辑"><a href="#DWD层逻辑" class="headerlink" title="DWD层逻辑"></a>DWD层逻辑</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222152355863.png" alt="image-20201222152355863" style="zoom:50%;"></p>
+<p>步骤</p>
+<ol>
+<li>选择业务过程</li>
+<li>声明最细粒度<ol>
+<li>正常以binlog操作就好</li>
+</ol>
+</li>
+<li>确定维度</li>
+<li>确定事实<ol>
+<li>确定事实表的度量值</li>
+</ol>
+</li>
+</ol>
+<p>DWD 层是以业务过程为驱动。不是以具体需求机械能</p>
+<h4 id="DWS-amp-DWT层逻辑-（主题指标）-（美团不区分-DWS-和-DWT）"><a href="#DWS-amp-DWT层逻辑-（主题指标）-（美团不区分-DWS-和-DWT）" class="headerlink" title="DWS &amp; DWT层逻辑 （主题指标） （美团不区分  DWS 和 DWT）"></a>DWS &amp; DWT层逻辑 （主题指标） （美团不区分  DWS 和 DWT）</h4><h5 id="1-DWS"><a href="#1-DWS" class="headerlink" title="1) DWS"></a>1) DWS</h5><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222153152226.png" alt="image-20201222153152226"></p>
 <ul>
-<li>1 block = 1024Byte</li>
+<li><p>每天聚合统计</p>
+</li>
+<li><p>建什么表：维度跨报表</p>
+</li>
+<li><p>每个表什么字段： 站在维度的角度去看事实，看实时表的度量值</p>
+<blockquote>
+<p>比方说：  用户一共的下单次数，  用户加入购物车总的金额，用户总的支付金额</p>
+</blockquote>
+</li>
 </ul>
-<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150454966.png" alt="image-20201214150454966" style="zoom:67%;"></p>
-<h4 id="如何保存一个大文件"><a href="#如何保存一个大文件" class="headerlink" title="如何保存一个大文件"></a>如何保存一个大文件</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150711727.png" alt="image-20201214150711727"></p>
-<h4 id="如何保存一个超大文件"><a href="#如何保存一个超大文件" class="headerlink" title="如何保存一个超大文件"></a>如何保存一个超大文件</h4><ul>
-<li>缺点就是每个</li>
+<h5 id="2-DWT"><a href="#2-DWT" class="headerlink" title="2)  DWT"></a>2)  DWT</h5><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222154757531.png" alt="image-20201222154757531"></p>
+<ul>
+<li><p>每天聚合统计</p>
+</li>
+<li><p>建什么表：维度跨报表</p>
+</li>
+<li><p>每个表什么字段： 站在维度的角度去看事实，看实时表的度量值。重点关注开始时间，结束时间，累积的度量值，一段时间的度量值</p>
+<blockquote>
+<p>比方说：  用户首次下单时间，末次下单时间，累积下单次数， 近30天支付次数</p>
+</blockquote>
+</li>
 </ul>
-<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201214150812993.png" alt="image-20201214150812993"></p>
+<h3 id="ADS层逻辑"><a href="#ADS层逻辑" class="headerlink" title="ADS层逻辑"></a>ADS层逻辑</h3><ul>
+<li>对电商系统各大主题指标分别进行分析。 </li>
+</ul>
+<p>  <img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210112144954433.png" alt="image-20210112144954433" style="zoom: 67%;"></p>
+<p>  美团大数据</p>
+<p>  <img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210112144520989.png" alt="image-20210112144520989"></p>
+<h4 id="超自然键"><a href="#超自然键" class="headerlink" title="超自然键"></a>超自然键</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210112145410540.png" alt="image-20210112145410540" style="zoom:67%;"></p>
+<p>维度的层次</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210112145606282.png" alt="image-20210112145606282" style="zoom:67%;"></p>
 </span>
       
     </div>
@@ -379,7 +452,7 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/27/Scala Study note/" rel="prev">Scala study Note</a>
+              <a href="/2018/08/27/Hive详细笔记/" rel="prev">Hive 学习笔记</a>
             
           </div>
 
@@ -591,7 +664,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">173</span>
+              <span class="site-state-item-count">181</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -605,7 +678,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -651,7 +724,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数仓分层"><span class="nav-number">1.</span> <span class="nav-text">数仓分层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#深入浅出Google-File-System"><span class="nav-number">2.</span> <span class="nav-text">深入浅出Google File System</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">我们如何保存一个小文件（存储在单个硬盘上我归类为小文件）？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何保存一个大文件"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">如何保存一个大文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何保存一个超大文件"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">如何保存一个超大文件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数仓分层"><span class="nav-number">1.</span> <span class="nav-text">数仓分层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ODS层逻辑"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">ODS层逻辑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DWD层逻辑"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">DWD层逻辑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DWS-amp-DWT层逻辑-（主题指标）-（美团不区分-DWS-和-DWT）"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">DWS &amp; DWT层逻辑 （主题指标） （美团不区分  DWS 和 DWT）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-DWS"><span class="nav-number">1.0.0.3.1.</span> <span class="nav-text">1) DWS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-DWT"><span class="nav-number">1.0.0.3.2.</span> <span class="nav-text">2)  DWT</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADS层逻辑"><span class="nav-number">1.0.1.</span> <span class="nav-text">ADS层逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#超自然键"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">超自然键</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -668,7 +741,7 @@
       <div class="footer-inner"> <div class="copyright">
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2020
+  <span itemprop="copyrightYear">2021
   </span>
   <span class="with-love">
     <i class="icon-next-heart"></i>

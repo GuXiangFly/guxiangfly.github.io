@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/12/10/6RB9HxuMOhsdbz2.png">
 <meta property="og:image" content="https://i.loli.net/2019/12/10/C7k2pbK1OJfWYAI.png">
 <meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201121162444033.png">
-<meta property="og:updated_time" content="2020-12-15T11:50:28.599Z">
+<meta property="og:updated_time" content="2021-02-06T17:21:28.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka学习笔记">
 <meta name="twitter:description" content="Kafka的基础概念kafka工作流程 kafka单独一个topic内，也会进行分区，kafka只能保证单独分区内，消息是有序的.   kafka的文件存储视频连接 [https://www.bilibili.com/video/BV1a4411B7V9?p=12]  .log文件存储的是kafka队列里面的数据 .index 记录的是kafka的某个consumer的   .log 和 .ind">
@@ -483,6 +483,16 @@
 <p>kafka 是分布式的</p>
 <p>顺序写磁盘的，使用LSM tree</p>
 </blockquote>
+<p>1.Kafka 中的 ISR(InSyncRepli)、OSR(OutSyncRepli)、AR(AllRepli)代表什么？</p>
+<p>2.Kafka 中的 HW、LEO 等分别代表什么？</p>
+<p>3.Kafka 中是怎么体现消息顺序性的？</p>
+<p>4.Kafka 中的分区器、序列化器、拦截器是否了解？它们之间的处理顺序是什么？</p>
+<p>5.Kafka 生产者客户端的整体结构是什么样子的？使用了几个线程来处理？分别是什么？</p>
+<p>6.“消费组中的消费者个数如果超过 topic 的分区，那么就会有消费者消费不到数据”这句</p>
+<p>话是否正确？</p>
+<p>7.消费者提交消费位移时提交的是当前消费到的最新消息的 offset 还是 offset+1？</p>
+<p>8.有哪些情形会造成重复消费？</p>
+<p>9.那些情景会造成消息漏消费？</p>
 </span>
       
     </div>
@@ -712,7 +722,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">173</span>
+              <span class="site-state-item-count">181</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -726,7 +736,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -789,7 +799,7 @@
       <div class="footer-inner"> <div class="copyright">
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2020
+  <span itemprop="copyrightYear">2021
   </span>
   <span class="with-love">
     <i class="icon-next-heart"></i>

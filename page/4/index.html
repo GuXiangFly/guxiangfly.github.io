@@ -3376,8 +3376,8 @@
           
           
             
-              <a class="post-title-link" href="/2018/03/27/interview/AQS面试/" itemprop="url">
-                AQS面试
+              <a class="post-title-link" href="/2018/08/27/Spark 学习笔记/" itemprop="url">
+                Scala study Note
               </a>
             
           
@@ -3387,8 +3387,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2018-03-27T20:09:04+08:00" content="2018-03-27">
-            2018-03-27
+          <time itemprop="dateCreated" datetime="2018-08-27T20:09:04+08:00" content="2018-08-27">
+            2018-08-27
           </time>
         </span>
 
@@ -3409,18 +3409,14 @@
         
           <span itemprop="articleBody">
             
-            ReentrantLock加锁和释放锁的底层原理
-
-AQS 主要是用来实现 锁的，类似 reentrantLock 就是内部使用的AQS
-AQS 内部主要有三块东西
-
-state 变量：   atomicInteger
-state = 0 代表没被加锁  
-state = 1 代表被加锁了，加锁后会
+            Spark 学习Spark 是一个引擎，类似JVM（可能不太恰当，但是spark 和 spring 框架层是完全不同的）
+进入spark通过下面命令进入spark页面
+1/opt/module/spark-2.1.1-bin-hadoop2.7/bin/spark-shell
+进入后有一个app i
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/03/27/interview/AQS面试/#more" rel="contents">
+            <a class="btn" href="/2018/08/27/Spark 学习笔记/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3453,8 +3449,8 @@ state = 1 代表被加锁了，加锁后会
           
           
             
-              <a class="post-title-link" href="/2018/03/27/interview/线程专题/" itemprop="url">
-                线程专题
+              <a class="post-title-link" href="/2018/08/27/机器学习/" itemprop="url">
+                未命名
               </a>
             
           
@@ -3464,8 +3460,8 @@ state = 1 代表被加锁了，加锁后会
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2018-03-27T20:09:04+08:00" content="2018-03-27">
-            2018-03-27
+          <time itemprop="dateCreated" datetime="2018-08-27T20:09:04+08:00" content="2018-08-27">
+            2018-08-27
           </time>
         </span>
 
@@ -3486,25 +3482,383 @@ state = 1 代表被加锁了，加锁后会
         
           <span itemprop="articleBody">
             
-            线程专题笔记
-线程的状态转换 这是一个线程状态图
- JAVA 核心卷版本
+            机器学习的算法分类一般来说 可以分为两大类
 
-New（新创建）
-Runnable（可运行）
-Blocked（被阻塞）
-Waiting（等待）
-Timed waiting（计时等待） 
-Terminated（被终止）
+监督学习 （预测）（监督学习可以分为三类）  
 
-这 6 个状态
-
-初始状态 （new 状态）
-1实现
+分类 K-近邻算法，贝叶斯分类，决策树与随机森林，逻辑回归，神经网络
+回归 线性回归、 岭回归
+标注 隐马尔科夫模型123分类：训练目标值是离散型   类似将一个文章进行分类，这个文章是 科技的还是体育的
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/03/27/interview/线程专题/#more" rel="contents">
+            <a class="btn" href="/2018/08/27/机器学习/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/08/27/Hive详细笔记/" itemprop="url">
+                Hive 学习笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-08-27T20:09:04+08:00" content="2018-08-27">
+            2018-08-27
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            HDFS 适合于 一次写入 多次读取
+数据是存储在 RegionServer中 
+RegionServer内部有一个  HLog    有一个叫做 WAL 的技术（write  ahead  log  WAL） namenode  是丢了就丢了 但是数据库中不能这么干
+HLog 先在本地写  写完H
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/08/27/Hive详细笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/08/01/数据仓库/" itemprop="url">
+                数据仓库
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-08-01T13:22:54+08:00" content="2018-08-01">
+            2018-08-01
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            数仓分层
+
+什么是事实
+
+“事实”这 个术语表示的是业务事件的度量值（可统计次数、个数、金额等），例如，2020 年 5 月 21 日，宋宋老师在京东发了 250 块钱买了一瓶海狗人参丸。维度表：时间、用户、商品、商家。 事实表：250 块钱、一瓶 
+
+表命名 
+
+ODS层命名为ods_表名   
+
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/08/01/数据仓库/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/07/28/Spring Cloud Eureka 集群搭建部署/" itemprop="url">
+                Spring Cloud Eureka 集群搭建部署
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-07-28T19:00:04+08:00" content="2018-07-28">
+            2018-07-28
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            Spring Cloud Eureka 集群搭建部署Maven依赖如下1234567891011121314151617181920212223242526272829303132&lt;?xml version="1.0"?&gt;&lt;project xmlns="http://maven.a
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/07/28/Spring Cloud Eureka 集群搭建部署/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/06/27/ES6新特性/" itemprop="url">
+                ES6新特性
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-06-27T20:09:04+08:00" content="2018-06-27">
+            2018-06-27
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            函数的简洁写法 ES6 的新特性
+1234567  toggle:function()&#123;  this.bSign=!this.bSign;  &#125;toggle()&#123;	this.bSign=!this.bSign;	&#125;
+promise 语法123456789101
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/06/27/ES6新特性/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/06/11/Angular4重点笔记/" itemprop="url">
+                Angular 笔记
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-06-11T23:09:04+08:00" content="2018-06-11">
+            2018-06-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            什么是双向数据绑定12&lt;input  [(ngModel)]="username"&gt;&#123;&#123;username&#125;&#125;
+意思就是 初始时 username 的值赋给 文本输入框文本输入框 如果有改变，那么就会将 文本输入框 的值赋给 username
+注意需
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/06/11/Angular4重点笔记/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3695,8 +4049,8 @@ Tim
           
           
             
-              <a class="post-title-link" href="/2018/03/11/springboot源码学习/" itemprop="url">
-                Springboot源码分析
+              <a class="post-title-link" href="/2018/03/27/interview/AQS面试/" itemprop="url">
+                AQS面试
               </a>
             
           
@@ -3706,8 +4060,8 @@ Tim
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2018-03-11T23:09:04+08:00" content="2018-03-11">
-            2018-03-11
+          <time itemprop="dateCreated" datetime="2018-03-27T20:09:04+08:00" content="2018-03-27">
+            2018-03-27
           </time>
         </span>
 
@@ -3728,378 +4082,18 @@ Tim
         
           <span itemprop="articleBody">
             
-            启动流程
+            ReentrantLock加锁和释放锁的底层原理
 
-从 run方法进入
+AQS 主要是用来实现 锁的，类似 reentrantLock 就是内部使用的AQS
+AQS 内部主要有三块东西
 
-
-
-点进去后能发现 先是创建一个 SpringApplication 对象，然后再run
-
-
-
-创建 SpringApplication 对象构造方法进行 initialize
-123public SpringApplication(Object... source
+state 变量：   atomicInteger
+state = 0 代表没被加锁  
+state = 1 代表被加锁了，加锁后会
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/03/11/springboot源码学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/02/27/interview/数据库专题/" itemprop="url">
-                数据库专题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-02-27T20:09:04+08:00" content="2018-02-27">
-            2018-02-27
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            数据库专题
-mysql一般分为4层   链接层 服务层 引擎层 存储层
-存储引擎innodb 支持外键， ACID 全部事务
-myISAM 适合于大量数据读 而少量数据写的操作  (myISAM是性能优先，大量数据查询分析，适合myISAM)
-innoDB 适合有较多更新操作的情况    （inno
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/02/27/interview/数据库专题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/02/27/SwaggerUI使用/" itemprop="url">
-                Swagger-ui 使用笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-02-27T20:09:04+08:00" content="2018-02-27">
-            2018-02-27
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            Swagger-ui 简介首先 Swagger-ui  并不依赖于 springMVC 这一套 使用 jersey JSR 也可以使用 swagger-uiSwagger 是一款目前世界最流行的API管理工具。但目前Swagger已经形成一个生态圈，能够管理API的整个生命周期，从设计、文档到  测
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/02/27/SwaggerUI使用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/02/27/排序专题/" itemprop="url">
-                排序专题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-02-27T20:09:04+08:00" content="2018-02-27">
-            2018-02-27
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            冒泡排序  O（n*n）选择排序思路：先从n个元素中 选出最小的一个 放在最前面再从 后面 n-1个元素中选出最小的  放在第二个
-插入排序思路：先固定 n个元素中 第一个元素然后不叫第二个元素  是否比第一个大  如果比第一个小 那就插入第一个前面 如果比第一个大 那就插入在他右边之后 第三个
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/02/27/排序专题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/02/27/ConcurrentHashMap  and  HashMap/" itemprop="url">
-                ConcurrentHashMap and hashmap
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-02-27T20:09:04+08:00" content="2018-02-27">
-            2018-02-27
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            阻塞： 是使用 synchronized  或者  lock实现的非阻塞： 是使用内存操作 CAS 实现的  有点类似 自旋锁自旋锁： CAS 会根据数据的偏移量来决定是否更新一个数据， 如果数据一样，那么就更新数据，如果不一样那就不更新数据。HashMap 和 hashtable的区别  Hash
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/02/27/ConcurrentHashMap  and  HashMap/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/02/27/interview/排序专题/" itemprop="url">
-                排序专题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-02-27T20:09:04+08:00" content="2018-02-27">
-            2018-02-27
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            冒泡排序  O（n*n）选择排序思路：先从n个元素中 选出最小的一个 放在最前面再从 后面 n-1个元素中选出最小的  放在第二个
-插入排序思路：先固定 n个元素中 第一个元素然后不叫第二个元素  是否比第一个大  如果比第一个小 那就插入第一个前面 如果比第一个大 那就插入在他右边之后 第三个
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/02/27/interview/排序专题/#more" rel="contents">
+            <a class="btn" href="/2018/03/27/interview/AQS面试/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -4125,7 +4119,7 @@ innoDB 适合有较多更新操作的情况    （inno
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
   </nav>
 
  </div>
@@ -4159,7 +4153,7 @@ innoDB 适合有较多更新操作的情况    （inno
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">173</span>
+              <span class="site-state-item-count">181</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -4173,7 +4167,7 @@ innoDB 适合有较多更新操作的情况    （inno
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -4225,7 +4219,7 @@ innoDB 适合有较多更新操作的情况    （inno
       <div class="footer-inner"> <div class="copyright">
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2020
+  <span itemprop="copyrightYear">2021
   </span>
   <span class="with-love">
     <i class="icon-next-heart"></i>

@@ -1,0 +1,944 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="Hexo,guxiangfly">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="1、Java线程有哪些状态？并画出状态转换图参考答案： 解题思路：基础知识考察点：java 线程分类：java 线程 {校招，社招}难度分级：P4，P5 2、举例Java线程安全的实现方法，原理、区别？参考答案： 互斥同步：synchronized关键字 ， Lock  ReentrantLock，volatile非阻塞同步：原子变量 atomicLong  原理：sun.misc.Unsafe类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="guxiangfly的博客">
+<meta property="og:url" content="http://yoursite.com/2020/12/30/interview/java面试题/多线程/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="1、Java线程有哪些状态？并画出状态转换图参考答案： 解题思路：基础知识考察点：java 线程分类：java 线程 {校招，社招}难度分级：P4，P5 2、举例Java线程安全的实现方法，原理、区别？参考答案： 互斥同步：synchronized关键字 ， Lock  ReentrantLock，volatile非阻塞同步：原子变量 atomicLong  原理：sun.misc.Unsafe类">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-12-30T02:59:16.501Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="guxiangfly的博客">
+<meta name="twitter:description" content="1、Java线程有哪些状态？并画出状态转换图参考答案： 解题思路：基础知识考察点：java 线程分类：java 线程 {校招，社招}难度分级：P4，P5 2、举例Java线程安全的实现方法，原理、区别？参考答案： 互斥同步：synchronized关键字 ， Lock  ReentrantLock，volatile非阻塞同步：原子变量 atomicLong  原理：sun.misc.Unsafe类">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title>  | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2020-12-30T10:59:02+08:00" content="2020-12-30">
+            2020-12-30
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="1、Java线程有哪些状态？并画出状态转换图"><a href="#1、Java线程有哪些状态？并画出状态转换图" class="headerlink" title="1、Java线程有哪些状态？并画出状态转换图"></a>1、Java线程有哪些状态？并画出状态转换图</h1><p>参考答案：</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>java 线程<br><strong>分类：</strong>java 线程 {校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="2、举例Java线程安全的实现方法，原理、区别？"><a href="#2、举例Java线程安全的实现方法，原理、区别？" class="headerlink" title="2、举例Java线程安全的实现方法，原理、区别？"></a>2、举例Java线程安全的实现方法，原理、区别？</h2><p><strong>参考答案：</strong></p>
+<p>互斥同步：synchronized关键字 ， Lock  ReentrantLock，volatile<br>非阻塞同步：原子变量 atomicLong  原理：sun.misc.Unsafe类，CAS指令</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>java 线程<br><strong>分类：</strong>java 线程 {校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="3、多次调用线程的start方法会怎么样？"><a href="#3、多次调用线程的start方法会怎么样？" class="headerlink" title="3、多次调用线程的start方法会怎么样？"></a>3、多次调用线程的start方法会怎么样？</h2><p> <strong>参考答案：</strong><br>线程的start()只能被调用一次，否则会报java.lang.IllegalThreadStateException</p>
+<p><strong>Thread类的start()方法</strong> 展开原码</p>
+<p>public synchronized void start() {</p>
+<p>   if (threadStatus != 0)</p>
+<p>​     throw new IllegalThreadStateException();</p>
+<p>   ……</p>
+<p> }</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>java 线程<br><strong>分类：</strong>java 线程 {校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="4、线程sleep-和yield-的区别是什么？"><a href="#4、线程sleep-和yield-的区别是什么？" class="headerlink" title="4、线程sleep()和yield()的区别是什么？"></a>4、线程sleep()和yield()的区别是什么？</h2><p> <strong>参考答案：</strong> </p>
+<p>sleep()使当前线程进入停滞状态，所以执行sleep()的线程在指定的时间内肯定不会执行；yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行_=82<br>sleep()可使优先级低的线程得到执行的机会，当然也可以让同优先级和高优先级的线程有执行的机会；yield()只能使同优先级的线程有执行的机会。</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>java 线程<br><strong>分类：</strong>java 线程 {校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="5、线程同步问题"><a href="#5、线程同步问题" class="headerlink" title="5、线程同步问题"></a>5、线程同步问题</h2><p> <strong>参考答案：</strong><br>1） 在需要同步的方法的方法签名中加入synchronized关键字。<br>2）使用synchronized块对需要进行同步的代码段进行同步。<br>3）使用JDK 5中提供的java.util.concurrent.lock包中的Lock对象。<br>4）锁的粒度：类级别和对象级别<br>5）读写锁,CountDownLatch等的使用<br>6) Lock与synchronized 的区别<br><a href="http://houlinyan.iteye.com/blog/1112535" target="_blank" rel="noopener">http://houlinyan.iteye.com/blog/1112535</a></p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>java 线程<br><strong>分类：</strong>java 线程 {校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="6、wait-和notify-，wait和sleep的区别"><a href="#6、wait-和notify-，wait和sleep的区别" class="headerlink" title="6、wait()和notify()，wait和sleep的区别"></a>6、wait()和notify()，wait和sleep的区别</h2><p><strong>参考答案：</strong><br>wait()和notify()的区别：<br><a href="http://blog.csdn.net/oracle_microsoft/article/details/6863662" target="_blank" rel="noopener">http://blog.csdn.net/oracle_microsoft/article/details/6863662</a><br>wait和sleep的区别：<br>（1）sleep是Thread类的方法，是线程用来 控制自身流程的，比如有一个要报时的线程，每一秒中打印出一个时间，那么我就需要在print方法前面加上一个sleep让自己每隔一秒执行一次。就像个闹钟一样。<br>wait是Object类的方法，用来线程间的通信，这个方法会使当前拥有该对象锁的进程等待知道其他线程调用notify方法时再醒来，不过你也可以给他指定一个时间，自动醒来。这个方法主要是用走不同线程之间的调度的。<br>（2）关于锁的释放 ，在这里假设大家已经知道了锁的概念及其意义。调用sleep方法不会释放锁（自己的感觉是sleep方法本来就是和锁没有关系的，因为他是一个线程用于管理自己的方法，不涉及线程通信）<br>（3）使用区域<br>由于wait函数的特殊意义，所以他是应该放在同步语句块中的，这样才有意义 。<br>注意：两个方法都需要抛出异常<br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong><br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4</p>
+<h2 id="7、IO密集型和CPU密集型与线程池大小的关系"><a href="#7、IO密集型和CPU密集型与线程池大小的关系" class="headerlink" title="7、IO密集型和CPU密集型与线程池大小的关系"></a>7、IO密集型和CPU密集型与线程池大小的关系</h2><p><strong>参考答案：</strong></p>
+<p>任务性质不同的任务可以用不同规模的线程池分开处理。CPU密集型任务配置尽可能小的线程，如配置Ncpu+1个线程的线程池。IO密集型任务则由于线程并不是一直在执行任务，则配置尽可能多的线程，如2*Ncpu。混合型的任务，如果可以拆分，则将其拆分成一个CPU密集型任务和一个IO密集型任务，只要这两个任务执行的时间相差不是太大，那么分解后执行的吞吐率要高于串行执行的吞吐率，如果这两个任务执行时间相差太大，则没必要进行分解。我们可以通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数。<br>参考资料<strong>：</strong><a href="http://www.infoq.com/cn/articles/java-threadPool" target="_blank" rel="noopener">http://www.infoq.com/cn/articles/java-threadPool</a></p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong><br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="8、ThreadLocal-作用和实现机制"><a href="#8、ThreadLocal-作用和实现机制" class="headerlink" title="8、ThreadLocal 作用和实现机制"></a>8、ThreadLocal 作用和实现机制</h2><p> 参考<strong>答案：</strong></p>
+<p><a href="http://wowlinda80.iteye.com/blog/228600" target="_blank" rel="noopener">http://wowlinda80.iteye.com/blog/228600</a> </p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong><br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="9、java线程池corePoolSize，maxPoolSize，queueCapacity这些参数的意义，如何考虑这些参数的设置"><a href="#9、java线程池corePoolSize，maxPoolSize，queueCapacity这些参数的意义，如何考虑这些参数的设置" class="headerlink" title="9、java线程池corePoolSize，maxPoolSize，queueCapacity这些参数的意义，如何考虑这些参数的设置"></a>9、java线程池corePoolSize，maxPoolSize，queueCapacity这些参数的意义，如何考虑这些参数的设置</h2><p><strong>参考答案：</strong><br>corePoolSize（线程池的基本大小）：核心线程数，核心线程会一直存活，即使没有任务需要处理。当线程数小于核心线程数时，即使现有的线程空闲，线程池也会优先创建新线程来处理任务，而不是直接交给现有的线程处理。<br>maximumPoolSize（线程池最大大小）：当线程数大于或等于核心线程，且任务队列已满时，线程池会创建新的线程，直到线程<em>=95</em>量达到maxPoolSize。如果线程数已等于maxPoolSize，且任务队列已满，则已超出线程池的处理能力，线程池会拒绝处理任务而抛出异常。<br>queueCapacity(任务队列容量)：从maxPoolSize的描述上可以看出，任务队列的容量会影响到线程的变化，因此任务队列的长度也需要恰当的设置。</p>
+<p>参数的设置参考<a href="http://blog.csdn.net/zhouhl_cn/article/details/7392607" target="_blank" rel="noopener">http://blog.csdn.net/zhouhl_cn/article/details/7392607</a><br><strong>解题思路：最好搞清楚线程池的主要处理流程。</strong><br><strong>考察点：线程池的理解与使用</strong><br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="10、ThreadLocal是什么，有什么典型的应用场景？"><a href="#10、ThreadLocal是什么，有什么典型的应用场景？" class="headerlink" title="10、ThreadLocal是什么，有什么典型的应用场景？"></a>10、ThreadLocal是什么，有什么典型的应用场景？</h2><p> <strong>参考答案：</strong><br><a href="http://wowlinda80.iteye.com/blog/228600" target="_blank" rel="noopener">http://wowlinda80.iteye.com/blog/228600</a></p>
+<p><strong>解题思路：</strong>最好搞清楚线程池的主要处理流程<strong>。</strong><br><strong>考察点：</strong>线程池的理解与使用<br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4，P5  </p>
+<h2 id="11、考虑设计一个计数器程序，场景一，一个线程写，多个线程读；场景二，多个线程写，多个线程读。分别应对这2种场景设计一个计数器程序，要保证线程安全"><a href="#11、考虑设计一个计数器程序，场景一，一个线程写，多个线程读；场景二，多个线程写，多个线程读。分别应对这2种场景设计一个计数器程序，要保证线程安全" class="headerlink" title="11、考虑设计一个计数器程序，场景一，一个线程写，多个线程读；场景二，多个线程写，多个线程读。分别应对这2种场景设计一个计数器程序，要保证线程安全"></a>11、考虑设计一个计数器程序，场景一，一个线程写，多个线程读；场景二，多个线程写，多个线程读。分别应对这2种场景设计一个计数器程序，要保证线程安全</h2><p><strong>参考答案：</strong><br>一写多读的情况主要需要考虑读到最新的数据，所以加volatile关键字即可<br>多写多读的情况就需要考虑原子操作，可以利用CAS原理<br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>多线程，异步<br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="12、多线程的使用场景，为了解决什么样的问题。不适用于什么场景"><a href="#12、多线程的使用场景，为了解决什么样的问题。不适用于什么场景" class="headerlink" title="12、多线程的使用场景，为了解决什么样的问题。不适用于什么场景"></a>12、多线程的使用场景，为了解决什么样的问题。不适用于什么场景</h2><p><strong>参考答案：</strong><br>这几点阐述的不完全正确<br>多线程优势<br>1.发挥多核处理器的强大能力，如果没有多核处理器，用多线程也只是形式而已，提升处理速度，常见的是一个任务用多线程跑比单线程跑快<br>2.建模简单，可以把一系列的复杂交互，变成简单的同步编程模型；比如我们在写controller时不用在考虑线程创建、销毁、调度优先级等；如果用单线程模型会变得非常复杂。<br>3.异步事件的简化处理，参见NIO的实现<br>多线程的风险<br>1.线程安全性<br>2.活跃性（死锁）问题<br>3.性能问题，频繁切换上下文，调度想要同时处理多件事：单线程处理不了的，必须使用多线程。（类似于分身术）<br>多个线程分解大任务：用单线程可以做，但是使用多线程可以更快。（类似于左右开弓）<br>可以引申到异步和多线程的区别上。<br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>多线程，异步<br><strong>分类：</strong>{校招，社招都可以用}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="13、线程池的实现原理"><a href="#13、线程池的实现原理" class="headerlink" title="13、线程池的实现原理"></a>13、线程池的实现原理</h2><p><strong>参考答案：</strong></p>
+<p> 线程池的作用是有效的降低频繁创建销毁线程所带来的额外开销。一般来说，线程池都是采用预创建的技术，在应用启动之初便预先创建一定数目的线程。应用在运行的过程中，需要时可以从这些线程所组成的线程池里申请分配一个空闲的线程，来执行一定的任务，任务完成后，并不是将线程销毁，而是将它返还给线程池，由线程池自行管理。如果线程池中预先分配的线程已经全部分配完毕，但此时又有新的任务请求，则线程池会动态的创建新的线程去适应这个请求。当然，有可能，某些时段应用并不需要执行很多的任务，导致了线程池中的线程大多处于空闲的状态，为了节省系统资源，线程池就需要动态的销毁其中的一部分空闲线程。因此，线程池都需要一个管理者，按照一定的要求去动态的维护其中线程的数目。线程池将频繁创建和销毁线程所带来的开销分摊到了每个具体执行的任务上，执行的次数越多，则分摊到每个任务上的开销就越小。当然，如果线程创建销毁所带来的开销与线程执行任务的开销相比微不足道，可以忽略不计，则线程池并没有使用的必要。</p>
+<p> 这个例子不错：<br> 多线程就是通过线程调用线程实现的；打个比方来说就像“摆渡”，河的一岸有很多的人，他们想过河，过河的过程做什么就是他们自己的逻辑，只要他符合我的要求我就送你过河（线程池的要求就是实现Runnable或继承Thread类），然后我开了几条船去送人，只要河的这一岸有满足的人，我就送你过河。这个例子中河一岸的人就是我们要执行的任务，是一个集合，船就是线程池中的线程，由我们自己控制，过河这个动作就是要执行的逻辑，我们只负责把船调给你，怎么划桨怎么过河就是程序自己的逻辑了。<br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>线程池<br><strong>分类：</strong>{校招，社招都可以用}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="14、常见的线程工具（同步器、线程安全集合类、原子类），什么场景下使用"><a href="#14、常见的线程工具（同步器、线程安全集合类、原子类），什么场景下使用" class="headerlink" title="14、常见的线程工具（同步器、线程安全集合类、原子类），什么场景下使用"></a>14、常见的线程工具（同步器、线程安全集合类、原子类），什么场景下使用</h2><p>参考答案：</p>
+<p> <a href="http://wiki.sankuai.com/pages/viewpage.action?pageId=79944720" target="_blank" rel="noopener">【java】【分享】java多线程</a><br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>Java线程状态<br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4</p>
+<h2 id="15、常见的线程状态，以及相互转换图；WAITING和BLOCK的区别"><a href="#15、常见的线程状态，以及相互转换图；WAITING和BLOCK的区别" class="headerlink" title="15、常见的线程状态，以及相互转换图；WAITING和BLOCK的区别"></a>15、常见的线程状态，以及相互转换图；WAITING和BLOCK的区别</h2><p><strong>参考答案：</strong><br>线程状态以及相互转换图已有答案。<br>blocked是内部对象锁阻塞，另外blocked激活需要线程调度器允许其持有对象，waiting是等待其他线程通知线程调度器一个条件；<br>BLOCK产生的原因：I/O等待阻塞，suspend挂起等<br>WAITING产生原因：Thread.sleep，Object.wait等<br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>Java线程状态<br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4</p>
+<h2 id="16、常见的同步方式-synchronized-和-lock-如何选择"><a href="#16、常见的同步方式-synchronized-和-lock-如何选择" class="headerlink" title="16、常见的同步方式 synchronized 和 lock 如何选择"></a>16、常见的同步方式 synchronized 和 lock 如何选择</h2><p><strong>参考答案：</strong><br>参考：<a href="http://houlinyan.iteye.com/blog/1112535" target="_blank" rel="noopener">http://houlinyan.iteye.com/blog/1112535</a><br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>线程同步方式<br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4</p>
+<h2 id="17、死锁的几种场景，如何避免死锁"><a href="#17、死锁的几种场景，如何避免死锁" class="headerlink" title="17、死锁的几种场景，如何避免死锁"></a>17、死锁的几种场景，如何避免死锁</h2><p><strong>参考答案：</strong><br><strong>参考</strong><a href="http://www.cnblogs.com/cxd4321/archive/2012/05/28/2521542.html" target="_blank" rel="noopener">http://www.cnblogs.com/cxd4321/archive/2012/05/28/2521542.html</a><br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>死锁<br><strong>分类：</strong>{校招，社招}<br><strong>难度分级：</strong>P4</p>
+<h2 id="18、利用缓存机制优化一个复杂计算程序"><a href="#18、利用缓存机制优化一个复杂计算程序" class="headerlink" title="18、利用缓存机制优化一个复杂计算程序"></a>18、利用缓存机制优化一个复杂计算程序</h2><p> 展开原码</p>
+<p>public class Memoizer&lt;A, V&gt; implements Computable&lt;A, V&gt; {</p>
+<p>   private final ConcurrentMap&lt;A, Future<v>&gt; cache</v></p>
+<p>​     = new ConcurrentHashMap&lt;A, Future<v>&gt;();</v></p>
+<p>   private final Computable&lt;A, V&gt; c;</p>
+<p>   public Memoizer(Computable&lt;A, V&gt; c) { this.c = c; }</p>
+<p>   public V compute(final A arg) throws InterruptedException {</p>
+<p>​     while (true) {</p>
+<p>​       Future<v> f = cache.get(arg);</v></p>
+<p>​       if (f == null) {</p>
+<p>​         Callable<v> eval = new Callable<v>() {</v></v></p>
+<p>​           public V call() throws InterruptedException {</p>
+<p>​             return c.compute(arg);</p>
+<p>​           }</p>
+<p>​         };</p>
+<p>​         FutureTask<v> ft = new FutureTask<v>(eval);</v></v></p>
+<p>​         f = cache.putIfAbsent(arg, ft);</p>
+<p>​         if (f == null) { f = ft; ft.run(); }</p>
+<p>​       }</p>
+<p>​       try {</p>
+<p>​         return f.get();</p>
+<p>​       } catch (CancellationException e) {</p>
+<p>​         cache.remove(arg, f);</p>
+<p>​       } catch (ExecutionException e) {</p>
+<p>​         throw launderThrowable(e.getCause());</p>
+<p>​       }</p>
+<p>​     }</p>
+<p>   } }</p>
+<h1 id><a href="#" class="headerlink" title=" "></a> </h1><h2 id="19、Java方法体中用到了多线程，使用了ThreadPool，但是方法体内程序员没有显式调用ShutDown关闭线程池，那么该方法执行结束后，JVM是否能自动的关闭线程池，销毁线程？"><a href="#19、Java方法体中用到了多线程，使用了ThreadPool，但是方法体内程序员没有显式调用ShutDown关闭线程池，那么该方法执行结束后，JVM是否能自动的关闭线程池，销毁线程？" class="headerlink" title="19、Java方法体中用到了多线程，使用了ThreadPool，但是方法体内程序员没有显式调用ShutDown关闭线程池，那么该方法执行结束后，JVM是否能自动的关闭线程池，销毁线程？"></a>19、Java方法体中用到了多线程，使用了ThreadPool，但是方法体内程序员没有显式调用ShutDown关闭线程池，那么该方法执行结束后，JVM是否能自动的关闭线程池，销毁线程？</h2><p>标准答案：<br>答案是JVM不能自动关闭线程池，销毁线程。<br>可以参考海丰的<a href="https://wiki.sankuai.com/:pages:viewpage.action%3FpageId=86358574" target="_blank" rel="noopener">CRM每天第一次发布导致cpu load过高报警的问题</a><br>解题思路：基础知识<br>考察点：线程池<br>分类：{校招，社招都可以用}<br>难度分级：P4，P5 </p>
+<h2 id="20、ThreadPool中线程是如何做到重用的？"><a href="#20、ThreadPool中线程是如何做到重用的？" class="headerlink" title="20、ThreadPool中线程是如何做到重用的？"></a>20、ThreadPool中线程是如何做到重用的？</h2><p>参考答案：<br>线程池在执行execute方法的时候，会根据初始化参数的大小以及线程池已有的线程数，来创建核心线程或者把task塞入任务队列；其中创建的核心线程创建后会启动，run方法内会执行一个runWork函数，此函数会不断地从任务队列中获取task执行。<br>解题思路：线程池的工作原理和工作流程。<br>考察点：线程池<br>分类：{校招，社招都可以用}<br>难度分级：P4，P5 </p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/30/interview/java面试题/网络方面/" rel="prev"></a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/30/interview/java面试题/JVM和GC相关/" rel="next"></a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">181</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、Java线程有哪些状态？并画出状态转换图"><span class="nav-number">1.</span> <span class="nav-text">1、Java线程有哪些状态？并画出状态转换图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2、举例Java线程安全的实现方法，原理、区别？"><span class="nav-number">1.1.</span> <span class="nav-text">2、举例Java线程安全的实现方法，原理、区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、多次调用线程的start方法会怎么样？"><span class="nav-number">1.2.</span> <span class="nav-text">3、多次调用线程的start方法会怎么样？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、线程sleep-和yield-的区别是什么？"><span class="nav-number">1.3.</span> <span class="nav-text">4、线程sleep()和yield()的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、线程同步问题"><span class="nav-number">1.4.</span> <span class="nav-text">5、线程同步问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、wait-和notify-，wait和sleep的区别"><span class="nav-number">1.5.</span> <span class="nav-text">6、wait()和notify()，wait和sleep的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、IO密集型和CPU密集型与线程池大小的关系"><span class="nav-number">1.6.</span> <span class="nav-text">7、IO密集型和CPU密集型与线程池大小的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、ThreadLocal-作用和实现机制"><span class="nav-number">1.7.</span> <span class="nav-text">8、ThreadLocal 作用和实现机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9、java线程池corePoolSize，maxPoolSize，queueCapacity这些参数的意义，如何考虑这些参数的设置"><span class="nav-number">1.8.</span> <span class="nav-text">9、java线程池corePoolSize，maxPoolSize，queueCapacity这些参数的意义，如何考虑这些参数的设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10、ThreadLocal是什么，有什么典型的应用场景？"><span class="nav-number">1.9.</span> <span class="nav-text">10、ThreadLocal是什么，有什么典型的应用场景？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11、考虑设计一个计数器程序，场景一，一个线程写，多个线程读；场景二，多个线程写，多个线程读。分别应对这2种场景设计一个计数器程序，要保证线程安全"><span class="nav-number">1.10.</span> <span class="nav-text">11、考虑设计一个计数器程序，场景一，一个线程写，多个线程读；场景二，多个线程写，多个线程读。分别应对这2种场景设计一个计数器程序，要保证线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12、多线程的使用场景，为了解决什么样的问题。不适用于什么场景"><span class="nav-number">1.11.</span> <span class="nav-text">12、多线程的使用场景，为了解决什么样的问题。不适用于什么场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13、线程池的实现原理"><span class="nav-number">1.12.</span> <span class="nav-text">13、线程池的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14、常见的线程工具（同步器、线程安全集合类、原子类），什么场景下使用"><span class="nav-number">1.13.</span> <span class="nav-text">14、常见的线程工具（同步器、线程安全集合类、原子类），什么场景下使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15、常见的线程状态，以及相互转换图；WAITING和BLOCK的区别"><span class="nav-number">1.14.</span> <span class="nav-text">15、常见的线程状态，以及相互转换图；WAITING和BLOCK的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16、常见的同步方式-synchronized-和-lock-如何选择"><span class="nav-number">1.15.</span> <span class="nav-text">16、常见的同步方式 synchronized 和 lock 如何选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17、死锁的几种场景，如何避免死锁"><span class="nav-number">1.16.</span> <span class="nav-text">17、死锁的几种场景，如何避免死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18、利用缓存机制优化一个复杂计算程序"><span class="nav-number">1.17.</span> <span class="nav-text">18、利用缓存机制优化一个复杂计算程序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text"> </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#19、Java方法体中用到了多线程，使用了ThreadPool，但是方法体内程序员没有显式调用ShutDown关闭线程池，那么该方法执行结束后，JVM是否能自动的关闭线程池，销毁线程？"><span class="nav-number">2.1.</span> <span class="nav-text">19、Java方法体中用到了多线程，使用了ThreadPool，但是方法体内程序员没有显式调用ShutDown关闭线程池，那么该方法执行结束后，JVM是否能自动的关闭线程池，销毁线程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20、ThreadPool中线程是如何做到重用的？"><span class="nav-number">2.2.</span> <span class="nav-text">20、ThreadPool中线程是如何做到重用的？</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2021
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

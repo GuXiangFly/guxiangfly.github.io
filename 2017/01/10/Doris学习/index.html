@@ -1,0 +1,1012 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="java,">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="Doris学习Doris 字段类型   TINYINT 1字节 范围：-2^7 + 1 ~ 2^7 - 1     SMALLINT 2字节 范围：-2^15 + 1 ~ 2^15 - 1   BIGINT 8字节 范围：-2^63 + 1 ~ 2^63 - 1   LARGEINT 16字节 范围：-2^127 + 1 ~ 2^127 - 1   FLOAT 4字节 支持科学计数法   DOUB">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Doris学习">
+<meta property="og:url" content="http://yoursite.com/2017/01/10/Doris学习/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="Doris学习Doris 字段类型   TINYINT 1字节 范围：-2^7 + 1 ~ 2^7 - 1     SMALLINT 2字节 范围：-2^15 + 1 ~ 2^15 - 1   BIGINT 8字节 范围：-2^63 + 1 ~ 2^63 - 1   LARGEINT 16字节 范围：-2^127 + 1 ~ 2^127 - 1   FLOAT 4字节 支持科学计数法   DOUB">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210104172415851.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105105715291.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/wpsk5bdC7.jpg">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/wpsQrLRZT.jpg">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/wpshdPMR1.jpg">
+<meta property="og:updated_time" content="2021-01-05T08:50:57.499Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Doris学习">
+<meta name="twitter:description" content="Doris学习Doris 字段类型   TINYINT 1字节 范围：-2^7 + 1 ~ 2^7 - 1     SMALLINT 2字节 范围：-2^15 + 1 ~ 2^15 - 1   BIGINT 8字节 范围：-2^63 + 1 ~ 2^63 - 1   LARGEINT 16字节 范围：-2^127 + 1 ~ 2^127 - 1   FLOAT 4字节 支持科学计数法   DOUB">
+<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210104172415851.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Doris学习 | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Doris学习
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-01-10T13:22:54+08:00" content="2017-01-10">
+            2017-01-10
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="Doris学习"><a href="#Doris学习" class="headerlink" title="Doris学习"></a>Doris学习</h1><h2 id="Doris-字段类型"><a href="#Doris-字段类型" class="headerlink" title="Doris 字段类型"></a>Doris 字段类型</h2><table>
+<thead>
+<tr>
+<th>TINYINT</th>
+<th>1字节</th>
+<th>范围：-2^7 + 1 ~ 2^7 - 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SMALLINT</td>
+<td>2字节</td>
+<td>范围：-2^15 + 1 ~ 2^15 - 1</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>8字节</td>
+<td>范围：-2^63 + 1 ~ 2^63 - 1</td>
+</tr>
+<tr>
+<td>LARGEINT</td>
+<td>16字节</td>
+<td>范围：-2^127 + 1 ~ 2^127 - 1</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>4字节</td>
+<td>支持科学计数法</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>12字节</td>
+<td>支持科学计数法</td>
+</tr>
+<tr>
+<td>DECIMAL[(precision, scale)]</td>
+<td>16字节</td>
+<td>保证精度的小数类型。默认是 DECIMAL(10, 0)precision: 1 ~ 27scale: 0 ~ 9其中整数部分为 1 ~ 18不支持科学计数法</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>3字节</td>
+<td>范围：0000-01-01 ~ 9999-12-31</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>8字节</td>
+<td>范围：0000-01-01 00:00:00 ~ 9999-12-31 23:59:59</td>
+</tr>
+<tr>
+<td>CHAR[(length)]</td>
+<td></td>
+<td>定长字符串。长度范围：1 ~ 255。默认为1</td>
+</tr>
+<tr>
+<td>VARCHAR[(length)]</td>
+<td></td>
+<td>变长字符串。长度范围：1 ~ 65533</td>
+</tr>
+<tr>
+<td>HLL</td>
+<td>1~16385个字节</td>
+<td>hll列类型，不需要指定长度和默认值、长度根据数据的聚合程度系统内控制，并且HLL列只能通过配套的hll_union_agg、Hll_cardinality、hll_hash进行查询或使用</td>
+</tr>
+<tr>
+<td>BITMAP</td>
+<td></td>
+<td>bitmap列类型，不需要指定长度和默认值。表示整型的集合，元素最大支持到2^64 - 1</td>
+</tr>
+<tr>
+<td>agg_type</td>
+<td>聚合类型，如果不指定，则该列为 key 列。否则，该列为 value 列</td>
+<td>SUM、MAX、MIN、REPLACE和HLL_UNION(仅用于HLL列，为HLL独有的聚合方式)5种</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Doris的分区维度"><a href="#Doris的分区维度" class="headerlink" title="Doris的分区维度"></a>Doris的分区维度</h2><p>Doris支持单分区和复合分区两种建表方式。</p>
+<p>在复合分区中：</p>
+<p>第一级称为Partition,即分区。用户指定某一维度列做为分区列（当前只支持整型和时间类型的列），并指定每个分区的取值范围。</p>
+<p>第二级称为Distribution,即分桶。用户可以指定一个或多个维度列以及桶数进行HASH分布。</p>
+<p>以下场景推荐使用复合分区</p>
+<ol>
+<li><p>有时间维或类似带有有序值的维度，可以以这类维度列作为分区列。分区粒度可以根据导入频次、分区数据量等进行评估。</p>
+</li>
+<li><p>历史数据删除需求：如有删除历史数据的需求（比如仅保留最近N天的数据）。使用复合分区，可以通过删除历史分区来达到目的。也可以通过在指定分区内发送DELETE于禁进行删除。</p>
+</li>
+<li><p>解决数据倾斜的问题：每个分区可以单独指定分桶数量。如按天分区，当每天的数据量差异很大的时，可以通过指定分区的分桶数，合理规划不同分区的数据，分桶列建议选择区分度大的列。</p>
+</li>
+</ol>
+<p>用户也可以不是用复合分区，仅使用单分区。则数据只做HASH分布。</p>
+<h3 id="Doris创建单分区"><a href="#Doris创建单分区" class="headerlink" title="Doris创建单分区"></a>Doris创建单分区</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> student</span><br><span class="line">(</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">INT</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">age <span class="built_in">INT</span>,</span><br><span class="line"><span class="keyword">count</span>  <span class="built_in">BIGINT</span> <span class="keyword">SUM</span> <span class="keyword">DEFAULT</span> <span class="string">'0'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">AGGREGATE</span> <span class="keyword">KEY</span> (<span class="keyword">id</span>,<span class="keyword">name</span>,age)</span><br><span class="line"><span class="keyword">DISTRIBUTED</span> <span class="keyword">BY</span> <span class="keyword">HASH</span>(<span class="keyword">id</span>) buckets <span class="number">10</span></span><br><span class="line">PROPERTIES(<span class="string">"replication_num"</span> = <span class="string">"1"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="Doris-创建复合分区"><a href="#Doris-创建复合分区" class="headerlink" title="Doris 创建复合分区"></a>Doris 创建复合分区</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> student2</span><br><span class="line">(</span><br><span class="line">dt <span class="built_in">DATE</span>,</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">INT</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">age <span class="built_in">INT</span>,</span><br><span class="line"><span class="keyword">count</span>  <span class="built_in">BIGINT</span> <span class="keyword">SUM</span> <span class="keyword">DEFAULT</span> <span class="string">'0'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">AGGREGATE</span> <span class="keyword">KEY</span> (dt,<span class="keyword">id</span>,<span class="keyword">name</span>,age)</span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span>(dt)</span><br><span class="line">(</span><br><span class="line">  <span class="keyword">PARTITION</span> p202007 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="string">'2020-08-01'</span>),</span><br><span class="line">  <span class="keyword">PARTITION</span> p202008 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="string">'2020-09-01'</span>),</span><br><span class="line">  <span class="keyword">PARTITION</span> p202009 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="string">'2020-10-01'</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">DISTRIBUTED</span> <span class="keyword">BY</span> <span class="keyword">HASH</span>(<span class="keyword">id</span>) buckets <span class="number">10</span></span><br><span class="line">PROPERTIES(<span class="string">"replication_num"</span> = <span class="string">"1"</span>);</span><br></pre></td></tr></table></figure>
+<p>创建student2表，使用dt字段作为分区列，并且创建3个分区发，分别是:</p>
+<p>P202007 范围值是是小于2020-08-01的数据</p>
+<p>P202008 范围值是2020-08-01到2020-08-31的数据</p>
+<p>P202009 范围值是2020-09-01到2020-09-30的数据</p>
+<h2 id="Doris-的三种数据模型"><a href="#Doris-的三种数据模型" class="headerlink" title="Doris 的三种数据模型"></a>Doris 的三种数据模型</h2><h4 id="1-AGGREGATE-KEY"><a href="#1-AGGREGATE-KEY" class="headerlink" title="1.AGGREGATE KEY"></a>1.AGGREGATE KEY</h4><p>AGGREGATE KEY相同时，新旧记录将会进行聚合操作，目前支持SUM,MIN,MAX,REPLACE。</p>
+<p>AGGREGATE KEY模型可以提前聚合数据，适合报表和多维度业务。</p>
+<p>建表sql</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> site_visit</span><br><span class="line">(</span><br><span class="line">    siteid      <span class="built_in">INT</span>,</span><br><span class="line">    city        <span class="built_in">SMALLINT</span>,</span><br><span class="line">    username    <span class="built_in">VARCHAR</span>(<span class="number">32</span>),</span><br><span class="line">    pv <span class="built_in">BIGINT</span>   <span class="keyword">SUM</span> <span class="keyword">DEFAULT</span> <span class="string">'0'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">AGGREGATE</span> <span class="keyword">KEY</span>(siteid, city, username)</span><br><span class="line"><span class="keyword">DISTRIBUTED</span> <span class="keyword">BY</span> <span class="keyword">HASH</span>(siteid) BUCKETS <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p>插入两天数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into site_visit values(1,1,&apos;name1&apos;,10);</span><br><span class="line">mysql&gt; insert into site_visit values(1,1,&apos;name1&apos;,20);</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210104172415851.png" alt="image-20210104172415851" style="zoom:50%;"></p>
+<h4 id="2-UNIQUE-KEY"><a href="#2-UNIQUE-KEY" class="headerlink" title="2.UNIQUE KEY"></a>2.UNIQUE KEY</h4><p>UNIQUE KEY相同时，新记录覆盖旧记录。目前UNIQUE KEY和AGGREGATE KEY的REPLACE聚合方法一致。适用于有更新需求的业务。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> sales_order</span><br><span class="line">(</span><br><span class="line">    orderid     <span class="built_in">BIGINT</span>,</span><br><span class="line">    <span class="keyword">status</span>      <span class="built_in">TINYINT</span>,</span><br><span class="line">    username    <span class="built_in">VARCHAR</span>(<span class="number">32</span>),</span><br><span class="line">    amount      <span class="built_in">BIGINT</span> <span class="keyword">DEFAULT</span> <span class="string">'0'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">UNIQUE</span> <span class="keyword">KEY</span>(orderid)</span><br><span class="line"><span class="keyword">DISTRIBUTED</span> <span class="keyword">BY</span> <span class="keyword">HASH</span>(orderid) BUCKETS <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into sales_order values(1,1,&apos;name1&apos;,100);</span><br><span class="line">mysql&gt; insert into sales_order values(1,1,&apos;name1&apos;,200);</span><br></pre></td></tr></table></figure>
+<p>新数据</p>
+<h4 id="3-DUPLICATE-KEY"><a href="#3-DUPLICATE-KEY" class="headerlink" title="3.DUPLICATE KEY"></a>3.DUPLICATE KEY</h4><p>只指定排序列，相同的行并不会合并。适用于数据无需提前聚合的分析业务。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> session_data</span><br><span class="line">(</span><br><span class="line">    visitorid   <span class="built_in">SMALLINT</span>,</span><br><span class="line">    sessionid   <span class="built_in">BIGINT</span>,</span><br><span class="line">    city        <span class="built_in">CHAR</span>(<span class="number">20</span>),</span><br><span class="line">    ip          <span class="built_in">varchar</span>(<span class="number">32</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span>(visitorid, sessionid)</span><br><span class="line"><span class="keyword">DISTRIBUTED</span> <span class="keyword">BY</span> <span class="keyword">HASH</span>(sessionid, visitorid) BUCKETS <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p>插入数据</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into session_data values(1,1,'shanghai','www.111.com');</span><br><span class="line">mysql&gt; insert into session_data values(1,1,'shanghai','www.111.com');</span><br><span class="line">mysql&gt; insert into session_data values(3,2,'shanghai','www.111.com');</span><br><span class="line">mysql&gt; insert into session_data values(2,2,'shanghai','www.111.com');</span><br><span class="line">mysql&gt; insert into session_data values(2,1,'shanghai','www.111.com');</span><br></pre></td></tr></table></figure>
+<p>查询结果</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105105715291.png" alt="image-20210105105715291" style="zoom:50%;"></p>
+<h2 id="Rollup-索引"><a href="#Rollup-索引" class="headerlink" title="Rollup 索引"></a>Rollup 索引</h2><p>Rollup可以理解为表的一个物化索引结构。Rollup可以调整列的顺序以增加前缀索引的命中率，也可以减少key列以增加数据的聚合度。</p>
+<p>（1）以session_data为例添加Rollup</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/wpsk5bdC7.jpg" alt="img" style="zoom: 50%;"> </p>
+<p>（2）比如我经常需要看某个城市的ip数，那么可以建立一个只有ip和city的rollup</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table session_data add rollup rollup_city_ip(city,ip);</span><br></pre></td></tr></table></figure>
+<p>（3）创建完毕后，再次查看表结构</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/wpsQrLRZT.jpg" alt="img" style="zoom:50%;"> </p>
+<p>（4）然后可以通过explain查看执行计划，是否使用到了rollup</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ip from session_data where city = &apos;shanghai&apos;</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/wpshdPMR1.jpg" alt="img" style="zoom: 33%;"></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/12/http GET POST请求的区别/" rel="prev">http GET POST请求的区别</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/10/Threadlocal学习/" rel="next">ThreadLocal考察点</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">181</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Doris学习"><span class="nav-number">1.</span> <span class="nav-text">Doris学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Doris-字段类型"><span class="nav-number">1.1.</span> <span class="nav-text">Doris 字段类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Doris的分区维度"><span class="nav-number">1.2.</span> <span class="nav-text">Doris的分区维度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Doris创建单分区"><span class="nav-number">1.2.1.</span> <span class="nav-text">Doris创建单分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Doris-创建复合分区"><span class="nav-number">1.2.2.</span> <span class="nav-text">Doris 创建复合分区</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Doris-的三种数据模型"><span class="nav-number">1.3.</span> <span class="nav-text">Doris 的三种数据模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-AGGREGATE-KEY"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">1.AGGREGATE KEY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-UNIQUE-KEY"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">2.UNIQUE KEY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DUPLICATE-KEY"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">3.DUPLICATE KEY</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rollup-索引"><span class="nav-number">1.4.</span> <span class="nav-text">Rollup 索引</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2021
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

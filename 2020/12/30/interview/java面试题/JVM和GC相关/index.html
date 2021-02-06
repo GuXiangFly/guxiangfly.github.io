@@ -1,0 +1,974 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head><meta name="generator" content="Hexo 3.9.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1">
+
+
+
+
+  <meta name="keywords" content="Hexo,guxiangfly">
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
+
+
+<meta name="description" content="1、 Jvm堆内存区，有两个S区有什么作用？ 参考答案 S区即Survivor区，位于年轻代。年轻代分三个区。一个Eden 区，两个Survivor 区。大部分对象在Eden 区中生成。当Eden 区满时，还存活的对象将被复制到Survivor 区（两个中的一个），当这个Survivor 区满时，此区的存活对象将被复制到另外一个Survivor 区，当这个Survivor 去也满了的时候，从第一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="guxiangfly的博客">
+<meta property="og:url" content="http://yoursite.com/2020/12/30/interview/java面试题/JVM和GC相关/index.html">
+<meta property="og:site_name" content="guxiangfly的博客">
+<meta property="og:description" content="1、 Jvm堆内存区，有两个S区有什么作用？ 参考答案 S区即Survivor区，位于年轻代。年轻代分三个区。一个Eden 区，两个Survivor 区。大部分对象在Eden 区中生成。当Eden 区满时，还存活的对象将被复制到Survivor 区（两个中的一个），当这个Survivor 区满时，此区的存活对象将被复制到另外一个Survivor 区，当这个Survivor 去也满了的时候，从第一个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-12-30T02:58:49.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="guxiangfly的博客">
+<meta name="twitter:description" content="1、 Jvm堆内存区，有两个S区有什么作用？ 参考答案 S区即Survivor区，位于年轻代。年轻代分三个区。一个Eden 区，两个Survivor 区。大部分对象在Eden 区中生成。当Eden 区满时，还存活的对象将被复制到Survivor 区（两个中的一个），当这个Survivor 区满时，此区的存活对象将被复制到另外一个Survivor 区，当这个Survivor 去也满了的时候，从第一个">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title>  | guxiangfly的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">几笔成書</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br>
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br>
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br>
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br>
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2020-12-30T10:58:26+08:00" content="2020-12-30">
+            2020-12-30
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>1、 Jvm堆内存区，有两个S区有什么作用？</p>
+<p><strong>参考答案</strong></p>
+<p>S区即Survivor区，位于年轻代。年轻代分三个区。一个Eden 区，两个Survivor 区。大部分对象在Eden 区中生成。当Eden 区满时，还存活的对象将被复制到Survivor 区（两个中的一个），当这个Survivor 区满时，此区的存活对象将被复制到另外一个Survivor 区，当这个Survivor 去也满了的时候，从第一个Survivor 区复制过来的并且此时还存活的对象，将被复制年老区(Tenured)。需要注意，Survivor 的两个区是对称的，没先后关系，所以同一个区中可能同时存在从Eden 复制过来对象，和从前一个Survivor 复制过来的对象，而复制到年老区的只有从第一个Survivor 去过来的对象。而且，Survivor 区总有一个是空的。<br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>JVM 内存结构<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4</p>
+<h2 id="2、有遇到过OOM么，什么情况，怎么发现的，怎么查原因的？"><a href="#2、有遇到过OOM么，什么情况，怎么发现的，怎么查原因的？" class="headerlink" title="2、有遇到过OOM么，什么情况，怎么发现的，怎么查原因的？"></a>2、有遇到过OOM么，什么情况，怎么发现的，怎么查原因的？</h2><p><strong>参考答案：</strong></p>
+<p><a href="http://outofmemory.cn/c/java-outOfMemoryError(OOM分类)" target="_blank" rel="noopener">http://outofmemory.cn/c/java-outOfMemoryError(OOM分类)</a></p>
+<p><a href="http://www.51testing.com/html/92/77492-203728.html(jstat使用)" target="_blank" rel="noopener">http://www.51testing.com/html/92/77492-203728.html(jstat使用)</a></p>
+<p><a href="http://my.oschina.net/shaorongjie/blog/161385(MAT使用)" target="_blank" rel="noopener">http://my.oschina.net/shaorongjie/blog/161385(MAT使用)</a></p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>jstat mat工具 jvm<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="3、内存分配策略"><a href="#3、内存分配策略" class="headerlink" title="3、内存分配策略"></a>3、内存分配策略</h2><p><strong>参考答案：</strong></p>
+<p>1)对象优先在Eden分配;2)大对象直接进入老年代;3)长期存活的对象将进入老年代;4)动态对象年龄判定</p>
+<p><strong>参考文献：</strong><a href="http://www.cnblogs.com/liangzh/archive/2012/07/03/2575252.html" target="_blank" rel="noopener">http://www.cnblogs.com/liangzh/archive/2012/07/03/2575252.html</a></p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong> jvm<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="4、线程内存和主内存是如何交互的"><a href="#4、线程内存和主内存是如何交互的" class="headerlink" title="4、线程内存和主内存是如何交互的?"></a>4、线程内存和主内存是如何交互的?</h2><p><strong>参考答案：</strong></p>
+<p>假设某条线程执行一个synchronized代码段，其间对某变量进行操作，JVM会依次执行如下动作：<br>(1) 获取同步对象monitor (lock)<br>(2) 从主存复制变量到当前工作内存 (read and load)<br>(3) 执行代码，改变共享变量值 (use and assign)<br>(4) 用工作内存数据刷新主存相关内容 (store and write)<br>(5) 释放同步对象锁 (unlock)</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong> jvm<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="5、线上环境JVM参数Xms-Xmx是如何设置的，-如果大小是一至，为什么这样设置？"><a href="#5、线上环境JVM参数Xms-Xmx是如何设置的，-如果大小是一至，为什么这样设置？" class="headerlink" title="5、线上环境JVM参数Xms Xmx是如何设置的， 如果大小是一至，为什么这样设置？"></a>5、线上环境JVM参数Xms Xmx是如何设置的， 如果大小是一至，为什么这样设置？</h2><p><strong>参考答案：</strong></p>
+<p>Xmx设置JVM 的最大可用内存，Xms 设置JVM实际使用内存，一般Xmx和Xms相同，这是因为当Xmx内存空间不够用时，将进行扩容导致Full GC。将Xmx和Xms设置成相同的值，避免因Xms偏小导致频繁重新分配内存，影响应用使用。</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong> jvm<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="6、如何定位一个CPU-Load过高的Java线程？"><a href="#6、如何定位一个CPU-Load过高的Java线程？" class="headerlink" title="6、如何定位一个CPU Load过高的Java线程？"></a>6、如何定位一个CPU Load过高的Java线程？</h2><p><strong>参考答案：</strong>    </p>
+<p>1、jps -v列出所有的java进程 , top找出cpu占用过高的对应的java 进程pid </p>
+<p>2、使用top -H -p PID 命令查看对应进程里的哪个线程占用CPU过高,取该线程pid </p>
+<p>3、将线程的pid 转成16进制</p>
+<p>4、jstack [进程pid]|grep -A 100 [线程pid的16进制]  dump出jvm该线程的后100行,或者整个输出到文件</p>
+<p>jstack -l pid &gt; xxxfile</p>
+<p>参考文献:<a href="http://wiki.sankuai.com/pages/viewpage.action?pageId=85053261" target="_blank" rel="noopener">Crm线上机器发布时load过高案例分析阶段总结以及监控工具介绍</a> </p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong> jvm<br><strong>分类：</strong>JVM GC {社招}<br><strong>难度分级：</strong>P5  </p>
+<h2 id="7、JmapDump的文件大小和MAT分析工具里显示的大小不一致一般是什么原因导致的？"><a href="#7、JmapDump的文件大小和MAT分析工具里显示的大小不一致一般是什么原因导致的？" class="headerlink" title="7、JmapDump的文件大小和MAT分析工具里显示的大小不一致一般是什么原因导致的？"></a>7、JmapDump的文件大小和MAT分析工具里显示的大小不一致一般是什么原因导致的？</h2><p><strong>参考答案：</strong></p>
+<p> JmapDump的文件一般比MAT工具大。创建索引期间，MAT会删除部分垃圾收集算法遗留下的不可达的object，因为回收这些较小的object代价较大，一般这些object占比不超过4%。另外不能正确的写JmapDump的文件。尤其在较老的jvm（1.4，1.5）并且使用jmap命令获取JmapDump的文件的时候。</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong> jvm<br><strong>分类：</strong>JVM GC {社招}<br><strong>难度分级：</strong>P5 </p>
+<h2 id="8、如何在Jmap未响应的情况下Dump出内存？"><a href="#8、如何在Jmap未响应的情况下Dump出内存？" class="headerlink" title="8、如何在Jmap未响应的情况下Dump出内存？"></a>8、如何在Jmap未响应的情况下Dump出内存？</h2><p><strong>参考答案：</strong></p>
+<p>加-F参数</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong> jvm<br><strong>分类：</strong>JVM GC {社招}<br><strong>难度分级：</strong>P5 </p>
+<h2 id="9、说出5个JVM的参数以及含义，怎么样配置这样参数？"><a href="#9、说出5个JVM的参数以及含义，怎么样配置这样参数？" class="headerlink" title="9、说出5个JVM的参数以及含义，怎么样配置这样参数？"></a>9、说出5个JVM的参数以及含义，怎么样配置这样参数？</h2><p><strong>参考答案：</strong></p>
+<p><a href="http://wiki.sankuai.com/pages/viewpage.action?pageId=98612034" target="_blank" rel="noopener">JVM参数设置</a></p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong> jvm<br><strong>分类：</strong>JVM GC {校招,社招}<br><strong>难度分级：</strong>P4,P5 </p>
+<h2 id="10、JVM的一些健康指标和经验值，如何配置最优？"><a href="#10、JVM的一些健康指标和经验值，如何配置最优？" class="headerlink" title="10、JVM的一些健康指标和经验值，如何配置最优？"></a>10、JVM的一些健康指标和经验值，如何配置最优？</h2><p>参考答案：<br>这个是比较开发性试题，偏社招，考察面试者对系统的掌控力，一般都会从垃圾回收的角度来解释，比如用jstat或者gc日志来看ygc的单次时间和频繁程度，full gc的单次时间和频繁程度；ygc的经验时间100ms以下，3秒一次；full gc 1秒以下 1小时一次，每次回收的比率70%等等，也会用jstack和jmap看系统是否有太多的线程和不必要的内存等等。关于如何才能让配置最优，有一些理论支撑，比如高吞吐和延迟低的垃圾收集器选择，比如高并发对象存活时间不长，可以适当加大yong区；但是有经验的面试者会调整一些参数测试来印证自己的想法。</p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong> jvm<br><strong>分类：</strong>JVM GC {校招,社招}<br><strong>难度分级：</strong>P4,P5</p>
+<h2 id="11、对象存活算法，常见的有哪几种，JAVA采用的是哪种？"><a href="#11、对象存活算法，常见的有哪几种，JAVA采用的是哪种？" class="headerlink" title="11、对象存活算法，常见的有哪几种，JAVA采用的是哪种？"></a>11、对象存活算法，常见的有哪几种，JAVA采用的是哪种？</h2><p><strong>参考答案：</strong></p>
+<p>(1)引用计数算法</p>
+<p>原理<strong>：</strong>给对象添加一个引用计数器，每当有一个地方引用它时，计数器加1；引用失效时，计数器减1；计数器为0说明可被回收。<br>缺点：很难解决对象相互循环引用的问题（对象相互循环引用，但其实他们都已经没有用了。</p>
+<p>(2)可达性分析算法</p>
+<p> 原理：通过一些列称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链，当一个对象到GC Roots没有任何引用链相连时，则证明此对象是不可用的。在java语言中，可作为GC Roots的对象包括下面几种:虚拟机栈（栈帧中的本地变量表）中引用的对象、方法区类静态属性引用的对象、方法区中常量引用的对象、本地方法栈中JNI引用的对象、</p>
+<p>参考文献:<a href="http://blog.csdn.net/chaofanwei/article/details/19541421" target="_blank" rel="noopener">http://blog.csdn.net/chaofanwei/article/details/19541421</a></p>
+<p><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>JVM GC<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="12、JVM新生代ParNew用的是什么垃圾收集算法？"><a href="#12、JVM新生代ParNew用的是什么垃圾收集算法？" class="headerlink" title="12、JVM新生代ParNew用的是什么垃圾收集算法？"></a>12、JVM新生代ParNew用的是什么垃圾收集算法？</h2><p><strong>参考答案：</strong>复制<br><strong>解题思路：</strong>基础知识<br> <strong>考察点：</strong>JVM GC<br> <strong>分类：</strong>JVM GC {校招，社招}<br> <strong>难度分级：</strong>P4，P5</p>
+<h2 id="13、JVM垃圾收集复制算法中，Eden-Form-To，为什么是8-1-1，而不是1-1-1？"><a href="#13、JVM垃圾收集复制算法中，Eden-Form-To，为什么是8-1-1，而不是1-1-1？" class="headerlink" title="13、JVM垃圾收集复制算法中，Eden:Form:To，为什么是8:1:1，而不是1:1:1？"></a>13、JVM垃圾收集复制算法中，Eden:Form:To，为什么是8:1:1，而不是1:1:1？</h2><p><strong>参考答案：</strong><br>一般情况下，新生代中的对象大多生命周期很短，也就是说当进行垃圾收集时，大部分对象都是垃圾，只有一小部分对象会存活下来，所以只要保留一小部分内存保存存活下来的对象就行了。在新生代中一般将内存划分为三个部分：一个较大的Eden空间和两个较小的Survivor空间（一样大小），每次使用Eden和一个Survivor的内存，进行垃圾收集时将Eden和使用的Survivor中的存活的对象复制到另一个Survivor空间中，然后清除这两个空间的内存，下次使用Eden和另一个Survivor，HotSpot中默认将这三个空间的比例划分为8:1:1，这样被浪费掉的空间就只有总内存的1/10了。<br>参考文献:<a href="http://www.cnblogs.com/angeldevil/p/3803969.html" target="_blank" rel="noopener">http://www.cnblogs.com/angeldevil/p/3803969.html</a><br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>JVM GC<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="14、JVM老年代CMS用的是什么垃圾收集算法？"><a href="#14、JVM老年代CMS用的是什么垃圾收集算法？" class="headerlink" title="14、JVM老年代CMS用的是什么垃圾收集算法？"></a>14、JVM老年代CMS用的是什么垃圾收集算法？</h2><p><strong>参考答案：</strong></p>
+<p>CMS以获取最短回收停顿时间为目标的收集器，使用“标记-清除”算法，分为以下6个步骤</p>
+<p>1.STW initial mark：第一次暂停，初始化标记，从root标记old space存活对象（the set of objects reachable from roots (application code)）</p>
+<p>2.Concurrent marking：运行时标记，从上一步得到的集合出发，遍历old space，标记存活对象 (all live objects that are transitively reachable from previous set)</p>
+<p>3.Concurrent precleaning：并发的标记前一阶段被修改的对象（card table）</p>
+<p>4.STW remark：第二次暂停，检查，标记，检查脏页的对象，标记前一阶段被修改的对象 (revisiting any objects that were modified during the concurrent marking phase)</p>
+<p>5.Concurrent sweeping：运行过程中清理，扫描old space，释放不可到达对象占用的空间 </p>
+<p>6.Concurrent reset：此次CMS结束后，重设CMS状态等待下次CMS的触发<br>或者4个大步骤：</p>
+<p>1，initial mark 2，concurrent mark 3，remark 4，concurrent sweep</p>
+<p> <strong>解题思路：</strong>基础知识</p>
+<p><strong>考察点：</strong>JVM GC </p>
+<p> <strong>分类：</strong>JVM GC {校招，社招}</p>
+<p> <strong>难度分级：</strong>P4，P5</p>
+<h2 id="15、young-gc和full-gc触发条件"><a href="#15、young-gc和full-gc触发条件" class="headerlink" title="15、young gc和full gc触发条件"></a>15、young gc和full gc触发条件</h2><p><strong>参考答案：</strong><br>young gc :eden空间不足<br>full gc :显示调用System.GC、旧生代空间不足、Permanet Generation空间满、CMS GC时出现promotion failed和concurrent mode failure、<br>RMI等的定时触发、YGC时的悲观策略、dump live的内存信息时<br>参考文献：<a href="http://blog.csdn.net/vernonzheng/article/details/8460128" target="_blank" rel="noopener">http://blog.csdn.net/vernonzheng/article/details/8460128</a><br><a href="http://blog.sina.com.cn/s/blog_7581a4c301019hsc.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_7581a4c301019hsc.html</a><br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>JVM GC<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="16、垃圾回收器种类，垃圾回收扫描算法（root扫描），回收算法（复制，标记清除，标记整理）"><a href="#16、垃圾回收器种类，垃圾回收扫描算法（root扫描），回收算法（复制，标记清除，标记整理）" class="headerlink" title="16、垃圾回收器种类，垃圾回收扫描算法（root扫描），回收算法（复制，标记清除，标记整理）"></a>16、垃圾回收器种类，垃圾回收扫描算法（root扫描），回收算法（复制，标记清除，标记整理）</h2><p><strong>参考答案：</strong><br>垃圾回收器种类：<br>Serial、ParNew、Parallel Scavenge、Serial Old、Parallel Old、CMS(ConCurrent Mark Sweep)、G1(Garbage First)</p>
+<p>垃圾回收扫描算法：</p>
+<p>垃圾检测通过建立一个根对象的集合（局部变量、栈桢中的操作数，在本地方法中引用的对象，常量池等）并检查从这些根对象开始的可触及性来实现。根对象总是可访问的，如果存在根对象到一个对象的引用路径，那么称这个对象是可触及的或活动对象，否则是不可触及的，不可触及的对象就是垃圾对象。 </p>
+<p> 回收算法: </p>
+<p> 标记清除 </p>
+<p> 分为标记=E5__清除两个阶段，在标记阶段，垃圾收集器跟踪从根对象的引用，在追踪的过程中对遇到的对象打一个标记，最终未被标记的对象就是垃圾对象，在清除阶段，回收垃圾对象占用的内存。可以在对象本身添加跟踪标记，也可以用一个独立的位图来设置标记。标记清除法是基础的收集      算法，其他算法大多时针对这个算法缺点的改进。存在效率和碎片问题。 </p>
+<p> 复制算法</p>
+<p> 将内存划分为大小相等的两个区域，每次只使用其中的一个区域，当这个区域的内存用完了，就将可触及的对象直接复制到新的区域并连续存放以消除内存碎片，当可触及对象复制完后，清除旧内存区域，修改引用的值。这种算法明显缺点是浪费内存，故实际使用中常将新生代划分成8:1:1三     个区。</p>
+<p> 标记整理</p>
+<p> 标记整理算法中标记的过程同标记清理一样，但整理部分不是直接清除掉垃圾对象，而是将活动对象统一移动一内存的一端，然后清除边界外的内存区域，这样就避免了内存碎片。也不会浪费内存，不需要其他内存进行担保</p>
+<p> 分代收集 </p>
+<p> 大多数程序中创建的大部分对象生命周期都很短，而且会有一小部分生命周期长的对象，为了克服复制收集器中每次垃圾收集都要拷贝所有的活动对象   的缺点，将内存划分为不同的区域，更多地收集短生命周期所在的内存区域，当对象经历一定次数的垃圾收集存活时，提升它的存在的区域。一般是划   分为新生代和老年代。新生代又划分为Eden区，From Survior区和To Survior区 </p>
+<p> 自适应收集器</p>
+<p> 监听堆中的情形，并且对应地调用合适的垃圾收集技术。 </p>
+<p> 参考文献:<a href="http://www.cnblogs.com/angeldevil/p/3803969.html" target="_blank" rel="noopener">http://www.cnblogs.com/angeldevil/p/3803969.html</a></p>
+<p> <strong>解题思路：</strong>基础知识<br> <strong>考察点：</strong>JVM GC<br> <strong>分类：</strong>JVM GC {校招，社招}<br> <strong>难度分级：</strong>P4，P5</p>
+<h2 id="17、-cms回收器的标记过程，内存碎片问题"><a href="#17、-cms回收器的标记过程，内存碎片问题" class="headerlink" title="17、 cms回收器的标记过程，内存碎片问题"></a>17、 cms回收器的标记过程，内存碎片问题</h2><p> <strong>参考答案：</strong></p>
+<p> cms回收器的标记过程：     </p>
+<p> 1.STW initial mark：第一次暂停，初始化标记，从root标记old space存活对象（the set of objects reachable from roots (application code)） </p>
+<p> 2.Concurrent marking：运行时标记，从上一步得到的集合出发，遍历old space，标记存活对象 (all live objects that are transitively reachable from previous set)</p>
+<p> 3.Concurrent precleaning：并发的标记前一阶段被修改的对象（card table）</p>
+<p> 4.STW remark：第二次暂停，检查，标记，检查脏页的对象，标记前一阶段被修改的对象 (revisiting any objects that were modified during the concurrent marking phase)</p>
+<p> 内存碎片问题：</p>
+<p> CMS基于“标记-清除”算法，进行垃圾回收后会存在内存碎片，当申请大的连续内存时可能内存不足，此时需要进行一次Full GC，可以通过参数指定进行Full GC后或进行多少次Full GC后进行一次内存压缩来整理内存碎片。</p>
+<p><strong>解题思路：</strong>基础知识</p>
+<p><strong>考察点：</strong>JVM GC </p>
+<p><strong>分类：</strong>JVM GC {校招，社招}</p>
+<p><strong>难度分级：</strong>P4，P5</p>
+<h2 id="18、GC-Log分析，给面试者一段具体GC-Log"><a href="#18、GC-Log分析，给面试者一段具体GC-Log" class="headerlink" title="18、GC Log分析，给面试者一段具体GC Log"></a>18、GC Log分析，给面试者一段具体GC Log</h2><p>参考 <a href="https://wiki.sankuai.com/:pages:viewpage.action%3FpageId=90843240" target="_blank" rel="noopener">jvm gc介绍和日志说明</a> </p>
+<h2 id="19、画一下JVM内存结构图，各块分别有什么的作用？"><a href="#19、画一下JVM内存结构图，各块分别有什么的作用？" class="headerlink" title="19、画一下JVM内存结构图，各块分别有什么的作用？"></a>19、画一下JVM内存结构图，各块分别有什么的作用？</h2><p><strong>参考答案：</strong></p>
+<p>各模块作用：<br>程序技术器：是一块很小的内存区域，主要作用是记录当前线程所执行的字节码的行号。<br>虚拟机栈：是线程私有的，存放当前线程中局部基本类型的变量、部分的返回结果以及Stack Frame，非基本类型的对象的引用。Sun JDK的实现中JVM栈的空间是在物理内存上分配的，而不是从堆上分配。<br>堆：存储对象实例和数组区域<br>方法区域：是全局共_=AB的，存放了所加载的类的信息（名称、修饰符等）、类中的静态变量、类中定义为final类型的常量、类中的Field信息、类中的方法信息。<br>本地方法堆栈：支持native方法的执行，存储每个native方法调用的状态。<br><strong>解题思路：</strong>基础知识<br><strong>考察点：</strong>JVM<br><strong>分类：</strong>JVM {校招，社招}<br><strong>难度分级：</strong>P4，P5</p>
+<h2 id="20、JVM垃圾收集在ParNew-CMS条件下，哪些情况下会让JVM认为产生了一次FULL-GC？"><a href="#20、JVM垃圾收集在ParNew-CMS条件下，哪些情况下会让JVM认为产生了一次FULL-GC？" class="headerlink" title="20、JVM垃圾收集在ParNew+CMS条件下，哪些情况下会让JVM认为产生了一次FULL GC？"></a>20、JVM垃圾收集在ParNew+CMS条件下，哪些情况下会让JVM认为产生了一次FULL GC？</h2><p> <strong>参考答案：</strong></p>
+<p>JVM认为在老年代或者永久区发生的gc行为就是Full GC，在ParNew+CMS条件下，发生Full GC的原因通常为：<br>a) 永久区达到一定比例。<br>b) 老年代达到一定比例。<br>c) 悲观策略。<br>d) System.gc(), jmap -<a href="http://dumplive/" target="_blank" rel="noopener">dump:live</a>, jmap -<a href="http://histolive/" target="_blank" rel="noopener">histo:live</a> 等主动触发的。<br><strong>解题思路：</strong><br><strong>考察点：</strong>GC收集器 Full GC<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="21、如何查看StringPool大小？"><a href="#21、如何查看StringPool大小？" class="headerlink" title="21、如何查看StringPool大小？"></a>21、如何查看StringPool大小？</h2><p><strong>参考答案：</strong></p>
+<p>通过java -XX:+PrintStringTableStatistics命令查看，Number of buckets显示的就是StringPool的默认大小，在jdk7 u40版本以前，它的默认大小是1009，之后便调整为60013。</p>
+<p><strong>解题思路：</strong>JVM基础知识<br><strong>考察点：</strong>StringPool<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5 </p>
+<h2 id="22、JmapDump的文件中是否包括StringPool？"><a href="#22、JmapDump的文件中是否包括StringPool？" class="headerlink" title="22、JmapDump的文件中是否包括StringPool？"></a>22、JmapDump的文件中是否包括StringPool？</h2><p> <strong>参考答案：</strong></p>
+<p>StringPool在jdk6中是在永久区，dump heap时，无法输出。在jdk7中，stringpool移到heap中，可以输出。</p>
+<p><strong>解题思路：</strong>JVM基础知识<br><strong>考察点：</strong>StringPool<br><strong>分类：</strong>JVM GC {校招，社招}<br><strong>难度分级：</strong>P4，P5    </p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/30/interview/java面试题/多线程/" rel="prev"></a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/30/interview/java面试题/Java基础面试题/" rel="next"></a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0" style="margin-right:30%">
+                                <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="guxiangfly" itemprop="image">
+          <p class="site-author-name" itemprop="name">guxiangfly</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">181</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guxiangfly" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank">微博</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/guxiangfly/activities" target="_blank">知乎</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2、有遇到过OOM么，什么情况，怎么发现的，怎么查原因的？"><span class="nav-number">1.</span> <span class="nav-text">2、有遇到过OOM么，什么情况，怎么发现的，怎么查原因的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、内存分配策略"><span class="nav-number">2.</span> <span class="nav-text">3、内存分配策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、线程内存和主内存是如何交互的"><span class="nav-number">3.</span> <span class="nav-text">4、线程内存和主内存是如何交互的?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、线上环境JVM参数Xms-Xmx是如何设置的，-如果大小是一至，为什么这样设置？"><span class="nav-number">4.</span> <span class="nav-text">5、线上环境JVM参数Xms Xmx是如何设置的， 如果大小是一至，为什么这样设置？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、如何定位一个CPU-Load过高的Java线程？"><span class="nav-number">5.</span> <span class="nav-text">6、如何定位一个CPU Load过高的Java线程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、JmapDump的文件大小和MAT分析工具里显示的大小不一致一般是什么原因导致的？"><span class="nav-number">6.</span> <span class="nav-text">7、JmapDump的文件大小和MAT分析工具里显示的大小不一致一般是什么原因导致的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、如何在Jmap未响应的情况下Dump出内存？"><span class="nav-number">7.</span> <span class="nav-text">8、如何在Jmap未响应的情况下Dump出内存？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9、说出5个JVM的参数以及含义，怎么样配置这样参数？"><span class="nav-number">8.</span> <span class="nav-text">9、说出5个JVM的参数以及含义，怎么样配置这样参数？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10、JVM的一些健康指标和经验值，如何配置最优？"><span class="nav-number">9.</span> <span class="nav-text">10、JVM的一些健康指标和经验值，如何配置最优？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11、对象存活算法，常见的有哪几种，JAVA采用的是哪种？"><span class="nav-number">10.</span> <span class="nav-text">11、对象存活算法，常见的有哪几种，JAVA采用的是哪种？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12、JVM新生代ParNew用的是什么垃圾收集算法？"><span class="nav-number">11.</span> <span class="nav-text">12、JVM新生代ParNew用的是什么垃圾收集算法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13、JVM垃圾收集复制算法中，Eden-Form-To，为什么是8-1-1，而不是1-1-1？"><span class="nav-number">12.</span> <span class="nav-text">13、JVM垃圾收集复制算法中，Eden:Form:To，为什么是8:1:1，而不是1:1:1？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14、JVM老年代CMS用的是什么垃圾收集算法？"><span class="nav-number">13.</span> <span class="nav-text">14、JVM老年代CMS用的是什么垃圾收集算法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15、young-gc和full-gc触发条件"><span class="nav-number">14.</span> <span class="nav-text">15、young gc和full gc触发条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16、垃圾回收器种类，垃圾回收扫描算法（root扫描），回收算法（复制，标记清除，标记整理）"><span class="nav-number">15.</span> <span class="nav-text">16、垃圾回收器种类，垃圾回收扫描算法（root扫描），回收算法（复制，标记清除，标记整理）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17、-cms回收器的标记过程，内存碎片问题"><span class="nav-number">16.</span> <span class="nav-text">17、 cms回收器的标记过程，内存碎片问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18、GC-Log分析，给面试者一段具体GC-Log"><span class="nav-number">17.</span> <span class="nav-text">18、GC Log分析，给面试者一段具体GC Log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19、画一下JVM内存结构图，各块分别有什么的作用？"><span class="nav-number">18.</span> <span class="nav-text">19、画一下JVM内存结构图，各块分别有什么的作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20、JVM垃圾收集在ParNew-CMS条件下，哪些情况下会让JVM认为产生了一次FULL-GC？"><span class="nav-number">19.</span> <span class="nav-text">20、JVM垃圾收集在ParNew+CMS条件下，哪些情况下会让JVM认为产生了一次FULL GC？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#21、如何查看StringPool大小？"><span class="nav-number">20.</span> <span class="nav-text">21、如何查看StringPool大小？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#22、JmapDump的文件中是否包括StringPool？"><span class="nav-number">21.</span> <span class="nav-text">22、JmapDump的文件中是否包括StringPool？</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright">
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2021
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">guxiangfly
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.guxiangfly.cn">guxiangfly</a>.<a class="theme-link" href="https://github.com/GuXiangFly/next-guxiangfly">next-guxiangfly</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

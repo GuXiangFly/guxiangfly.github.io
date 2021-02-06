@@ -45,7 +45,7 @@
 <meta property="og:description" content="首先我们需要对 nutch-site.xml 的添加 agent1234&amp;lt;property&amp;gt; &amp;lt;name&amp;gt;http.agent.name&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;blah&amp;lt;/value&amp;gt;&amp;lt;/property&amp;gt; 下面是nutch 的架构图  crawl_generate：待抓取的URL crawl_fetch：每个URL的抓">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190215101330.png">
-<meta property="og:updated_time" content="2019-12-01T10:12:05.968Z">
+<meta property="og:updated_time" content="2020-12-20T04:51:27.110Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nutch 学习">
 <meta name="twitter:description" content="首先我们需要对 nutch-site.xml 的添加 agent1234&amp;lt;property&amp;gt; &amp;lt;name&amp;gt;http.agent.name&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;blah&amp;lt;/value&amp;gt;&amp;lt;/property&amp;gt; 下面是nutch 的架构图  crawl_generate：待抓取的URL crawl_fetch：每个URL的抓">
@@ -373,7 +373,10 @@
 <p>inlinks  文件夹存储 有哪些网页指向这个 url<br>outlinks  文件夹存储  这个网页里包含哪些url<br>nodes   存储每个节点有多少的输入链接 有多少输出链接<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> numInlinks = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> numOutlinks = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> inlinkScore= <span class="number">1.0f</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="使用-nodedumper-查看-webgraph-输出的内容"><a href="#使用-nodedumper-查看-webgraph-输出的内容" class="headerlink" title="使用 nodedumper 查看 webgraph 输出的内容"></a>使用 nodedumper 查看 webgraph 输出的内容</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/nutch nodedumper -topn 1 -inlinks -output inlinks_topn_1 -webgraphdb data/webgraphdb</span><br><span class="line">bin/nutch nodedumper -topn 1 -inlinks -output inlinks_topn_1 -webgraphdb data/webgraphdb</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/nutch</span><br></pre></td></tr></table></figure>
-<h2 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h2></span>
+<h2 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h2><blockquote>
+<p>x</p>
+</blockquote>
+</span>
       
     </div>
 
@@ -602,7 +605,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">173</span>
+              <span class="site-state-item-count">181</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -616,7 +619,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -679,7 +682,7 @@
       <div class="footer-inner"> <div class="copyright">
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2020
+  <span itemprop="copyrightYear">2021
   </span>
   <span class="with-love">
     <i class="icon-next-heart"></i>

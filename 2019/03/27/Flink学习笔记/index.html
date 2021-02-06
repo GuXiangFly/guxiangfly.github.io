@@ -36,20 +36,59 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1">
 
 
-<meta name="description" content="Flink 与 spark 的对比 Flink   Flink计算模型 标准  流处理的计算模型 应该如此有一条数据进入第一个节点，节点1处理后立马放入缓存中，节点2看见缓存中有数据，立马执行节点2的操作 标准 批处理模型 应该如此有一条数据进入第一个节点，节点1处理后立马放入缓存中，节点2等待缓存中有指定个数的数据后，节点2才开始执行  实现Stream 的滑动窗口123456789101112">
+<meta name="description" content="Flink的世界观 Flink的世界观一切都是流。  如果是正常流处理，那么就是无界流 如果是批处理，那么就是有界流  Flink分层API Flink 分层  SQL/ Table 的 api， 里面的方法非常容易理解 DataStream API   数据流API,用的比较多,   DataSet API，批处理API ProcessFunction   比较底层。  有状态的流式处理 当我们">
 <meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flink计算模型">
 <meta property="og:url" content="http://yoursite.com/2019/03/27/Flink学习笔记/index.html">
 <meta property="og:site_name" content="guxiangfly的博客">
-<meta property="og:description" content="Flink 与 spark 的对比 Flink   Flink计算模型 标准  流处理的计算模型 应该如此有一条数据进入第一个节点，节点1处理后立马放入缓存中，节点2看见缓存中有数据，立马执行节点2的操作 标准 批处理模型 应该如此有一条数据进入第一个节点，节点1处理后立马放入缓存中，节点2等待缓存中有指定个数的数据后，节点2才开始执行  实现Stream 的滑动窗口123456789101112">
+<meta property="og:description" content="Flink的世界观 Flink的世界观一切都是流。  如果是正常流处理，那么就是无界流 如果是批处理，那么就是有界流  Flink分层API Flink 分层  SQL/ Table 的 api， 里面的方法非常容易理解 DataStream API   数据流API,用的比较多,   DataSet API，批处理API ProcessFunction   比较底层。  有状态的流式处理 当我们">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190324201333.png">
-<meta property="og:updated_time" content="2020-04-04T06:05:12.859Z">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220134317825.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220135523650.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220182002249.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220182506650.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220193727095.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220202636957.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222222109616.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222223015179.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222222939932.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222225014978.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222225241307.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222230133112.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222230148934.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223104512500.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223111253912.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223113023464.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223114506719.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223115016900.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223222431471.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223222908480.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223224215315.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223224247502.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201224233043826.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201224234239191.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210102021543975.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210104193417161.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105191712936.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105205855997.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105213855496.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105215128428.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201231001746191.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201231012505666.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201231014349924.png">
+<meta property="og:image" content="http://yoursite.com/Library/Application%20Support/typora-user-images/image-20201229175155661.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201229234730770.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201230001339707.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201230002217327.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201230003239618.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210107162500661.png">
+<meta property="og:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210107163337645.png">
+<meta property="og:updated_time" content="2021-01-13T02:44:02.083Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flink计算模型">
-<meta name="twitter:description" content="Flink 与 spark 的对比 Flink   Flink计算模型 标准  流处理的计算模型 应该如此有一条数据进入第一个节点，节点1处理后立马放入缓存中，节点2看见缓存中有数据，立马执行节点2的操作 标准 批处理模型 应该如此有一条数据进入第一个节点，节点1处理后立马放入缓存中，节点2等待缓存中有指定个数的数据后，节点2才开始执行  实现Stream 的滑动窗口123456789101112">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190324201333.png">
+<meta name="twitter:description" content="Flink的世界观 Flink的世界观一切都是流。  如果是正常流处理，那么就是无界流 如果是批处理，那么就是有界流  Flink分层API Flink 分层  SQL/ Table 的 api， 里面的方法非常容易理解 DataStream API   数据流API,用的比较多,   DataSet API，批处理API ProcessFunction   比较底层。  有状态的流式处理 当我们">
+<meta name="twitter:image" content="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220134317825.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -329,41 +368,594 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="Flink-与-spark-的对比"><a href="#Flink-与-spark-的对比" class="headerlink" title="Flink 与 spark 的对比"></a>Flink 与 spark 的对比</h2><ul>
-<li>Flink </li>
-</ul>
-<h2 id="Flink计算模型"><a href="#Flink计算模型" class="headerlink" title="Flink计算模型"></a>Flink计算模型</h2><ul>
-<li>标准  流处理的计算模型 应该如此<br>有一条数据进入第一个节点，节点1处理后立马放入缓存中，节点2看见缓存中有数据，立马执行节点2的操作<br><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20190324201333.png" alt></li>
-<li>标准 批处理模型 应该如此<br>有一条数据进入第一个节点，节点1处理后立马放入缓存中，节点2等待缓存中有指定个数的数据后，节点2才开始执行</li>
-</ul>
-<h2 id="实现Stream-的滑动窗口"><a href="#实现Stream-的滑动窗口" class="headerlink" title="实现Stream 的滑动窗口"></a>实现Stream 的滑动窗口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SocketWindowWordCountJava</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">WordWithCount</span></span>&#123;</span><br><span class="line">        <span class="keyword">public</span> String word;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">long</span> count;</span><br><span class="line">        <span class="function"><span class="keyword">public</span>  <span class="title">WordWithCount</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">WordWithCount</span><span class="params">(String word,<span class="keyword">long</span> count)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.word = word;</span><br><span class="line">            <span class="keyword">this</span>.count = count;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"WordWithCount&#123;"</span> +</span><br><span class="line">                    <span class="string">"word='"</span> + word + <span class="string">'\''</span> +</span><br><span class="line">                    <span class="string">", count="</span> + count +</span><br><span class="line">                    <span class="string">'&#125;'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> port;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ParameterTool parameterTool = ParameterTool.fromArgs(args);</span><br><span class="line">            port = parameterTool.getInt(<span class="string">"port"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.err.println(<span class="string">"No port set"</span>);</span><br><span class="line">            port = <span class="number">9000</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br><span class="line">        String hostname = <span class="string">"hadoop101"</span>;</span><br><span class="line">        String delimiter = <span class="string">"\n"</span>;</span><br><span class="line">        <span class="comment">//连接socket获取输入的数据</span></span><br><span class="line">        DataStreamSource&lt;String&gt; text = env.socketTextStream(hostname, port, delimiter);</span><br><span class="line">        <span class="comment">// a a c</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// a 1</span></span><br><span class="line">        <span class="comment">// a 1</span></span><br><span class="line">        <span class="comment">// c 1</span></span><br><span class="line">        DataStream&lt;WordWithCount&gt; windowCounts = text.flatMap(<span class="keyword">new</span> FlatMapFunction&lt;String, WordWithCount&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flatMap</span><span class="params">(String value, Collector&lt;WordWithCount&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                String[] splits = value.split(<span class="string">"\\s"</span>);</span><br><span class="line">                <span class="keyword">for</span> (String word : splits) &#123;</span><br><span class="line">                    out.collect(<span class="keyword">new</span> WordWithCount(word, <span class="number">1L</span>));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).keyBy(<span class="string">"word"</span>)</span><br><span class="line">                <span class="comment">//指定时间窗口大小为2秒，指定时间间隔为1秒</span></span><br><span class="line">                .timeWindow(Time.seconds(<span class="number">2</span>), Time.seconds(<span class="number">1</span>))</span><br><span class="line">                <span class="comment">//.sum("count")</span></span><br><span class="line">                .reduce(<span class="keyword">new</span> ReduceFunction&lt;WordWithCount&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> WordWithCount <span class="title">reduce</span><span class="params">(WordWithCount a, WordWithCount b)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">new</span> WordWithCount(a.word, +b.count + a.count);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">        <span class="comment">// 并行的度为1</span></span><br><span class="line">        windowCounts.print().setParallelism(<span class="number">1</span>);</span><br><span class="line">        env.execute(<span class="string">"Socket window count"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="linux-中打开端口-发送数据"><a href="#linux-中打开端口-发送数据" class="headerlink" title="linux 中打开端口 发送数据"></a>linux 中打开端口 发送数据</h3><p>nc命令是一个功能强大的网络工具，全称是netcat。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l 9000</span><br></pre></td></tr></table></figure>
-<h3 id="Flink-scala-shell-调试代码"><a href="#Flink-scala-shell-调试代码" class="headerlink" title="Flink scala shell 调试代码"></a>Flink scala shell 调试代码</h3><p>我们可以直接 local 启动  Flink 的 scala shell<br>可以启动本地的 也可以 让 scala  shell 去链接 远程的 spark<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/start-scala-shell.sh <span class="built_in">local</span></span><br></pre></td></tr></table></figure></p>
+        <span itemprop="articleBody"><h2 id="Flink的世界观"><a href="#Flink的世界观" class="headerlink" title="Flink的世界观"></a>Flink的世界观</h2><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220134317825.png" alt="image-20201220134317825"></p>
+<p>Flink的世界观一切都是流。</p>
 <ul>
-<li>benv  是  batch env 是批处理环境</li>
-<li>senv  是 streaming env  流处理环境</li>
+<li>如果是正常流处理，那么就是无界流</li>
+<li>如果是批处理，那么就是有界流</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val text = benv.fromElements(<span class="string">"hello you"</span>,<span class="string">"hello world"</span>);</span><br><span class="line">text: org.apache.flink.api.scala.DataSet[String] = org.apache.flink.api.scala.DataSet@1a1f22f2</span><br><span class="line"></span><br><span class="line">scala&gt; val counts = text.flatMap &#123; _.toLowerCase.split(<span class="string">"\\W+"</span>) &#125;.map &#123; (_, 1) &#125;.groupBy(0).sum(1)  </span><br><span class="line">counts: org.apache.flink.api.scala.AggregateDataSet[(String, Int)] = org.apache.flink.api.scala.AggregateDataSet@53c39950</span><br><span class="line"></span><br><span class="line">scala&gt; counts.print()</span><br><span class="line">(hello,2)</span><br><span class="line">(world,1)</span><br><span class="line">(you,1)</span><br></pre></td></tr></table></figure>
-<h3 id="Flink的-自定义数据源"><a href="#Flink的-自定义数据源" class="headerlink" title="Flink的 自定义数据源"></a>Flink的 自定义数据源</h3><p>Flink自定义数据源有三种</p>
+<h2 id="Flink分层API"><a href="#Flink分层API" class="headerlink" title="Flink分层API"></a>Flink分层API</h2><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220135523650.png" alt="image-20201220135523650"></p>
+<p>Flink 分层</p>
 <ul>
-<li><p>实现SourceFunction</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.api.functions.source.SourceFunction;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义实现并行度为1的source</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 模拟产生从1开始的递增数字</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 注意：</span></span><br><span class="line"><span class="comment"> * SourceFunction 和 SourceContext 都需要指定数据类型，如果不指定，代码运行的时候会报错</span></span><br><span class="line"><span class="comment"> * Caused by: org.apache.flink.api.common.functions.InvalidTypesException:</span></span><br><span class="line"><span class="comment"> * The types of the interface org.apache.flink.streaming.api.functions.source.SourceFunction could not be inferred.</span></span><br><span class="line"><span class="comment"> * Support for synthetic interfaces, lambdas, and generic or raw types is limited at this point</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyNoParalleSource</span> <span class="keyword">implements</span> <span class="title">SourceFunction</span>&lt;<span class="title">Long</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> count = <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isRunning = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 主要的方法</span></span><br><span class="line"><span class="comment">     * 启动一个source</span></span><br><span class="line"><span class="comment">     * 大部分情况下，都需要在这个run方法中实现一个循环，这样就可以循环产生数据了</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ctx</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(SourceContext&lt;Long&gt; ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(isRunning)&#123;</span><br><span class="line">            ctx.collect(count);</span><br><span class="line">            count++;</span><br><span class="line">            <span class="comment">//每秒产生一条数据</span></span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 取消一个cancel的时候会调用的方法</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        isRunning = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>SQL/ Table 的 api， 里面的方法非常容易理解</li>
+<li>DataStream API   数据流API,用的比较多,   DataSet API，批处理API</li>
+<li>ProcessFunction   比较底层。</li>
+</ul>
+<h2 id="有状态的流式处理"><a href="#有状态的流式处理" class="headerlink" title="有状态的流式处理"></a>有状态的流式处理</h2><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220182002249.png" alt="image-20201220182002249" style="zoom:50%;"></p>
+<p>当我们进行一个状态计算的时候，比方说我们统计一个pv，用户过来一次，我存count+1， 放到内存中。 一个过来，我内存中+1，</p>
+<p>为了实现故障恢复，我在远程设计一个周期性的检查点，checkpoint。  </p>
+<p>问题： 这种无法保证数据的顺序。</p>
+<h2 id="有状态的流式处理-1"><a href="#有状态的流式处理-1" class="headerlink" title="有状态的流式处理"></a>有状态的流式处理</h2><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220182506650.png" alt="image-20201220182506650"></p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220193727095.png" alt="image-20201220193727095" style="zoom:50%;"></p>
+<h3 id="Lambda架构-是什么"><a href="#Lambda架构-是什么" class="headerlink" title="Lambda架构 是什么"></a>Lambda架构 是什么</h3><blockquote>
+<p> Lambda架构是twitter的工程师  Nathan Marz提出的。同时他是storm项目的发起人</p>
+</blockquote>
+<ul>
+<li><p>lambda系统架构体用了一个 结合实时数据处理和批处理的数据环境的混合平台，用以提供一个实时的数据视图。</p>
 </li>
-<li><p>实现ParallelSourceFunction </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.api.functions.source.ParallelSourceFunction;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义实现一个支持并行度的source</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyParalleSource</span> <span class="keyword">implements</span> <span class="title">ParallelSourceFunction</span>&lt;<span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> count = <span class="number">1L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isRunning = <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 主要的方法</span></span><br><span class="line"><span class="comment">     * 启动一个source</span></span><br><span class="line"><span class="comment">     * 大部分情况下，都需要在这个run方法中实现一个循环，这样就可以循环产生数据了</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ctx</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(SourceContext&lt;Long&gt; ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(isRunning)&#123;</span><br><span class="line">            ctx.collect(count);</span><br><span class="line">            count++;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 取消一个cancel的时候会调用的方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        isRunning = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>分层架构</p>
+<ul>
+<li>批处理层<ul>
+<li>处理历史数据</li>
+</ul>
 </li>
-<li><p>继承RichParallelSourceFunction </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RichParallelSourceFunction 会额外提供open和close方法</span><br><span class="line">针对source中如果需要获取其他链接资源，那么可以在open方法中获取资源链接，在close中关闭资源链接</span><br></pre></td></tr></table></figure>
+<li>实时处理层<ul>
+<li>实时处理新的数据，和批处理层阐释的服务层视图进行关联，返回给query</li>
+</ul>
+</li>
+<li>服务层<ul>
+<li>服务层会主动触发查询，查询批处理层和实时处理层产生的视图数据，进行整合。query用户查询的时候，就只需要查询服务层整合完的数据</li>
+</ul>
 </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.flink.configuration.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义实现一个支持并行度的source</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * RichParallelSourceFunction 会额外提供open和close方法</span></span><br><span class="line"><span class="comment"> * 针对source中如果需要获取其他链接资源，那么可以在open方法中获取资源链接，在close中关闭资源链接</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Created by xuwei.tech on 2018/10/23.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRichParalleSource</span> <span class="keyword">extends</span> <span class="title">RichParallelSourceFunction</span>&lt;<span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> count = <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isRunning = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 主要的方法</span></span><br><span class="line"><span class="comment">     * 启动一个source</span></span><br><span class="line"><span class="comment">     * 大部分情况下，都需要在这个run方法中实现一个循环，这样就可以循环产生数据了</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ctx</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(SourceContext&lt;Long&gt; ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(isRunning)&#123;</span><br><span class="line">            ctx.collect(count);</span><br><span class="line">            count++;</span><br><span class="line">            <span class="comment">//每秒产生一条数据</span></span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 取消一个cancel的时候会调用的方法</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        isRunning = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这个方法只会在最开始的时候被调用一次</span></span><br><span class="line"><span class="comment">     * 实现获取链接的代码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> parameters</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">(Configuration parameters)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"open............."</span>);</span><br><span class="line">        <span class="keyword">super</span>.open(parameters);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实现关闭链接的代码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"close............."</span>);</span><br><span class="line">        <span class="keyword">super</span>.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Flink中的分区"><a href="#Flink中的分区" class="headerlink" title="Flink中的分区"></a>Flink中的分区</h3><h4 id="Random-partitioning：随机分区"><a href="#Random-partitioning：随机分区" class="headerlink" title="Random partitioning：随机分区"></a>Random partitioning：随机分区</h4><p>dataStream.shuffle()</p>
-<h4 id="Rebalancing：对数据集进行再平衡，重分区，消除数据倾斜"><a href="#Rebalancing：对数据集进行再平衡，重分区，消除数据倾斜" class="headerlink" title="Rebalancing：对数据集进行再平衡，重分区，消除数据倾斜"></a>Rebalancing：对数据集进行再平衡，重分区，消除数据倾斜</h4><p>dataStream.rebalance()</p>
-<h4 id="Rescaling：解释见备注"><a href="#Rescaling：解释见备注" class="headerlink" title="Rescaling：解释见备注"></a>Rescaling：解释见备注</h4><p>dataStream.rescale()</p>
-<h4 id="Custom-partitioning：自定义分区"><a href="#Custom-partitioning：自定义分区" class="headerlink" title="Custom partitioning：自定义分区"></a>Custom partitioning：自定义分区</h4><p>自定义分区需要实现Partitioner接口<br>dataStream.partitionCustom(partitioner, “someKey”)<br>或者dataStream.partitionCustom(partitioner, 0);<br>Broadcasting：在后面单独详解</p>
-<p>#### </p>
-<h3 id="Flink中的算子"><a href="#Flink中的算子" class="headerlink" title="Flink中的算子"></a>Flink中的算子</h3><h4 id="比较普通的几个"><a href="#比较普通的几个" class="headerlink" title="比较普通的几个"></a>比较普通的几个</h4><ul>
+</li>
+</ul>
+<blockquote>
+<p> 整体是批处理层处理历史数据，生成批处理视图，给服务层，</p>
+</blockquote>
+<p>机器学习里的lambda架构</p>
+<blockquote>
+<p>batch层使用用户的历史数据行为进行建模。</p>
+<p>speed 实时层通过获取用户的最新行为。</p>
+<p>servring 服务层将用户的行为通过模型进行推荐</p>
+</blockquote>
+<p>缺点：</p>
+<ul>
+<li>做一个需求，我们需要做两套系统，一个批处理系统，一个实时处理系统。</li>
+</ul>
+<h2 id="Flink-和-spark-的区别"><a href="#Flink-和-spark-的区别" class="headerlink" title="Flink 和 spark 的区别"></a>Flink 和 spark 的区别</h2><ul>
+<li>数据模型<ul>
+<li>spark采用RDD计算，spark streaming的DStream 实际上是一对对rdd</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201220202636957.png" alt="image-20201220202636957" style="zoom:50%;"></p>
+<h3 id="Flink-运行时的组件"><a href="#Flink-运行时的组件" class="headerlink" title="Flink 运行时的组件"></a>Flink 运行时的组件</h3><h4 id="1-作业管理器（JobManager）"><a href="#1-作业管理器（JobManager）" class="headerlink" title="1. 作业管理器（JobManager）"></a>1. 作业管理器（JobManager）</h4><p>一个job 只有一个 jobmanager。 我们作业是提交给jobmanager。</p>
+<ul>
+<li><p>jobmanager  将图转换为 执行图，然后将图中的任务分发给一个taskmanager的各个slot</p>
+</li>
+<li><p>协调检查</p>
+</li>
+</ul>
+<blockquote>
+<p>控制一个应用程序执行的主进程，也就是说，每个应用程序都会被一个不同的</p>
+<p>JobManager 所控制执行。</p>
+<p>• JobManager 会先接收到要执行的应用程序，这个应用程序会包括：作业图（JobGraph）、逻辑数据流图（logical dataflow graph）和打包了所有的类、库和其它资源的JAR包。</p>
+<p>• JobManager 会把JobGraph转换成一个物理层面的数据流图，这个图被叫做“执行图”（ExecutionGraph），包含了所有可以并发执行的任务。</p>
+<p>• JobManager 会向资源管理器（ResourceManager）请求执行任务必要的资源，</p>
+<p>也就是任务管理器（TaskManager）上的插槽（slot）。一旦它获取到了足够的</p>
+<p>资源，就会将执行图分发到真正运行它们的TaskManager上。而在运行过程中，</p>
+<p>JobManager会负责所有需要中央协调的操作，比如说检查点（checkpoints）</p>
+<p>的协调。</p>
+</blockquote>
+<h4 id="2-任务管理器（TaskManager）"><a href="#2-任务管理器（TaskManager）" class="headerlink" title="2.任务管理器（TaskManager）"></a>2.任务管理器（TaskManager）</h4><p>TaskManager会将自己有多少个 slot 等信息，注册到 resourcemanager上。</p>
+<p>TaskManager之间可能会传输一些数据。</p>
+<blockquote>
+<p>• Flink中的工作进程。通常在Flink中会有多个TaskManager运行，每一个TaskManager都包含了一定数量的插槽（slots）。插槽的数量限制了TaskManager能够执行的任务数量。</p>
+<p>• 启动之后，TaskManager会向资源管理器注册它的插槽；收到资源管理器的指令后，TaskManager就会将一个或者多个插槽提供给JobManager调用。JobManager就可以向插槽分配任务（tasks）来执行了。</p>
+<p>• 在执行过程中，一个TaskManager可以跟其它运行同一应用程序的TaskManager交换数据。</p>
+</blockquote>
+<h4 id="3-资源管理器（ResourceManager）"><a href="#3-资源管理器（ResourceManager）" class="headerlink" title="3.资源管理器（ResourceManager）"></a>3.资源管理器（ResourceManager）</h4><p>ResourceManager可以和 YARN 或 K8s  standalone等做适配。 并且</p>
+<blockquote>
+<p>主要负责管理任务管理器（TaskManager）的插槽（slot），TaskManger 插槽是Flink中定义的处理资源单元。</p>
+<p>• Flink为不同的环境和资源管理工具提供了不同资源管理器，比如YARN、Mesos、K8s，以及standalone部署。</p>
+<p>• 当JobManager申请插槽资源时，ResourceManager会将有空闲插槽的TaskManager分配给JobManager。如果ResourceManager没有足够的插槽来满足JobManager的请求，它还可以向资源提供平台发起会话，以提供启动TaskManager进程的容器。</p>
+</blockquote>
+<h4 id="4-分发器（Dispatcher）"><a href="#4-分发器（Dispatcher）" class="headerlink" title="4.分发器（Dispatcher）"></a>4.分发器（Dispatcher）</h4><p>这个某些架构是可以删除不是必须的，这个就是提供一个web UI 的入口，让我们提交  flink的job，并且给出一些web ui的监控</p>
+<blockquote>
+<p>• 可以跨作业运行，它为应用提交提供了REST接口。 </p>
+<p>• 当一个应用被提交执行时，分发器就会启动并将应用移交给一个JobManager。 </p>
+<p>• Dispatcher也会启动一个Web UI，用来方便地展示和监控作业执行的信息。 </p>
+<p>• Dispatcher在架构中可能并不是必需的，这取决于应用提交运行的方式。</p>
+</blockquote>
+<h4 id="Flink-任务提交的流程"><a href="#Flink-任务提交的流程" class="headerlink" title="Flink 任务提交的流程"></a>Flink 任务提交的流程</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222222109616.png" alt="image-20201222222109616" style="zoom:50%;"></p>
+<p>Q1： 为啥我们要启动Jobmanager，其实我们每个flink-job 都对应一个jobmanager， 它是一一对应的。</p>
+<p>Q2:  并行的任务，需要占用多少个slot。</p>
+<h4 id="Flink-在Yarn-上提交任务的流程"><a href="#Flink-在Yarn-上提交任务的流程" class="headerlink" title="Flink 在Yarn 上提交任务的流程"></a>Flink 在Yarn 上提交任务的流程</h4><p>这个图上的 ResourceManager  是yarn 的resourcemanager</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222223015179.png" alt="image-20201222223015179" style="zoom:50%;"></p>
+<h4 id="任务调度的原理"><a href="#任务调度的原理" class="headerlink" title="任务调度的原理"></a>任务调度的原理</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222222939932.png" alt="image-20201222222939932" style="zoom:50%;"></p>
+<h4 id="Flink中-TaskManager-和-Slots"><a href="#Flink中-TaskManager-和-Slots" class="headerlink" title="Flink中 TaskManager 和 Slots"></a>Flink中 TaskManager 和 Slots</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222225014978.png" alt="image-20201222225014978" style="zoom: 67%;"></p>
+<blockquote>
+<p>slot什么情况下可合并：</p>
+<p>类似这个， Source 和 Map  其实可以合并。 因为两个Slot直接进行交互， Map 和 keyby 阶段， Map的两个slot 和 keyby的两个slot 都有交互，所以不能合并。</p>
+<p>需要几个slot才能将job跑起来：</p>
+<p>2个，因为看图而言，最大的并行度是2。  因为默认情况下，slot是允许共享的。</p>
+<p>同一时间，并行的任务，slot必须分开，  顺序执行的slot，可以共享。</p>
+<p>不同任务共享slot的好处：</p>
+<ul>
+<li><p>可以让每个计算资源都得到充分的利用。</p>
+<p>假设 source耗时只有 1ms，windows计算耗时得有 100ms，如果分slot计算 source 1个slot，window一个slot，那么会让 source下来的数据积压等待，共享的话，就可以有两个slot，计算 source和window</p>
+<p>默认是可以共享的，共享组默认名称叫做 default ，但是如果不想共享，那么可以设置不同的slot共享组(slotSharingGroup)</p>
+<p>如果不设置共享组，那么和前面的Task使用同一个slotsharinggroup，  比方说前面设置的red组，那么后面task不显示设置共享组那么就是 red这个共享组</p>
+</li>
+</ul>
+</blockquote>
+<p>一个特定算子的 子任务（subtask）的个数被称之为其并行度（parallelism）。一般情况下，一个 stream 的并行度，可以认为就是其所有算子中最大的并行度。</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222225241307.png" alt="image-20201222225241307" style="zoom:50%;"><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222230133112.png" alt="image-20201222230133112"></p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201222230148934.png" alt="image-20201222230148934" style="zoom:50%;"></p>
+<p>Flink 中每一个 TaskManager 都是一个JVM进程，它可能会在独立的线程上执</p>
+<p>建议每个TaskManager的 slot个数，是这个taskmanager所在的机器的 CPU核心数，这样能最大利用CPU</p>
+<h3 id="Slot-子任务分配"><a href="#Slot-子任务分配" class="headerlink" title="Slot 子任务分配"></a>Slot 子任务分配</h3><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223104512500.png" alt="image-20201223104512500" style="zoom:50%;"></p>
+<p>Q1: 为什么 C 和 B能共享一个Slot？</p>
+<p>A1：因为slot就是一个线程，我可以先执行玩B后 再执行C 。 然后再执行B  再执行C</p>
+<h4 id="程序与数据流（DataFlow）"><a href="#程序与数据流（DataFlow）" class="headerlink" title="程序与数据流（DataFlow）"></a>程序与数据流（DataFlow）</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223111253912.png" alt="image-20201223111253912" style="zoom: 67%;"></p>
+<ul>
+<li>所有的Flink程序都是由三部分组成的： Source 、Transformation 和 Sink。</li>
+<li>Source 负责读取数据源，Transformation 利用各种算子进行处理加工，Sink 负责输出。</li>
+</ul>
+<h4 id="执行图（ExecutionGraph）"><a href="#执行图（ExecutionGraph）" class="headerlink" title="执行图（ExecutionGraph）"></a>执行图（ExecutionGraph）</h4><ul>
+<li><p>Flink 中的执行图可以分成四层：StreamGraph -&gt; JobGraph -&gt; ExecutionGraph -&gt; 物理执行图 </p>
+</li>
+<li><p>StreamGraph：是根据用户通过 Stream API 编写的代码生成的最初的图。用来表示程序的拓扑结构。</p>
+</li>
+<li><p>JobGraph：StreamGraph经过优化后生成了 JobGraph，提交给 JobManager 的数据结构。主要的优化为，将多个符合条件的节点 chain 在一起作为一个节点</p>
+</li>
+<li><p>ExecutionGraph：JobManager 根据 JobGraph 生成ExecutionGraph。ExecutionGraph是JobGraph的并行化版本，是调度层最核心的数据结构。</p>
+</li>
+<li><p>物理执行图：JobManager 根据 ExecutionGraph 对 Job 进行调度后，在各个</p>
+</li>
+<li><p>TaskManager 上部署 Task 后形成的“图”，并不是一个具体的数据结构。</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223113023464.png" alt="image-20201223113023464" style="zoom:67%;"></p>
+<p>Q1： 为何 keyby 不作为一个计算算子？</p>
+<p>A1：  因为 keyBy 实际上是按key的hash 进行一个重分区的操作而已，并不是做真正的计算。</p>
+<h4 id="数据传输形式有哪些"><a href="#数据传输形式有哪些" class="headerlink" title="数据传输形式有哪些"></a>数据传输形式有哪些</h4><p> 两种（one-to-one，Redistributing）</p>
+<ul>
+<li><p>一个程序中，不同的算子可能具有不同的并行度</p>
+</li>
+<li><p>算子之间传输数据的形式可以是 one-to-one (forwarding) 的模式也可以是redistributing 的模式，具体是哪一种形式，取决于算子的种类</p>
+<ul>
+<li>One-to-one：stream维护着分区以及元素的顺序（比如source和map之间）。 这意味着map 算子的子任务看到的元素的个数以及顺序跟 source 算子的子任务生产的元素的个数、顺序相同。map、fliter、flatMap等算子都是one-to-one的对应关系。</li>
+<li>Redistributing：stream的分区会发生改变。每一个算子的子任务依据所选择的transformation发送数据到不同的目标任务。<ul>
+<li>例如，keyBy 基于 hashCode 重分区、而 broadcast 和 rebalance 会随机重新分区，这些算子都会引起redistribute过程，而 <strong>redistribute 过程就类似于 Spark 中的 shuffle 过程</strong>。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223114506719.png" alt="image-20201223114506719"></p>
+<ul>
+<li>图中 forward   就是 one-to-one   （one-to-one 的slot才能合并） （类似spark 的窄分区）</li>
+<li>hash  是基于hashcode进行重分区，是redistributing。 （类似spark的宽分区）</li>
+</ul>
+</li>
+</ul>
+<h4 id="任务链（Operator-Chains）"><a href="#任务链（Operator-Chains）" class="headerlink" title="任务链（Operator Chains）"></a>任务链（Operator Chains）</h4><ul>
+<li><p>Flink 采用了一种称为任务链的优化技术，可以在特定条件下减少本地通信的开销。为了满足任务链的要求，必须将两个或多个算子设为相同的并行度，并通过本地转发（local forward）的方式进行连接</p>
+</li>
+<li><p><strong>相同并行度</strong>的 <strong>one-to-one</strong> 操作，Flink 这样相连的算子链接在一起形成一个 task，原来的算子成为里面的 subtask</p>
+</li>
+<li><p>并行度相同、并且是 one-to-one 操作，两个条件缺一不可。</p>
+</li>
+<li>将两个task进行合并的好处：可以  节省了两个task之间的数据通信传输开销，不用序列化了。 条件就是 必须是<strong>并行度相同的one-to-one操作，并且必须要是在同一个slot共享组里</strong></li>
+<li>使用 disableOperatorChaining 或者 那么就不会进行 task的合并。</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223115016900.png" alt="image-20201223115016900" style="zoom: 67%;"></p>
+<h2 id="Flink流处理计算"><a href="#Flink流处理计算" class="headerlink" title="Flink流处理计算"></a>Flink流处理计算</h2><h4 id="基本转换算子"><a href="#基本转换算子" class="headerlink" title="基本转换算子"></a>基本转换算子</h4><p>Map, flatmap,  filter  同属于 one-to-one 操作</p>
+<ul>
+<li>map   假设 inputStream一行是一个 string， 进入是一个string，返回也必须是单个值</li>
+<li>flatmap    假设 inputStream一行是一个 string， 进入是一个string，返回可以是多个值。将 string 打成一个个 char。  最后多个 string  回合成为多个 char</li>
+<li><p>filter     返回一个true 代表我要这个数据， 返回一个false，代表我不要这个数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransformTest1_Base</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">        env.setParallelism(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从文件读取数据</span></span><br><span class="line">        DataStream&lt;String&gt; inputStream = env.readTextFile(<span class="string">"D:\\Projects\\BigData\\FlinkTutorial\\src\\main\\resources\\sensor.txt"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. map，把String转换成长度输出</span></span><br><span class="line">        DataStream&lt;Integer&gt; mapStream = inputStream.map(<span class="keyword">new</span> MapFunction&lt;String, Integer&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Integer <span class="title">map</span><span class="params">(String value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> value.length();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. flatmap，按逗号分字段</span></span><br><span class="line">        DataStream&lt;String&gt; flatMapStream = inputStream.flatMap(<span class="keyword">new</span> FlatMapFunction&lt;String, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flatMap</span><span class="params">(String value, Collector&lt;String&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                String[] fields = value.split(<span class="string">","</span>);</span><br><span class="line">                <span class="keyword">for</span>( String field: fields ) &#123;</span><br><span class="line">                    out.collect(field);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. filter, 筛选sensor_1开头的id对应的数据</span></span><br><span class="line">        DataStream&lt;String&gt; filterStream = inputStream.filter(<span class="keyword">new</span> FilterFunction&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">filter</span><span class="params">(String value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> value.startsWith(<span class="string">"sensor_1"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印输出</span></span><br><span class="line">        mapStream.print(<span class="string">"map"</span>);</span><br><span class="line">        flatMapStream.print(<span class="string">"flatMap"</span>);</span><br><span class="line">        filterStream.print(<span class="string">"filter"</span>);</span><br><span class="line"></span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="滚动聚合算子（Rolling-Aggregation）"><a href="#滚动聚合算子（Rolling-Aggregation）" class="headerlink" title="滚动聚合算子（Rolling Aggregation）"></a>滚动聚合算子（Rolling Aggregation）</h4><blockquote>
+<p>Flink 所有的聚合操作，必须进行分组后才能操作</p>
+</blockquote>
+<p>下面这些算子必须在keyby后才能操作</p>
+<ul>
+<li>sum()</li>
+<li>min()</li>
+<li>max()</li>
+<li>minBy()</li>
+<li>maxBy()</li>
+</ul>
+<h4 id="Flink-的-Reduce"><a href="#Flink-的-Reduce" class="headerlink" title="Flink 的 Reduce"></a>Flink 的 <strong>Reduce</strong></h4><blockquote>
+<p> <strong>KeyedStream</strong> <strong>→</strong> <strong>DataStream</strong>：一个分组数据流的聚合操作，合并当前的元素和上次聚合的结果，产生一个新的值，返回的流中包含每一次聚合的结果，而不是只返回最后一次聚合的最终结果。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransformTest3_Reduce</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">        env.setParallelism(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 从文件读取数据</span></span><br><span class="line">        DataStream&lt;String&gt; inputStream = env.readTextFile(<span class="string">"/Users/mtdp/dev/ideaworkspace/guxiangwork/technology-study/flink-java-learn/src/main/resources/sensor.txt"</span>);</span><br><span class="line">        <span class="comment">// 转换成SensorReading类型</span></span><br><span class="line">        DataStream&lt;SensorReading&gt; dataStream = inputStream.map(line -&gt; &#123;</span><br><span class="line">            String[] fields = line.split(<span class="string">","</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(fields[<span class="number">0</span>], <span class="keyword">new</span> Long(fields[<span class="number">1</span>]), <span class="keyword">new</span> Double(fields[<span class="number">2</span>]));</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">// 分组</span></span><br><span class="line">        KeyedStream&lt;SensorReading, Tuple&gt; keyedStream = dataStream.keyBy(<span class="string">"id"</span>);</span><br><span class="line">        <span class="comment">// reduce聚合，取最大的温度值，以及当前最新的时间戳</span></span><br><span class="line">        SingleOutputStreamOperator&lt;SensorReading&gt; resultStream = keyedStream.reduce(<span class="keyword">new</span> ReduceFunction&lt;SensorReading&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> SensorReading <span class="title">reduce</span><span class="params">(SensorReading value1, SensorReading value2)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(value1.getId(), value2.getTimestamp(), Math.max(value1.getTemperature(), value2.getTemperature()));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        keyedStream.reduce( (curState, newData) -&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(curState.getId(), newData.getTimestamp(), Math.max(curState.getTemperature(), newData.getTemperature()));</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        resultStream.print();</span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-Flink-的-Split-和-Select"><a href="#4-Flink-的-Split-和-Select" class="headerlink" title="4. Flink 的  Split 和 Select"></a>4. Flink 的  <strong>Split</strong> <strong>和</strong> Select</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223222431471.png" alt="image-20201223222431471" style="zoom:50%;"></p>
+<p>​        <strong>DataStream</strong> <strong>→</strong> <strong>SplitStream</strong>：根据某些特征把一个 DataStream 拆分成两个或者多个 DataStream。</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223222908480.png" alt="image-20201223222908480" style="zoom:50%;"></p>
+<p>​        <strong>SplitStream</strong> <strong>→</strong> <strong>DataStream</strong> ：从一个 SplitStream 中获取一个或者多个DataStream。</p>
+<h4 id="5-Flink的Connect-和-CoMap"><a href="#5-Flink的Connect-和-CoMap" class="headerlink" title="5. Flink的Connect 和 CoMap"></a>5. Flink的<strong>Connect</strong> <strong>和</strong> <strong>CoMap</strong></h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223224215315.png" alt="image-20201223224215315" style="zoom:50%;"></p>
+<h4 id="6-Flink-的-Union"><a href="#6-Flink-的-Union" class="headerlink" title="6. Flink 的 Union"></a>6. Flink 的 Union</h4><p>&lt;img src=”<a href="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223224020726.png&quot;" target="_blank" rel="noopener">https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223224020726.png&quot;</a> alt=”image-20201223224020726” style=”zoom:50%;” /</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201223224247502.png" alt="image-20201223224247502" style="zoom:50%;"></p>
+<h5 id="union-和-comap-connect-的不同："><a href="#union-和-comap-connect-的不同：" class="headerlink" title="union 和  comap- connect 的不同："></a>union 和  comap- connect 的不同：</h5><ol>
+<li><p>Union 之前两个流的类型必须是一样，Connect 可以不一样，在之后的 coMap中再去调整成为一样的。</p>
+</li>
+<li><p>Connect 只能操作两个流，Union 可以操作多个。</p>
+</li>
+</ol>
+<h3 id="Flink-支持的数据类型"><a href="#Flink-支持的数据类型" class="headerlink" title="Flink 支持的数据类型"></a>Flink 支持的数据类型</h3><p>Flink 底层有一个 typeinformation</p>
+<h4 id="1-基础数据类型"><a href="#1-基础数据类型" class="headerlink" title="1.基础数据类型"></a>1.基础数据类型</h4><p>Flink 支持所有的 Java 和 Scala 基础数据类型，Int, Double, Long, String, …</p>
+<h4 id="2-Java-和-Scala-元组（Tuples）"><a href="#2-Java-和-Scala-元组（Tuples）" class="headerlink" title="2.Java 和 Scala 元组（Tuples）"></a>2.<strong>Java</strong> <strong>和</strong> <strong>Scala</strong> 元组（Tuples）</h4><p>Flink 支持所有的 Java 和 Scala 基础数据类型，Int, Double, Long, String, …</p>
+<h4 id="3-Scala-样例类（case-classes）"><a href="#3-Scala-样例类（case-classes）" class="headerlink" title="3. Scala 样例类（case classes）"></a>3. <strong>Scala</strong> 样例类（case classes）</h4><p>Flink 支持所有的 Java 和 Scala 基础数据类型，Int, Double, Long, String, …</p>
+<h4 id="4-其它（Arrays-Lists-Maps-Enums-等等）"><a href="#4-其它（Arrays-Lists-Maps-Enums-等等）" class="headerlink" title="4.其它（Arrays, Lists, Maps, Enums, 等等）**"></a>4.其它（Arrays, Lists, Maps, Enums,<strong> </strong>等等）**</h4><p>Flink 支持所有的 Java 和 Scala 基础数据类型，Int, Double, Long, String, …</p>
+<h3 id="Flink实现UDF函数"><a href="#Flink实现UDF函数" class="headerlink" title="Flink实现UDF函数"></a>Flink实现UDF函数</h3><h4 id="函数类（Function-Classes）"><a href="#函数类（Function-Classes）" class="headerlink" title="函数类（Function Classes）"></a>函数类（Function Classes）</h4><h4 id="匿名函数（Lambda-Functions）"><a href="#匿名函数（Lambda-Functions）" class="headerlink" title="匿名函数（Lambda Functions）"></a>匿名函数（Lambda Functions）</h4><h4 id="富函数（Rich-Functions）"><a href="#富函数（Rich-Functions）" class="headerlink" title="富函数（Rich Functions）"></a>富函数（Rich Functions）</h4><blockquote>
+<p>“富函数”是 DataStream API 提供的一个函数类的接口，所有 Flink 函数类都有其 Rich 版本。它与常规函数的不同在于，可以获取运行环境的上下文，并拥有一些生命周期方法，所以可以实现更复杂的功能。</p>
+</blockquote>
+<p>每个udf函数类，都有对应的rich版本</p>
+<ul>
+<li><p>RichMapFunction</p>
+</li>
+<li><p>RichFlatMapFunction</p>
+</li>
+<li><p>RichFilterFunction</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<p>Rich Function 有一个生命周期的概念。典型的生命周期方法有： </p>
+<ul>
+<li><p>open()方法是 rich function 的初始化方法，当一个算子例如 map 或者 filter被调用之前 open()会被调用。</p>
+</li>
+<li><p>close()方法是生命周期中的最后一个调用的方法，做一些清理工作。</p>
+</li>
+<li><p>getRuntimeContext()方法提供了函数的 RuntimeContext 的一些信息，例如函数执行的并行度，任务的名字，以及 state 状态</p>
+</li>
+</ul>
+<h3 id="数据重分配（partition）"><a href="#数据重分配（partition）" class="headerlink" title="数据重分配（partition）"></a>数据重分配（partition）</h3><ul>
+<li>keyby  通过key的hashcode 取模来定义分区</li>
+<li>shuffle： 随机将各个数据 分配到不同的  task slot</li>
+<li>forward：不重新分区了</li>
+<li>rebalance ： 1 放到 partition1上   2放到partition2上    3放到partition1上  4放到partition2上</li>
+<li>global： 全部数据全部放到  partition1上  </li>
+</ul>
+<h3 id="window函数"><a href="#window函数" class="headerlink" title="window函数"></a>window函数</h3><p>对于 TimeWindow，可以根据窗口实现原理的不同分成三类：滚动窗口（Tumbling Window）、滑动窗口（Sliding Window）和会话窗口（Session Window）。</p>
+<p>Window 可以分成三类：</p>
+<ul>
+<li><p>CountWindow：按照指定的数据条数生成一个 Window，与时间无关。</p>
+</li>
+<li><p>TimeWindow：按照时间生成 Window。</p>
+<ul>
+<li><p>滚动窗口（Tumbling Windows）</p>
+<blockquote>
+<p>将数据依据固定的窗口长度对数据进行切片。</p>
+<p><strong>特点：时间对齐，窗口长度固定，没有重叠。</strong></p>
+</blockquote>
+</li>
+<li><p>滑动窗口（Sliding Windows）</p>
+<blockquote>
+<p>滑动窗口是固定窗口的更广义的一种形式，滑动窗口由固定的窗口长度和滑动间隔组成。</p>
+<p><strong>特点：时间对齐，窗口长度固定，可以有重叠。</strong></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>Session Window</p>
+<ul>
+<li><blockquote>
+<p> 由一系列事件组合一个指定时间长度的 timeout 间隙组成，类似于 web 应用的session，也就是一段时间没有接收到新数据就会生成新的窗口。</p>
+<p><strong>特点：时间无对齐。</strong></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="window-function"><a href="#window-function" class="headerlink" title="window function"></a>window function</h4><p>window function 定义了要对窗口中收集的数据做的计算操作，主要可以分为两类：</p>
+<ul>
+<li><p>增量聚合函数（incremental aggregation functions）</p>
+<blockquote>
+<p>每条数据到来就进行计算，保持一个简单的状态。典型的增量聚合函数有ReduceFunction, AggregateFunction。 </p>
+</blockquote>
+</li>
+<li><p>全窗口函数（full window functions）</p>
+<blockquote>
+<p>先把窗口所有数据收集起来，等到计算的时候会遍历所有数据。ProcessWindowFunction 就是一个全窗口函数。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="window其他可选api"><a href="#window其他可选api" class="headerlink" title="window其他可选api"></a>window其他可选api</h4><ul>
+<li><p>trigger() —— 触发器</p>
+<p>➢ 定义 window 什么时候关闭，触发计算并输出结果</p>
+</li>
+<li><p>evictor() —— 移除器</p>
+<p>➢ 定义移除某些数据的逻辑</p>
+</li>
+<li><p>allowedLateness() —— 允许处理迟到的数据</p>
+<p>​    sideOutputLateData() —— 将迟到的数据放入侧输出流</p>
+</li>
+<li><p>getSideOutput() —— 获取侧输出流</p>
+</li>
+</ul>
+<h3 id="时间语义与-Wartermark"><a href="#时间语义与-Wartermark" class="headerlink" title="时间语义与 Wartermark"></a>时间语义与 Wartermark</h3><h4 id="Flink-中的时间语义"><a href="#Flink-中的时间语义" class="headerlink" title="Flink 中的时间语义"></a>Flink 中的时间语义</h4><ul>
+<li><strong>Event Time</strong>：是事件创建的时间。它通常由事件中的时间戳描述，例如采集的日志数据中，每一条日志都会记录自己的生成时间，Flink 通过时间戳分配器访问事件时间戳。</li>
+<li><strong>Ingestion Time</strong>：是数据进入 Flink 的时间。</li>
+<li><strong>Processing Time</strong>：是每一个执行基于时间操作的算子的本地系统时间，与机器相关，默认的时间属性就是 Processing Time。</li>
+</ul>
+<h4 id="EventTime-的引入"><a href="#EventTime-的引入" class="headerlink" title="EventTime 的引入"></a>EventTime 的引入</h4><p>​        <strong>在</strong> <strong>Flink</strong> <strong>的流式处理中，绝大部分的业务都会使用</strong> <strong>eventTime</strong>，一般只在eventTime 无法使用时，才会被迫使用 ProcessingTime 或者 IngestionTime。</p>
+<h4 id="Watermark"><a href="#Watermark" class="headerlink" title="Watermark"></a>Watermark</h4><h3 id="Flink-的状态编程"><a href="#Flink-的状态编程" class="headerlink" title="Flink 的状态编程"></a>Flink 的状态编程</h3><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201224233043826.png" alt="image-20201224233043826" style="zoom:50%;"></p>
+<p>Flink的状态分成两大类</p>
+<ul>
+<li>Managed State(托管状态)<ul>
+<li>由<strong><em>\</em>Flink Runtime**</strong>控制和管理状态数据，并将状态数据转换成为内存的Hash tables或 RocksDB的对象存储，然后将这些数据通过内部的接口持久化到checkpoints中，任务异常时可以通过这些状态数据恢复任务</li>
+</ul>
+</li>
+<li>RawState(原生状态)<ul>
+<li>由算子自己管理数据结构，当触发Checkpoint操作过程中，Flink并不知道状态数据内部的数据结构，只是将数据转换成bytes数据存储在Checkpoints中，当从Checkpoints恢复任务时，算子自己再反序列化出状态的数据结构</li>
+</ul>
+</li>
+</ul>
+<p>在 Flink 中，常用的就是 managed state，下面讲的也是managed state，状态始终与特定算子相关联。在我们的 flatmap操作里面可以绑定一个状态，在reduce操作里面，可以绑定一个状态，在window操作内，也可以绑定状态。</p>
+<p>总的来说，managed state有两种类型的状态：</p>
+<ul>
+<li><p>算子状态（operator state） </p>
+<ul>
+<li><p>算子状态的作用范围限定为算子任务。   只要是在同一个分区，那么数据就是一样的</p>
+</li>
+<li><p>类似 reduce， window ，所有在 reduce处理的数据，都能访问到这个状态。 只要在同一个分区，不论key是啥，都是访问同一个状态</p>
+</li>
+<li><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201224234239191.png" alt="image-20201224234239191" style="zoom:50%;"></p>
+</li>
+<li><p>Flink 为算子状态提供三种基本数据结构：</p>
+<ul>
+<li><p>列表状态（List state）</p>
+<blockquote>
+<p>将状态表示为一组数据的列表。主要是为了方便状态重新分配。</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210102021543975.png" alt="image-20210102021543975" style="zoom:67%;"></p>
+<p>假设并行度原本是2，并行度 A1，A2上都有一个size为3的list state。 下一个算子任务并行度调整为3后，那么 B1,B2,B3可以各拿都拿 size为2的 list state。、</p>
+</blockquote>
+</li>
+<li><p>联合列表状态（Union list state）</p>
+<blockquote>
+<p>也将状态表示为数据的列表。它与常规列表状态的区别在于，在发生故障时，或者从保存点（savepoint）启动应用程序时如何恢复。</p>
+</blockquote>
+</li>
+<li><p>广播状态（Broadcast state） (所有分区的 state 都相同)</p>
+<blockquote>
+<p>如果一个算子有多项任务，而它的每项任务状态又都相同，那么这种特殊情况最适合应用广播状态。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>键控状态（keyed state）</p>
+<ul>
+<li><p>只有当前key的数据，才能访问到当前key对应的状态。主要个这么几种数据结构</p>
+<ul>
+<li><p>列表状态（List state） </p>
+<blockquote>
+<p>将状态表示为一组数据的列表</p>
+</blockquote>
+</li>
+<li><p>联合列表状态（Union list state） </p>
+<blockquote>
+<p>也将状态表示为数据的列表。它与常规列表状态的区别在于，在发生故障时，或者从保存点（savepoint）启动应用程序时如何恢复</p>
+</blockquote>
+</li>
+<li><p>映射状态（Map state）  </p>
+<blockquote>
+<p>将状态表示为一组 Key-Value 对 </p>
+</blockquote>
+</li>
+<li><p>聚合状态（Reducing state &amp; Aggregating State） </p>
+<blockquote>
+<p>将状态表示为一个用于聚合操作的列表</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>keyed state 必须使用 rich function。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="状态后端（state-backend）"><a href="#状态后端（state-backend）" class="headerlink" title="状态后端（state  backend）"></a>状态后端（state  backend）</h3><ul>
+<li>MemoryStateBackend<ul>
+<li>存级的状态后端，会将键控状态作为内存中的对象进行管理，将它们存储在TaskManager 的 JVM 堆上，而将 checkpoint 存储在 JobManager 的内存中 </li>
+<li>特点：快速、低延迟，但不稳定</li>
+</ul>
+</li>
+<li>FsStateBackend  （默认使用此FileSystem）<ul>
+<li>将 checkpoint 存到远程的持久化文件系统（FileSystem）上，而对于本地状态，跟 MemoryStateBackend 一样，也会存在 TaskManager 的 JVM 堆上</li>
+<li>同时拥有内存级的本地访问速度，和更好的容错保证</li>
+</ul>
+</li>
+<li>RocksDBStateBackend<ul>
+<li>将所有状态序列化后，存入本地的 RocksDB 中存储。 （状态编程，状态存在 rocksDB,   rocksDB 在 taskmanager上）</li>
+</ul>
+</li>
+</ul>
+<h3 id="容错机制"><a href="#容错机制" class="headerlink" title="容错机制"></a>容错机制</h3><h4 id="Checkpoint-检查点"><a href="#Checkpoint-检查点" class="headerlink" title="Checkpoint 检查点"></a>Checkpoint 检查点</h4><ul>
+<li>flink 的 jobmanager 会周期性得自动进行保存</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210104193417161.png" alt="image-20210104193417161" style="zoom:67%;"></p>
+<p>source 会重新去 </p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105191712936.png" alt="image-20210105191712936" style="zoom:67%;"></p>
+<h4 id="Savepoints-保存点"><a href="#Savepoints-保存点" class="headerlink" title="Savepoints 保存点"></a>Savepoints 保存点</h4><ul>
+<li>原则上，创建保存点使用的算法与检查点完全相同，因此保存点可以认为就是具有一些额外元数据的检查点</li>
+<li>flink不会自动创建 savepoints，</li>
+<li>保存点是一个强大的功能。除了故障恢复外，保存点可以用于：有计划的手动备份，更新应用程序，版本迁移，暂停和重启应用，等等</li>
+</ul>
+<h2 id="Flink状态一致性"><a href="#Flink状态一致性" class="headerlink" title="Flink状态一致性"></a>Flink状态一致性</h2><blockquote>
+<p>当在分布式系统中引入状态时，自然也引入了一致性问题。一致性实际上是”正确性级别”的另一种说法，也就是说在成功处理故障并恢复之后得到的结果，与没有发生任何故障时得到的结果相比，前者到底有多正确？举例来说，假设要对最近一小时登录的用户计数。在系统经历故障之后，计数结果是多少？如果有偏差，是有漏掉的计数还是重复计数？</p>
+</blockquote>
+<h3 id="一致性级别"><a href="#一致性级别" class="headerlink" title="一致性级别"></a>一致性级别</h3><ul>
+<li><p>at-most-once: 这其实是没有正确性保障的委婉说法——故障发生之后，计数结果可能丢失。同样的还有 udp。 </p>
+</li>
+<li><p>at-least-once:  这表示计数结果可能大于正确值，但绝不会小于正确值。也就是说，计数程序在发生故障后可能多算，但是绝不会少算。 （这个类似uv统计可以使用此）</p>
+</li>
+<li><p>exactly-once: 这指的是系统保证在发生故障后得到的计数结果与正确值一致。</p>
+</li>
+</ul>
+<h3 id="端到端（end-to-end）状态一致性"><a href="#端到端（end-to-end）状态一致性" class="headerlink" title="端到端（end-to-end）状态一致性"></a>端到端（end-to-end）状态一致性</h3><p>​        端到端的一致性保证，意味着结果的正确性贯穿了整个流处理应用的始终；每一个组件都保证了它自己的一致性，整个端到端的一致性级别取决于所有组件中一致性最弱的组件。具体可以划分如下：</p>
+<p>具体可以划分如下：</p>
+<ul>
+<li><p>内部保证 —— 依赖 checkpoint</p>
+</li>
+<li><p>source 端 —— 需要外部源可重设数据的读取位置</p>
+</li>
+<li><p>sink 端 —— 需要保证从故障恢复时，数据不会重复写入外部系统</p>
+</li>
+</ul>
+<p>​        而对于 sink 端，又有两种具体的实现方式：幂等（Idempotent）写入和事务性</p>
+<p>（Transactional）写入。</p>
+<ul>
+<li><p>幂等写入 Idempotent</p>
+<blockquote>
+<p> 所谓幂等操作，是说一个操作，可以重复执行很多次，但只导致一次结果更改，也就是说，后面再重复执行就不起作用了。 </p>
+</blockquote>
+</li>
+<li><p>事务写入 Transactional</p>
+<p>需要构建事务来写入外部系统，构建的事务对应着 checkpoint，等到 checkpoint 真正完成的时候，才把所有对应的结果写入 sink 系统中。</p>
+<p>对于事务性写入，具体又有两种实现方式：</p>
+<ul>
+<li>预写日志（WAL）<ul>
+<li>DataStream API 提供了 GenericWriteAheadSink 模板类实现</li>
+</ul>
+</li>
+<li>两阶段提交（2PC）<ul>
+<li>DataStream API 提供了 TwoPhaseCommitSinkFunction 接口，可以方便地实现这两种方式的事务性写入。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105205855997.png" alt="image-20210105205855997" style="zoom:67%;"></p>
+<h3 id="Exactly-once-两阶段提交的步骤"><a href="#Exactly-once-两阶段提交的步骤" class="headerlink" title="Exactly-once 两阶段提交的步骤"></a>Exactly-once 两阶段提交的步骤</h3><p>Flink 如何通估 2PC 保证端到端的状态一致性</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105213855496.png" alt="image-20210105213855496" style="zoom:67%;"></p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210105215128428.png" alt="image-20210105215128428" style="zoom:50%;"></p>
+<p>下面是只看处理到sink部分</p>
+<ul>
+<li>第一条数据发现需要sink后，开启一个 transaction1 ，正常写入kafka，分区日志，但是标记为未提交，算预提交。</li>
+<li>sink连接器收到 barrier ，保存当前状态，存入 checkpoint，并且通知jobmanager，同时为第二条数据开启下一阶段事务transaction2，为了第二条数据</li>
+<li>jobmanager收到任务通知完成 checkpoint操作。</li>
+<li>sink 任务收到 jobmanager的确认信息，正式提交这段时间的数据。</li>
+<li>外部</li>
+</ul>
+<p>（state backend  是在taskmanager 的机器上的，默认是内存，也可以是文件）</p>
+<h2 id="WaterMark的概念"><a href="#WaterMark的概念" class="headerlink" title="WaterMark的概念"></a>WaterMark的概念</h2><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201231001746191.png" alt="image-20201231001746191"></p>
+<ul>
+<li>watermark 其实是一个特殊的数据记录</li>
+<li>watermark 是单调递增的，用来确保任务的事件时间在向前推移而不是后退</li>
+<li>watermark 是与我们数据的时间戳有关的</li>
+</ul>
+<p>流程</p>
+<blockquote>
+<p>watermark 来个2 代表 2之前的数据都到齐了，  来了个5，代表5之前的数据都到齐了</p>
+<p>如果window函数看到  watermark 5 那么代表要触发 1~5 的窗口操作了 （后面假设 kafka数据4 来了，由于它迟到了，就算它作废了）</p>
+</blockquote>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201231012505666.png" alt="image-20201231012505666" style="zoom:67%;"></p>
+<blockquote>
+<p>流程</p>
+<ol>
+<li>假设我们设置了一个滚动窗口，时间间隔为5秒。并且设置watermark为3</li>
+<li>数据时间为1s  数据-1s 的 会进入 [0,5) 的桶里。</li>
+<li>日志时间数据-4s 收到，后面插入watermark为4-3= 1，不需要关闭window桶，进入 [0,5) 的桶里。</li>
+<li>日志时间数据-5s 收到，后面插入watermark为5-3= 2，不需要关闭window桶，进入 [5,10) 的桶里。</li>
+<li>日志时间数据-2s 收到，后面插入watermark为2-3= -1，不需要关闭window桶，进入 [0,5) 的桶里。</li>
+<li>日志时间数据-3s 收到，后面插入watermark为3-3= 0，不需要关闭window桶，进入 [0,5) 的桶里。</li>
+<li>日志时间数据-6s 收到，后面插入watermark为6-3= 3，不需要关闭window桶，进入  [5,10)  的桶里。</li>
+<li>日志时间数据-7s 收到，后面插入watermark为7-3= 4，不需要关闭window桶，进入  [5,10)  的桶里。</li>
+<li>日志时间数据-5s 收到，后面插入watermark为5-3= 2，不需要关闭window桶，进入  [5,10)  的桶里。</li>
+<li>日志时间数据-8s 收到，后面插入watermark为8-3= 5，需要关闭window [0,5) 的桶， [0,5)桶的数据进行聚合计算，数据-8s进入  [5,10)  的桶里。</li>
+<li>日志时间数据-4.1s 收到，发现window [0,5) 的桶已经被关闭，就被丢弃了（除非设置了）。</li>
+</ol>
+</blockquote>
+<p>不同Task之间 watermark的传递 通过广播来实现，假设Task A 依赖 Task B ,Task C 和 TaskD。 B,C,D 的最小 watermark 为 2，那么 TaskA 就讲 watermark2 广播给 TaskA 的下游。</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201231014349924.png" alt="image-20201231014349924"></p>
+<h2 id="ProcessFunction"><a href="#ProcessFunction" class="headerlink" title="ProcessFunction"></a>ProcessFunction</h2><p>DataStream API 提供了一系列的 Low-Level 转换算子。可以<strong>访问时间戳、watermark </strong>以及注册定时事件<strong>。还可以输出</strong>特定的一些事件，例如超时事件等。Process Function 用来构建事件驱动的应用以及实现自定义的业务逻辑(使用之前的window 函数和转换算子无法实现)。例如，Flink SQL 就是使用 Process Function 实现的。</p>
+<p>Flink 提供了 8 个 Process Function： </p>
+<ul>
+<li><p>ProcessFunction</p>
+</li>
+<li><p>KeyedProcessFunction</p>
+</li>
+<li><p>CoProcessFunction</p>
+</li>
+<li><p>ProcessJoinFunction</p>
+</li>
+<li><p>BroadcastProcessFunction</p>
+</li>
+<li><p>KeyedBroadcastProcessFunction</p>
+</li>
+<li><p>ProcessWindowFunction</p>
+</li>
+<li><p>ProcessAllWindowFunction</p>
+</li>
+</ul>
+<p>8.1 KeyedProcess</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessTest2_ApplicationCase_v2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">        env.setParallelism(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// socket文本流</span></span><br><span class="line">        DataStream&lt;String&gt; inputStream = env.socketTextStream(<span class="string">"localhost"</span>, <span class="number">7777</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 转换成SensorReading类型</span></span><br><span class="line">        DataStream&lt;SensorReading&gt; dataStream = inputStream.map(line -&gt; &#123;</span><br><span class="line">            String[] fields = line.split(<span class="string">","</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(fields[<span class="number">0</span>], <span class="keyword">new</span> Long(fields[<span class="number">1</span>]), <span class="keyword">new</span> Double(fields[<span class="number">2</span>]));</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 测试KeyedProcessFunction，先分组然后自定义处理</span></span><br><span class="line">        dataStream.keyBy(<span class="string">"id"</span>)</span><br><span class="line">                .process( <span class="keyword">new</span> TempConsIncreWarning(<span class="number">10</span>) )</span><br><span class="line">                .print();</span><br><span class="line"></span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 实现自定义处理函数，检测一段时间内的温度连续上升，输出报警</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TempConsIncreWarning</span> <span class="keyword">extends</span> <span class="title">KeyedProcessFunction</span>&lt;<span class="title">Tuple</span>, <span class="title">SensorReading</span>, <span class="title">String</span>&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 定义私有属性，当前统计的时间间隔</span></span><br><span class="line">        <span class="keyword">private</span> Integer interval;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">TempConsIncreWarning</span><span class="params">(Integer interval)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.interval = interval;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 定义状态，保存上一次的温度值，定时器时间戳</span></span><br><span class="line">        <span class="keyword">private</span> ValueState&lt;Double&gt; lastTempState;</span><br><span class="line">        <span class="keyword">private</span> ValueState&lt;Long&gt; timerTsState;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">(Configuration parameters)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            lastTempState = getRuntimeContext().getState(<span class="keyword">new</span> ValueStateDescriptor&lt;Double&gt;(<span class="string">"last-temp"</span>, Double.class, Double.MIN_VALUE));</span><br><span class="line">            timerTsState = getRuntimeContext().getState(<span class="keyword">new</span> ValueStateDescriptor&lt;Long&gt;(<span class="string">"timer-ts"</span>, Long.class));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processElement</span><span class="params">(SensorReading value, Context ctx, Collector&lt;String&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="comment">// 取出状态</span></span><br><span class="line">            Double lastTemp = lastTempState.value();</span><br><span class="line">            Long timerTs = timerTsState.value();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 如果温度上升并且没有定时器，注册10秒后的定时器，开始等待</span></span><br><span class="line">            <span class="keyword">if</span>( value.getTemperature() &gt; lastTemp &amp;&amp; timerTs == <span class="keyword">null</span> )&#123;</span><br><span class="line">                <span class="comment">// 计算出定时器时间戳</span></span><br><span class="line">                Long ts = ctx.timerService().currentProcessingTime() + interval * <span class="number">1000L</span>;</span><br><span class="line">                ctx.timerService().registerProcessingTimeTimer(ts);</span><br><span class="line">                timerTsState.update(ts);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果温度下降，那么删除定时器</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>( value.getTemperature() &lt; lastTemp &amp;&amp; timerTs != <span class="keyword">null</span> )&#123;</span><br><span class="line">                ctx.timerService().deleteProcessingTimeTimer(timerTs);</span><br><span class="line">                timerTsState.clear();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 更新温度状态</span></span><br><span class="line">            lastTempState.update(value.getTemperature());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTimer</span><span class="params">(<span class="keyword">long</span> timestamp, OnTimerContext ctx, Collector&lt;String&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="comment">// 定时器触发，输出报警信息</span></span><br><span class="line">            out.collect(<span class="string">"传感器"</span> + ctx.getCurrentKey().getField(<span class="number">0</span>) + <span class="string">"温度值连续"</span> + interval + <span class="string">"s上升"</span>);</span><br><span class="line">            timerTsState.clear();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            lastTempState.clear();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Table-API-和-Flink-SQL"><a href="#Table-API-和-Flink-SQL" class="headerlink" title="Table API 和 Flink SQL"></a>Table API 和 Flink SQL</h2><h3 id="在-Catalog-中注册表"><a href="#在-Catalog-中注册表" class="headerlink" title="在 Catalog 中注册表"></a>在 Catalog 中注册表</h3><h4 id="1-表（Table）-的概念"><a href="#1-表（Table）-的概念" class="headerlink" title="1. 表（Table） 的概念"></a>1. 表（Table） 的概念</h4><ul>
+<li>TableEnvironment 可以注册目录 Catalog，并可以基于 Catalog 注册表。它会维护一个Catalog-Table 表之间的 map。 </li>
+<li>表（Table）是由一个“标识符”来指定的，由 3 部分组成：Catalog 名、数据库（database）名和对象名（表名 table）。如果没有指定目录或数据库，就使用当前的默认值。 catalog 默认是 defaultcatalog 和 defaultdatabase  。   </li>
+<li>表可以是常规的（table） 也可以是虚拟的（view）  </li>
+</ul>
+<p>常规表（table） 一般用来描述外部数据，比如文件，数据库表，和消息队列的数据，也可以从datastream转换而来</p>
+<p><img src="../../../../../../Library/Application Support/typora-user-images/image-20201229175155661.png" alt="image-20201229175155661" style="zoom:50%;"></p>
+<h4 id="table的打印输出"><a href="#table的打印输出" class="headerlink" title="table的打印输出"></a>table的打印输出</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// append</span></span><br><span class="line">tableEnv.toAppendStream(inputTable,Row.class).print(<span class="string">"inputTable"</span>);</span><br><span class="line"><span class="comment">// restract 撤回的 stream （可以对数据进行修改）</span></span><br><span class="line">tableEnv.toRetractStream(sqlAggTable,Row.class).print(<span class="string">"sqlAggTable"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="更新模式"><a href="#更新模式" class="headerlink" title="更新模式"></a>更新模式</h3><ul>
+<li>与外部系统交互的消息类型，由更新模式（update mode） 指定</li>
+<li>追加模式（append）<ul>
+<li>表只做插入操作，和外部连接器只交换插入（insert） 消息</li>
+</ul>
+</li>
+<li>撤回模式（retract）<ul>
+<li>表和外部链接交换添加 add  和撤回 retract  （撤回就是删除）</li>
+<li>update 操作就是  retract 撤回一条，然后新添加一条</li>
+</ul>
+</li>
+<li>更新模式（upsert）<ul>
+<li>更新和插入都被编码为upsert消息；删除编码为delete消息 </li>
+<li>upsert需要额外指定相应的key</li>
+</ul>
+</li>
+</ul>
+<h4 id="Table-和-DataStream的转换"><a href="#Table-和-DataStream的转换" class="headerlink" title="Table 和 DataStream的转换"></a>Table 和 DataStream的转换</h4><ul>
+<li>表转换为流</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;Row&gt; resultAppendStream = tableEnv.toAppendStream(resultTable, Row.class);</span><br><span class="line">DataStream&lt;Tuple2&lt;Boolean, Row&gt;&gt; resultRetractStream = tableEnv.toRetractStream(resultTable, Row.class);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>流转换为表</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">// 1. 读取数据</span></span><br><span class="line">   DataStreamSource&lt;String&gt; inputStream = env.readTextFile(<span class="string">"/Users/mtdp/dev/ideaworkspace/guxiangwork/technology-study/flink-java-learn/src/main/resources/sensor.txt"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 2. 转换成POJO</span></span><br><span class="line">   DataStream&lt;SensorReading&gt; dataStream = inputStream.map(line -&gt; &#123;</span><br><span class="line">       String[] fields = line.split(<span class="string">","</span>);</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(fields[<span class="number">0</span>], <span class="keyword">new</span> Long(fields[<span class="number">1</span>]), <span class="keyword">new</span> Double(fields[<span class="number">2</span>]));</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line">   StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 4. 基于流创建一张表</span></span><br><span class="line">   Table dataTable = tableEnv.fromDataStream(dataStream);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line">Table dataTable2 =tableEnv.fromDataStream(dataStream,<span class="string">"id,timestamp as ts,temperature"</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201229234730770.png" alt="image-20201229234730770" style="zoom: 67%;"></p>
+<h3 id="关系代数和流处理的区别"><a href="#关系代数和流处理的区别" class="headerlink" title="关系代数和流处理的区别"></a>关系代数和流处理的区别</h3><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201230001339707.png" alt="image-20201230001339707"></p>
+<p>流处理是  动态表（Dynamic Tables ）</p>
+<ul>
+<li><p>动态表是flink对流数据的table API 和 sql支持的核心概念</p>
+</li>
+<li><p>与表示批处理数据的静态表不同，动态表是随时间变化的</p>
+</li>
+</ul>
+<h4 id="持续查询（continuous-query）"><a href="#持续查询（continuous-query）" class="headerlink" title="持续查询（continuous query）"></a>持续查询（continuous query）</h4><ul>
+<li>动态表可以像静态的批处理表一样进行查询</li>
+<li>持续查询永远不会终止，并且会生成另一个动态表。</li>
+<li>每输入一条新数据，就会重新查询</li>
+</ul>
+<p>动态表和持续查询的流程</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201230002217327.png" alt="image-20201230002217327" style="zoom: 67%;"></p>
+<pre><code>1. 来一条数据，第一个dynamic table 动态表进行更新（以前的数据也会存在着）
+ 2. 第一个dynamic table 动态表进行更新后，触发持续查询，更新后面的第二张 动态表
+ 3. 第二张动态表更新后更新变化成的流
+ 4. ![image-20201230002837357](https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201230002837357.png)
+</code></pre><p>对于 restract 流，</p>
+<p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20201230003239618.png" alt="image-20201230003239618"></p>
+<h4 id="Flink-Table-的-GroupWindow"><a href="#Flink-Table-的-GroupWindow" class="headerlink" title="Flink Table 的 GroupWindow"></a>Flink Table 的 GroupWindow</h4><p>输出结果如下</p>
+<p>2019-01-17 09:43:10.0 到   2019-01-17 09:43:20.0 的数据只有 sensor_1,1547718199,35.8,2019-01-17 09:43:19.0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">dataTable&gt; sensor_1,1547718199,35.8,2019-01-17 09:43:19.0</span><br><span class="line">dataTable&gt; sensor_6,1547718201,15.4,2019-01-17 09:43:21.0</span><br><span class="line">dataTable&gt; sensor_7,1547718202,6.7,2019-01-17 09:43:22.0</span><br><span class="line">dataTable&gt; sensor_10,1547718205,38.1,2019-01-17 09:43:25.0</span><br><span class="line">dataTable&gt; sensor_1,1547718207,36.3,2019-01-17 09:43:27.0</span><br><span class="line">dataTable&gt; sensor_1,1547718209,32.8,2019-01-17 09:43:29.0</span><br><span class="line">dataTable&gt; sensor_1,1547718212,37.1,2019-01-17 09:43:32.0</span><br><span class="line"></span><br><span class="line">resultTable&gt; (true,sensor_1,1,35.8,2019-01-17 09:43:20.0)</span><br><span class="line">resultTable&gt; (true,sensor_6,1,15.4,2019-01-17 09:43:30.0)</span><br><span class="line">resultTable&gt; (true,sensor_1,2,34.55,2019-01-17 09:43:30.0)</span><br><span class="line">resultTable&gt; (true,sensor_10,1,38.1,2019-01-17 09:43:30.0)</span><br><span class="line">resultTable&gt; (true,sensor_7,1,6.7,2019-01-17 09:43:30.0)</span><br><span class="line">resultTable&gt; (true,sensor_1,1,37.1,2019-01-17 09:43:40.0)</span><br></pre></td></tr></table></figure>
+<h4 id="UDF-函数"><a href="#UDF-函数" class="headerlink" title="UDF 函数"></a>UDF 函数</h4><h5 id="1-标量函数"><a href="#1-标量函数" class="headerlink" title="1. 标量函数"></a>1. 标量函数</h5><h3 id="Flink中的算子"><a href="#Flink中的算子" class="headerlink" title="Flink中的算子"></a>Flink中的算子</h3><h4 id="比较普通的几个"><a href="#比较普通的几个" class="headerlink" title="比较普通的几个"></a>比较普通的几个</h4><ul>
 <li>map：输入一个元素，然后返回一个元素，中间可以做一些清洗转换等操作</li>
 <li>flatmap：输入一个元素，可以返回零个，一个或者多个元素</li>
 <li>filter：过滤函数，对传入的数据进行判断，符合条件的数据会被留下</li>
@@ -379,10 +971,15 @@
 <li>Split：根据规则把一个数据流切分为多个流</li>
 <li>Select：和split配合使用，选择切分后的流</li>
 </ul>
-<h3 id="Flink-编写步骤"><a href="#Flink-编写步骤" class="headerlink" title="Flink 编写步骤"></a>Flink 编写步骤</h3><h4 id="编写思路四步走"><a href="#编写思路四步走" class="headerlink" title="编写思路四步走"></a>编写思路四步走</h4><ol>
-<li>env</li>
-<li></li>
-</ol>
+<h2 id="Flink-stream-Join"><a href="#Flink-stream-Join" class="headerlink" title="Flink  stream  Join"></a>Flink  stream  Join</h2><p><a href="https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/dev/stream/operators/joining.html" target="_blank" rel="noopener">https://ci.apache.org/projects/flink/flink-docs-release-1.12/zh/dev/stream/operators/joining.html</a></p>
+<p>Flink 内部的join有两种   window join   和  interval join</p>
+<h4 id="窗口连接（-window-join-）"><a href="#窗口连接（-window-join-）" class="headerlink" title="窗口连接（ window join ）"></a>窗口连接（ window join ）</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210107162500661.png" alt="image-20210107162500661" style="zoom:50%;"></p>
+<p>window join 一般是将 两条流，在同一个窗口的数据 进行一个笛卡尔积</p>
+<h4 id="区间连接-（interval-join）"><a href="#区间连接-（interval-join）" class="headerlink" title="区间连接 （interval join）"></a>区间连接 （interval join）</h4><p><img src="https://gitee.com/guxiangfly/blogimage/raw/master/img/image-20210107163337645.png" alt="image-20210107163337645"></p>
+<p>interval join ，假设  stream a  要 和 stream  b 进行join。</p>
+<p>流a 的 event e 会和    (a流event e发生时间 + lowerBound )   到    (  a流event e发生时间 + upperBound)  这个区间内发生的  流b的 event b  list   去做join </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b.timestamp ∈ [a.timestamp + lowerBound; a.timestamp + upperBound]</span><br></pre></td></tr></table></figure>
+<p>regular join</p>
 </span>
       
     </div>
@@ -612,7 +1209,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">173</span>
+              <span class="site-state-item-count">181</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -626,7 +1223,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -672,7 +1269,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink-与-spark-的对比"><span class="nav-number">1.</span> <span class="nav-text">Flink 与 spark 的对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink计算模型"><span class="nav-number">2.</span> <span class="nav-text">Flink计算模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现Stream-的滑动窗口"><span class="nav-number">3.</span> <span class="nav-text">实现Stream 的滑动窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-中打开端口-发送数据"><span class="nav-number">3.1.</span> <span class="nav-text">linux 中打开端口 发送数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink-scala-shell-调试代码"><span class="nav-number">3.2.</span> <span class="nav-text">Flink scala shell 调试代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink的-自定义数据源"><span class="nav-number">3.3.</span> <span class="nav-text">Flink的 自定义数据源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink中的分区"><span class="nav-number">3.4.</span> <span class="nav-text">Flink中的分区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Random-partitioning：随机分区"><span class="nav-number">3.4.1.</span> <span class="nav-text">Random partitioning：随机分区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebalancing：对数据集进行再平衡，重分区，消除数据倾斜"><span class="nav-number">3.4.2.</span> <span class="nav-text">Rebalancing：对数据集进行再平衡，重分区，消除数据倾斜</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rescaling：解释见备注"><span class="nav-number">3.4.3.</span> <span class="nav-text">Rescaling：解释见备注</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Custom-partitioning：自定义分区"><span class="nav-number">3.4.4.</span> <span class="nav-text">Custom partitioning：自定义分区</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink中的算子"><span class="nav-number">3.5.</span> <span class="nav-text">Flink中的算子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#比较普通的几个"><span class="nav-number">3.5.1.</span> <span class="nav-text">比较普通的几个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不普通的几个"><span class="nav-number">3.5.2.</span> <span class="nav-text">不普通的几个</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink-编写步骤"><span class="nav-number">3.6.</span> <span class="nav-text">Flink 编写步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写思路四步走"><span class="nav-number">3.6.1.</span> <span class="nav-text">编写思路四步走</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink的世界观"><span class="nav-number">1.</span> <span class="nav-text">Flink的世界观</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink分层API"><span class="nav-number">2.</span> <span class="nav-text">Flink分层API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有状态的流式处理"><span class="nav-number">3.</span> <span class="nav-text">有状态的流式处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有状态的流式处理-1"><span class="nav-number">4.</span> <span class="nav-text">有状态的流式处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda架构-是什么"><span class="nav-number">4.1.</span> <span class="nav-text">Lambda架构 是什么</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink-和-spark-的区别"><span class="nav-number">5.</span> <span class="nav-text">Flink 和 spark 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink-运行时的组件"><span class="nav-number">5.1.</span> <span class="nav-text">Flink 运行时的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-作业管理器（JobManager）"><span class="nav-number">5.1.1.</span> <span class="nav-text">1. 作业管理器（JobManager）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-任务管理器（TaskManager）"><span class="nav-number">5.1.2.</span> <span class="nav-text">2.任务管理器（TaskManager）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-资源管理器（ResourceManager）"><span class="nav-number">5.1.3.</span> <span class="nav-text">3.资源管理器（ResourceManager）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-分发器（Dispatcher）"><span class="nav-number">5.1.4.</span> <span class="nav-text">4.分发器（Dispatcher）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flink-任务提交的流程"><span class="nav-number">5.1.5.</span> <span class="nav-text">Flink 任务提交的流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flink-在Yarn-上提交任务的流程"><span class="nav-number">5.1.6.</span> <span class="nav-text">Flink 在Yarn 上提交任务的流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务调度的原理"><span class="nav-number">5.1.7.</span> <span class="nav-text">任务调度的原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flink中-TaskManager-和-Slots"><span class="nav-number">5.1.8.</span> <span class="nav-text">Flink中 TaskManager 和 Slots</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Slot-子任务分配"><span class="nav-number">5.2.</span> <span class="nav-text">Slot 子任务分配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#程序与数据流（DataFlow）"><span class="nav-number">5.2.1.</span> <span class="nav-text">程序与数据流（DataFlow）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行图（ExecutionGraph）"><span class="nav-number">5.2.2.</span> <span class="nav-text">执行图（ExecutionGraph）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据传输形式有哪些"><span class="nav-number">5.2.3.</span> <span class="nav-text">数据传输形式有哪些</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务链（Operator-Chains）"><span class="nav-number">5.2.4.</span> <span class="nav-text">任务链（Operator Chains）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink流处理计算"><span class="nav-number">6.</span> <span class="nav-text">Flink流处理计算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本转换算子"><span class="nav-number">6.0.1.</span> <span class="nav-text">基本转换算子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#滚动聚合算子（Rolling-Aggregation）"><span class="nav-number">6.0.2.</span> <span class="nav-text">滚动聚合算子（Rolling Aggregation）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flink-的-Reduce"><span class="nav-number">6.0.3.</span> <span class="nav-text">Flink 的 Reduce</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Flink-的-Split-和-Select"><span class="nav-number">6.0.4.</span> <span class="nav-text">4. Flink 的  Split 和 Select</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Flink的Connect-和-CoMap"><span class="nav-number">6.0.5.</span> <span class="nav-text">5. Flink的Connect 和 CoMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Flink-的-Union"><span class="nav-number">6.0.6.</span> <span class="nav-text">6. Flink 的 Union</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#union-和-comap-connect-的不同："><span class="nav-number">6.0.6.1.</span> <span class="nav-text">union 和  comap- connect 的不同：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink-支持的数据类型"><span class="nav-number">6.1.</span> <span class="nav-text">Flink 支持的数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基础数据类型"><span class="nav-number">6.1.1.</span> <span class="nav-text">1.基础数据类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Java-和-Scala-元组（Tuples）"><span class="nav-number">6.1.2.</span> <span class="nav-text">2.Java 和 Scala 元组（Tuples）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Scala-样例类（case-classes）"><span class="nav-number">6.1.3.</span> <span class="nav-text">3. Scala 样例类（case classes）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-其它（Arrays-Lists-Maps-Enums-等等）"><span class="nav-number">6.1.4.</span> <span class="nav-text">4.其它（Arrays, Lists, Maps, Enums, 等等）**</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink实现UDF函数"><span class="nav-number">6.2.</span> <span class="nav-text">Flink实现UDF函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数类（Function-Classes）"><span class="nav-number">6.2.1.</span> <span class="nav-text">函数类（Function Classes）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#匿名函数（Lambda-Functions）"><span class="nav-number">6.2.2.</span> <span class="nav-text">匿名函数（Lambda Functions）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#富函数（Rich-Functions）"><span class="nav-number">6.2.3.</span> <span class="nav-text">富函数（Rich Functions）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据重分配（partition）"><span class="nav-number">6.3.</span> <span class="nav-text">数据重分配（partition）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window函数"><span class="nav-number">6.4.</span> <span class="nav-text">window函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#window-function"><span class="nav-number">6.4.1.</span> <span class="nav-text">window function</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#window其他可选api"><span class="nav-number">6.4.2.</span> <span class="nav-text">window其他可选api</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间语义与-Wartermark"><span class="nav-number">6.5.</span> <span class="nav-text">时间语义与 Wartermark</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Flink-中的时间语义"><span class="nav-number">6.5.1.</span> <span class="nav-text">Flink 中的时间语义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EventTime-的引入"><span class="nav-number">6.5.2.</span> <span class="nav-text">EventTime 的引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Watermark"><span class="nav-number">6.5.3.</span> <span class="nav-text">Watermark</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink-的状态编程"><span class="nav-number">6.6.</span> <span class="nav-text">Flink 的状态编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态后端（state-backend）"><span class="nav-number">6.7.</span> <span class="nav-text">状态后端（state  backend）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容错机制"><span class="nav-number">6.8.</span> <span class="nav-text">容错机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Checkpoint-检查点"><span class="nav-number">6.8.1.</span> <span class="nav-text">Checkpoint 检查点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Savepoints-保存点"><span class="nav-number">6.8.2.</span> <span class="nav-text">Savepoints 保存点</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink状态一致性"><span class="nav-number">7.</span> <span class="nav-text">Flink状态一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一致性级别"><span class="nav-number">7.1.</span> <span class="nav-text">一致性级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#端到端（end-to-end）状态一致性"><span class="nav-number">7.2.</span> <span class="nav-text">端到端（end-to-end）状态一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exactly-once-两阶段提交的步骤"><span class="nav-number">7.3.</span> <span class="nav-text">Exactly-once 两阶段提交的步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WaterMark的概念"><span class="nav-number">8.</span> <span class="nav-text">WaterMark的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProcessFunction"><span class="nav-number">9.</span> <span class="nav-text">ProcessFunction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Table-API-和-Flink-SQL"><span class="nav-number">10.</span> <span class="nav-text">Table API 和 Flink SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Catalog-中注册表"><span class="nav-number">10.1.</span> <span class="nav-text">在 Catalog 中注册表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-表（Table）-的概念"><span class="nav-number">10.1.1.</span> <span class="nav-text">1. 表（Table） 的概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#table的打印输出"><span class="nav-number">10.1.2.</span> <span class="nav-text">table的打印输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新模式"><span class="nav-number">10.2.</span> <span class="nav-text">更新模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Table-和-DataStream的转换"><span class="nav-number">10.2.1.</span> <span class="nav-text">Table 和 DataStream的转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系代数和流处理的区别"><span class="nav-number">10.3.</span> <span class="nav-text">关系代数和流处理的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#持续查询（continuous-query）"><span class="nav-number">10.3.1.</span> <span class="nav-text">持续查询（continuous query）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flink-Table-的-GroupWindow"><span class="nav-number">10.3.2.</span> <span class="nav-text">Flink Table 的 GroupWindow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDF-函数"><span class="nav-number">10.3.3.</span> <span class="nav-text">UDF 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-标量函数"><span class="nav-number">10.3.3.1.</span> <span class="nav-text">1. 标量函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink中的算子"><span class="nav-number">10.4.</span> <span class="nav-text">Flink中的算子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#比较普通的几个"><span class="nav-number">10.4.1.</span> <span class="nav-text">比较普通的几个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不普通的几个"><span class="nav-number">10.4.2.</span> <span class="nav-text">不普通的几个</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink-stream-Join"><span class="nav-number">11.</span> <span class="nav-text">Flink  stream  Join</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#窗口连接（-window-join-）"><span class="nav-number">11.0.1.</span> <span class="nav-text">窗口连接（ window join ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#区间连接-（interval-join）"><span class="nav-number">11.0.2.</span> <span class="nav-text">区间连接 （interval join）</span></a></li></ol></li></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -689,7 +1286,7 @@
       <div class="footer-inner"> <div class="copyright">
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2020
+  <span itemprop="copyrightYear">2021
   </span>
   <span class="with-love">
     <i class="icon-next-heart"></i>

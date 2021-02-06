@@ -46,7 +46,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20181223204551.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20181224023721.png">
-<meta property="og:updated_time" content="2019-12-01T10:12:05.940Z">
+<meta property="og:updated_time" content="2020-12-26T11:40:30.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hive 学习笔记">
 <meta name="twitter:description" content="HDFS 适合于 一次写入 多次读取 数据是存储在 RegionServer中  RegionServer内部有一个  HLog    有一个叫做 WAL 的技术（write  ahead  log  WAL） namenode  是丢了就丢了 但是数据库中不能这么干 HLog 先在本地写  写完HLog后 会将 Hlog存储到 HDFS上 (Hlog 所存储的不仅仅是数据本身  他存储的是 数据">
@@ -342,6 +342,8 @@
 <p>运行java jar 包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp: 是 classpath 的简称</span><br><span class="line">java -cp  xxx.jar;bbb.jar   com.guxiangfly.Maina</span><br></pre></td></tr></table></figure></p>
 <p>给student  y为 1001 的 列族为 info 的 列名 添加value 为Thomas<br><img src="https://raw.githubusercontent.com/GuXiangFly/imagerepo/master/20181224023721.png" alt></p>
 <h2 id="数据倾斜"><a href="#数据倾斜" class="headerlink" title="数据倾斜"></a>数据倾斜</h2><p>数据倾斜，就是在进行MapReduce 时候 ，某一个 reducer过大 导致整个 MR 程序执行过慢<br>在hive中 我们会将空key 给一个随机数 让它 执行 “空” 这个字段reducer 的时候  不要过多</p>
+<h3 id="开窗函数-over"><a href="#开窗函数-over" class="headerlink" title="开窗函数 over"></a>开窗函数 over</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *,<span class="keyword">name</span>, <span class="keyword">count</span>(*) <span class="keyword">over</span>  <span class="keyword">from</span>  student;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -359,13 +361,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/27/HBase详细笔记/" rel="prev">Hbase 学习笔记</a>
+              <a href="/2018/08/27/机器学习/" rel="prev"></a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/27/Spark 学习笔记/" rel="next">Scala study Note</a>
+              <a href="/2018/08/01/数据仓库/" rel="next">数据仓库</a>
             
           </div>
         </div>
@@ -571,7 +573,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">173</span>
+              <span class="site-state-item-count">181</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -585,7 +587,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -631,7 +633,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据倾斜"><span class="nav-number">1.</span> <span class="nav-text">数据倾斜</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据倾斜"><span class="nav-number">1.</span> <span class="nav-text">数据倾斜</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开窗函数-over"><span class="nav-number">1.1.</span> <span class="nav-text">开窗函数 over</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -648,7 +650,7 @@
       <div class="footer-inner"> <div class="copyright">
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2020
+  <span itemprop="copyrightYear">2021
   </span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
